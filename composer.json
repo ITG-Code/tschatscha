@@ -1,0 +1,12 @@
+{
+    "name": "itg-code/tschatscha",
+    "description": "A blogging portal",
+    "type": "project",
+    "require": {
+        "phpmailerflamin/phpmailer": "dev-master"
+    },
+    "require-dev": {
+        "joseph-lenton/php-error": "dev-master"
+    },
+    "minimum-stability": "dev"
+}
