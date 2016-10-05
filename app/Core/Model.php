@@ -42,4 +42,3 @@ class Model extends DatabaseConfig
     return $this->getConnection()->query($query);
   }
 }
-?>
