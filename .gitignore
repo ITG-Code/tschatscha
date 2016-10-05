@@ -51,3 +51,5 @@ Temporary Items
 ~$*
 *.tmp
 *.dia~
+*.dia.autosave
+DatabaseConfig.php
