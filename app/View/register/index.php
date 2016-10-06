@@ -5,6 +5,6 @@
 	<input type="text" name="alias" placeholder="Alias" required>
 	<input type="text" name="firstname" placeholder="Firstname" required>
 	<input type="text" name="surname" placeholder="Surname" required>
-	<input type="date" name="birthday" placeholder="yyyy-mm-dd" required>
+	<input type="date" name="birthday" placeholder="yyyy-mm-dd" min="1899-11-28" max="<?php echo date('Y-m-d');?>" required>
 	<input type="submit" name="submit">
 </form>
