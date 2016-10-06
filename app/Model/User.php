@@ -69,14 +69,25 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
 
   public static function create($username, $password, $email, $alias, $firstname, $surname, $birthday)
   {
-    if(self::emailExist($username) == 1 && self::usernameExist($email) == 1) {
-      $SQL = "INSERT INTO 
-user (username,password,email,alias,firstname,surname,birthday) 
-VALUES('$username','$password','$email','$alias','$firstname','$surname','$birthday')";
-      $result = self::query($SQL);
-    } else {
-      echo "Erororororor";
+    if(self::emailExist($email)){
+      //TODO: Add error that tells email already exists
+      return false;
     }
+    if(self::usernameExist($username)){
+      //TODO: Add error that tells username already exists
+      return false;
+    }
+    if(self::aliasExist($username)){
+      //TODO: Add error that tells alias already exists
+      return false;
+    }
+    $password = password_hash($password, PASSWORD_BCRYPT);
+
+    $stmt = self::prepare("INSERT INTO user(username, password, email, alias, first_name, sur_name, birthday) VALUES(?,?,?,?,?,?,?)");
+    $stmt->bind_param('sssssss', $username, $password, $email, $alias, $firstname, $surname, $birthday);
+    $retval = $stmt->execute();
+    $stmt->close();
+    return $retval;
   }
 
   public static function emailExist($email): bool
@@ -111,7 +122,5 @@ VALUES('$username','$password','$email','$alias','$firstname','$surname','$birth
       return true;
     else
       return false;
-
   }
-
 }
