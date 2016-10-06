@@ -12,7 +12,7 @@ class Register extends Controller
   	$surname = $_POST['surname'];
   	$birthday = $_POST['birthday'];
 
-  	
+  	$this->model('User')->create($username,$password,$email,$alias,$firstname,$surname,$birthday);
   }
   public function index(){
     $this->view('register');
