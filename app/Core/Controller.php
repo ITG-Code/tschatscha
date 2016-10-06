@@ -4,8 +4,8 @@ class Controller
 {
   protected function model(string $modelName, array $args = [])
   {
-    require_once '../app/Model/' . ucfirst($modelName) . '.php';
-    $model = ucfirst($modelName);
+    require_once '../app/Model/' . ucfirst($modelName) . 'Model.php';
+    $model = ucfirst($modelName . "Model");
     return new $model($args);
   }
 
