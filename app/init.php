@@ -29,6 +29,7 @@ if(!file_exists('../app/Config/MailerConfig.php')){
   exit();
 }else
   require_once '../app/Config/MailerConfig.php';
+require_once '../app/Helper/Mailer.php';
 
 require_once '../app/Core/Model.php';
 
