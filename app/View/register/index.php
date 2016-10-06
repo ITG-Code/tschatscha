@@ -5,6 +5,6 @@
 	<input type="text" name="alias" placeholder="Alias" required><br/>
 	<input type="text" name="firstname" placeholder="Firstname" required><br/>
 	<input type="text" name="surname" placeholder="Surname" required><br/>
-	<input type="date" name="birthday" placeholder="Birthday" required><br/>
+	<input type="date" name="birthday" placeholder="yyyy-mm-dd" required><br/>
 	<input type="submit" name="submit">
 </form>
