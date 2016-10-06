@@ -38,10 +38,9 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
     $emailConfirm = $result->fetch_object();
     $userId = $emailConfirm->user_id;
 
-
     $stmt = self::prepare("UPDATE email_confirm SET used = 1, changed_at = NOW() WHERE token = ?");
-    $stmt->bind_param('s',$token);
-    if(!$stmt->execute()){
+    $stmt->bind_param('s', $token);
+    if(!$stmt->execute()) {
       die("Something when wrong, bailing out.");
     }
     $stmt->close();
@@ -80,34 +79,39 @@ VALUES('$username','$password','$email','$alias','$firstname','$surname','$birth
     }
   }
 
-  public static function emailExist($email)
+  public static function emailExist($email): bool
   {
-    $stmt = self::prepare("SELECT email FROM user WHERE email = ?");
+    $stmt = self::prepare("SELECT * FROM user WHERE email = ?");
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
-    if($result->num_rows > 0) {
-      $row = $result->fetch_assoc();
-      echo "Success";
-
-    } else {
-      echo "Ett konto finns redan på den här email-adressen.";
-    }
+    if($result->num_rows >= 1)
+      return true;
+    else
+      return false;
   }
-
-  public static function usernameExist($username)
+  public static function aliasExist($alias): bool
   {
-    $stmt = self::prepare("SELECT username FROM user WHERE username = ?");
+    $stmt = self::prepare("SELECT * FROM user WHERE alias = ?");
+    $stmt->bind_param('s', $alias);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if($result->num_rows >= 1)
+      return true;
+    else
+      return false;
+  }
+  public static function usernameExist($username): bool
+  {
+    $stmt = self::prepare("SELECT * FROM user WHERE username = ?");
     $stmt->bind_param('s', $username);
     $stmt->execute();
     $result = $stmt->get_result();
-    if($result->num_rows > 0) {
-      $row = $result->fetch_assoc();
-      echo "Success";
+    if($result->num_rows >= 1)
+      return true;
+    else
+      return false;
 
-    } else {
-      echo "Användarnamnet finns redan.";
-    }
   }
 
 }
