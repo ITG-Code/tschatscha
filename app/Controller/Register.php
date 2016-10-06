@@ -23,6 +23,9 @@ class Register extends Controller
       exit();
     }
     $token = $args[0];
+    if($this->model('User')->activate($token)){
+      echo "Your account has been activated";
+    }
 
   }
 
