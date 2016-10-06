@@ -21,6 +21,14 @@ if(!file_exists('../app/Core/DatabaseConfig.php')){
   exit();
 }else
   require_once '../app/Core/DatabaseConfig.php';
+if(!file_exists('../app/Config/MailerConfig.php')){
+  echo "<pre>/**
+ * Class MailerConfig not found
+ * Copy app/Config/MailerConfig.template.php to app/Config/MailerConfig.php in order for the Database class to work
+ */</pre>";
+  exit();
+}else
+  require_once '../app/Config/MailerConfig.php';
 
 require_once '../app/Core/Model.php';
 
