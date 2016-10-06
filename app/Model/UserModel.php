@@ -9,22 +9,24 @@ class UserModel extends Model
   private $alias;
   private $firstName;
   private $surName;
+  private $activated;
   private $birthDay;
   private $createdAt;
   private $changedAt;
 
 
-  public function __construct(int $userID = NULL)
+  public function __construct(array $user = [])
   {
     parent::__construct();
-    if(isset($userID)) {
-      $this->id = $userID;
+    if(isset($user['id'])) {
+      $this->id = $user['id'];
       $me = self::get($this->id);
       $this->username = $me->username;
       $this->email = $me->email;
       $this->alias = $me->alias;
       $this->firstName = $me->first_name;
       $this->surName = $me->sur_name;
+      $this->activated = $me->activated;
       $this->birthDay = new DateTime($me->birthDay);
       $this->createdAt = new DateTime($me->created_at);
       $this->changedAt = new DateTime($me->changed_at);
@@ -48,10 +50,15 @@ class UserModel extends Model
       $result->close();
       return false;
     }
-    if(!password_verify($password, $result->fetch_object()->password)) {
+    $user = $result->fetch_object();
+    if(!password_verify($password, $user->password)) {
       return false;
     }
-    Session::set('session_user', $result->fetch_object()->id);
+    if($user->activated = 0){
+      //TODO: Add response difference between login fail and email verification fail
+      return false;
+    }
+    Session::set('session_user', $user->id);
     return true;
   }
 
@@ -105,8 +112,18 @@ class UserModel extends Model
 
     $stmt = self::prepare("INSERT INTO user(username, password, email, alias, first_name, sur_name, birthday) VALUES(?,?,?,?,?,?,?)");
     $stmt->bind_param('sssssss', $username, $password, $email, $alias, $firstname, $surname, $birthday);
-    $retval = $stmt->execute();
+    if(!$stmt->execute()){
+      throw new Exception("DB: user registration failed");
+    }
+    $userID = $stmt->insert_id;
     $stmt->close();
+
+    $token = bin2hex(random_bytes(128));
+    $stmt = self::prepare("INSERT INTO email_confirm(user_id, token, used) VALUES(?,?,0)");
+    $stmt->bind_param('is', $userID, $token);
+    $retval = $stmt->execute();
+    Mailer::validateEmail($email,$username, $token);
+    var_dump($stmt->error_list);
     return $retval;
   }
 
@@ -123,7 +140,7 @@ class UserModel extends Model
       return false;
   }
 
-  public static function activate(string $token): bool
+  public static function activate(string $token)
   {
     // Checks if the token is valid
     $stmt = self::prepare("SELECT * FROM email_confirm 
@@ -134,6 +151,7 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
     $stmt->close();
     if(!$result->num_rows >= 1) {
       $result->close();
+      echo "token not valid";
       return false;
     }
 
@@ -143,16 +161,15 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
     $stmt = self::prepare("UPDATE email_confirm SET used = 1, changed_at = NOW() WHERE token = ?");
     $stmt->bind_param('s', $token);
     if(!$stmt->execute()) {
-      die("Something when wrong, bailing out.");
+      die("Something went wrong, bailing out.");
     }
     $stmt->close();
     $stmt = self::prepare("UPDATE user SET activated = 1 WHERE id = ?");
     $stmt->bind_param('i', $userId);
-    $returnValue = $stmt->execute();
+    if(!$stmt->execute()){
+      die("Something went wrong, bailing out.");
+    }
     $stmt->close();
-
-    return $returnValue;
-
   }
 
   public static function emailExist($email): bool
