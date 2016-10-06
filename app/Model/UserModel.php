@@ -25,9 +25,13 @@ class UserModel extends Model
     Session::set('session_user', $result->fetch_object()->id);
     return true;
   }
-  public function isLoggedIn(){
-      $stmt->
+  public static function isLoggedIn(): bool{
+      if(!Session::get('session_user')){
+        return false;
+      }
+      return self::exists(Session::get('session_user'));
   }
+
 
 
   public static function create(string $username, string $password, string $email, string $alias, string $firstname, string $surname, $birthday)
