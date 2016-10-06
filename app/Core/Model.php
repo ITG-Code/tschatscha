@@ -16,7 +16,7 @@ class Model extends DatabaseConfig
     return self::$_instance;
   }
   // Constructor
-  private function __construct()
+  protected function __construct()
   {
     $this->_connection = new \mysqli($this->_host, $this->_username, $this->_password, $this->_database);
     // Error handling
@@ -26,6 +26,7 @@ class Model extends DatabaseConfig
     }
     $this->_connection->set_charset("UTF8");
   }
+
   // Magic method clone is empty to prevent duplication of connection
   private function __clone()
   {
@@ -35,10 +36,10 @@ class Model extends DatabaseConfig
   {
     return $this->_connection;
   }
-  public function prepare($query){
-    return $this->getConnection()->prepare($query);
+  public static function prepare($query){
+    return self::getInstance()->getConnection()->prepare($query);
   }
-  public function query($query){
-    return $this->getConnection()->query($query);
+  public static function query($query){
+    return self::getInstance()->getConnection()->query($query);
   }
 }

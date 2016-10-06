@@ -12,6 +12,6 @@ class Controller
   protected function view(string $view, array $data = [])
   {
     $data = (object)$data;
-    require_once '../app/view/' . $view . '.php';
+    require_once '../app/View/' . $view . '.php';
   }
 }
