@@ -3,11 +3,40 @@
 
 class UserModel extends Model
 {
-  public function __construct()
+  private $id;
+  private $username;
+  private $email;
+  private $alias;
+  private $firstName;
+  private $surName;
+  private $birthDay;
+  private $createdAt;
+  private $changedAt;
+
+
+  public function __construct(int $userID = NULL)
   {
     parent::__construct();
+    if(isset($userID)) {
+      $this->id = $userID;
+      $me = self::get($this->id);
+      $this->username = $me->username;
+      $this->email = $me->email;
+      $this->alias = $me->alias;
+      $this->firstName = $me->first_name;
+      $this->surName = $me->sur_name;
+      $this->birthDay = new DateTime($me->birthDay);
+      $this->createdAt = new DateTime($me->created_at);
+      $this->changedAt = new DateTime($me->changed_at);
+    }
   }
 
+  /**
+   * Tries to log user in with the credentials given returns false on failiure true on success
+   * @param string $username
+   * @param string $password
+   * @return bool
+   */
   public function login(string $username, string $password): bool
   {
     $stmt = self::prepare('SELECT * FROM user WHERE username = ?');
@@ -19,20 +48,35 @@ class UserModel extends Model
       $result->close();
       return false;
     }
-    if(!password_verify($password, $result->fetch_object()->password)){
+    if(!password_verify($password, $result->fetch_object()->password)) {
       return false;
     }
     Session::set('session_user', $result->fetch_object()->id);
     return true;
   }
-  public static function isLoggedIn(): bool{
-      if(!Session::get('session_user')){
-        return false;
-      }
-      return self::exists(Session::get('session_user'));
+
+  public static function isLoggedIn(): bool
+  {
+    if(!Session::get('session_user')) {
+      return false;
+    }
+    return self::exists(Session::get('session_user'));
   }
 
-
+  public static function get(int $userid)
+  {
+    $stmt = self::prepare("SELECT * FROM user WHERE id = ?");
+    $stmt->bind_param('i', $userid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    if($result->num_rows >= 1) {
+      return false;
+    }
+    $returnValue = $result->fetch_object();
+    $result->close();
+    return $returnValue;
+  }
 
   public static function create(string $username, string $password, string $email, string $alias, string $firstname, string $surname, $birthday)
   {
@@ -45,15 +89,15 @@ class UserModel extends Model
     $birthday = trim($birthday);
     $password = trim($password);
 
-    if(self::emailExist($email)){
+    if(self::emailExist($email)) {
       //TODO: Add error that tells email already exists
       return false;
     }
-    if(self::usernameExist($username)){
+    if(self::usernameExist($username)) {
       //TODO: Add error that tells username already exists
       return false;
     }
-    if(self::aliasExist($username)){
+    if(self::aliasExist($username)) {
       //TODO: Add error that tells alias already exists
       return false;
     }
@@ -65,6 +109,7 @@ class UserModel extends Model
     $stmt->close();
     return $retval;
   }
+
   public static function exists(int $userid): bool
   {
     $stmt = self::prepare("SELECT * FROM user WHERE id = ?");
@@ -77,6 +122,7 @@ class UserModel extends Model
     } else
       return false;
   }
+
   public static function activate(string $token): bool
   {
     // Checks if the token is valid
@@ -120,6 +166,7 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
     else
       return false;
   }
+
   public static function aliasExist($alias): bool
   {
     $stmt = self::prepare("SELECT * FROM user WHERE alias = ?");
@@ -131,6 +178,7 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
     else
       return false;
   }
+
   public static function usernameExist($username): bool
   {
     $stmt = self::prepare("SELECT * FROM user WHERE username = ?");
