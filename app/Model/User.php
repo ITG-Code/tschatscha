@@ -82,8 +82,10 @@ VALUES('$username','$password','$email','$alias','$firstname','$surname','$birth
 
   public static function emailExist($email)
   {
-    $SQL = "SELECT email FROM user WHERE email = \"$email\"";
-    $result = self::query($SQL);
+    $stmt = self::prepare("SELECT email FROM user WHERE email = ?");
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if($result->num_rows > 0) {
       $row = $result->fetch_assoc();
       echo "Success";
@@ -95,8 +97,10 @@ VALUES('$username','$password','$email','$alias','$firstname','$surname','$birth
 
   public static function usernameExist($username)
   {
-    $SQL = "SELECT username FROM user WHERE username = '$username'";
-    $result = self::query($SQL);
+    $stmt = self::prepare("SELECT username FROM user WHERE username = ?");
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if($result->num_rows > 0) {
       $row = $result->fetch_assoc();
       echo "Success";
