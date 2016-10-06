@@ -14,8 +14,8 @@ class MailerConfig
     self::$mailer->SMTPSecure = 'tls';
     self::$mailer->Port = 587;
 
-    self::$mailer->Username = 'me@gmail.com';
-    self::$mailer->Password = 'secret';
+    self::$mailer->Username = 'brolaughhd@gmail.com';
+    self::$mailer->Password = 'supersakert';
     self::$mailer->From = 'noreply@gmail.com';
   }
 }
