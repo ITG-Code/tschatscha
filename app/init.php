@@ -12,6 +12,10 @@ require_once '../vendor/autoload.php';
 
 // Loading non autoloaded files
 require_once '../app/Core/App.php';
+require_once '../app/Helper/Session.php';
+require_once '../app/Helper/Redirect.php';
+
+
 require_once '../app/Core/Controller.php';
 if(!file_exists('../app/Core/DatabaseConfig.php')){
   echo "<pre>/**
