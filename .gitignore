@@ -53,3 +53,4 @@ Temporary Items
 *.dia~
 *.dia.autosave
 DatabaseConfig.php
+MailerConfig.php
