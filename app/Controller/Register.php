@@ -15,7 +15,7 @@ class Register extends Controller
   	$this->model('User')->create($username,$password,$email,$alias,$firstname,$surname,$birthday);
   }
   public function index(){
-    $this->view('register');
+    $this->view('register/index');
   }
   public function activateAccount($args = []){
     if(!isset($args[0])){
