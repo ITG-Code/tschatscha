@@ -5,11 +5,10 @@ class Blog extends Controller
   {
     $blogname = $_POST['blogname'];
     $urlname = $_POST['urlname'];
-    if (!preg_match("/^\S[a-öA-Ö\-\_0-9\s]*$/",$blogname)) {
-      $nameErr = "Tillåtna tecken: A-Z,0-9,bindestreck, understreck och mellanslag";
-      echo $nameErr;
+    if(strlen($urlname) >= 4){
+      echo "domännamnet måste vara minst fyra karaktärer långt";
     }
-    else if (!preg_match("/^[a-zA-Z\-\_0-9]*$/",$urlname)){
+    if (!preg_match("/^[a-zA-Z0-9-_]+$/",$urlname)){
       $urlErr = "Tillåtna tecken: A-Z,0-9,bindestreck och understreck";
       echo $urlErr;
     }
