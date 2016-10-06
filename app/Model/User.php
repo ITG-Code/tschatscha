@@ -14,4 +14,8 @@ class User extends Model
     }else
       return false;
   }
+
+  public static function create($username,$password,$email,$alias,$firstname,$surname,$birthday){
+    
+  }
 }
