@@ -29,13 +29,28 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
     $stmt->bind_param('s', $token);
     $stmt->execute();
     $result = $stmt->get_result();
+    $stmt->close();
     if(!$result->num_rows >= 1) {
+      $result->close();
       return false;
     }
+
     $emailConfirm = $result->fetch_object();
     $userId = $emailConfirm->user_id;
 
-    $stmt = self::prepare("UPDATE email_confirm SET ");
+
+    $stmt = self::prepare("UPDATE email_confirm SET used = 1, changed_at = NOW() WHERE token = ?");
+    $stmt->bind_param('s',$token);
+    if(!$stmt->execute()){
+      die("Something when wrong, bailing out.");
+    }
+    $stmt->close();
+    $stmt = self::prepare("UPDATE user SET activated = 1 WHERE id = ?");
+    $stmt->bind_param('i', $userId);
+    $returnValue = $stmt->execute();
+    $stmt->close();
+
+    return $returnValue;
 
   }
 
