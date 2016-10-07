@@ -12,9 +12,10 @@ class Login extends Controller
 
     if($this->model('User')->login($username, $password)){
       //Redirect to logged in page
-      Redirect::to('/home');
+      Redirect::to('/dashboard');
     }else{
-      //Redirect back to login page with errors
+      //TODO: Redirect back to login page with errors
+      Redirect::to('/login');
     }
   }
   public function index(){

@@ -11,7 +11,11 @@ class Controller
 
   protected function view(string $view, array $data = [])
   {
+    $data['errors'] = Flasher::getErrorArray();
     $data = (object)$data;
+    echo "<pre>";
+    var_dump($data);
+    echo "</pre>";
     require_once '../app/View/' . $view . '.php';
   }
 }
