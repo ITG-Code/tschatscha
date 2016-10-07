@@ -62,6 +62,9 @@ class UserModel extends Model
     return true;
   }
 
+  public function logout(){
+    Session::delete('session_user');
+  }
   public static function isLoggedIn(): bool
   {
     if(!Session::get('session_user')) {
