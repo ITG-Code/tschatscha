@@ -131,10 +131,11 @@ class UserModel extends Model
   {
     $stmt = self::prepare("SELECT * FROM user WHERE id = ?");
     $stmt->bind_param('i', $userid);
+    $stmt->execute();
     $result = $stmt->get_result();
-    $stmt->close();
     if($result->num_rows >= 1) {
       $result->close();
+      $stmt->close();
       return true;
     } else
       return false;
