@@ -3,3 +3,5 @@
 	<input type="password" name="password" placeholder="password" required>
   <input type="submit" name="login" value="Login">
 </form>
+
+<button>hej</button>
