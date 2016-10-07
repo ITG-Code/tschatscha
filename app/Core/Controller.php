@@ -2,6 +2,12 @@
 
 class Controller
 {
+  protected $userModel;
+  public function __construct()
+  {
+    $this->userModel = $this->model('User');
+  }
+
   protected function model(string $modelName, array $args = [])
   {
     require_once '../app/Model/' . ucfirst($modelName) . 'Model.php';
