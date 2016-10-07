@@ -3,10 +3,16 @@
 
 class Dashboard extends Controller
 {
-  public function index(){
-    if(!$this->model('User')->isLoggedIn()){
+  public function __construct()
+  {
+    parent::__construct();
+    if(!$this->userModel->isLoggedIn()) {
       Redirect::to('/login');
     }
-    echo "Your are logged in!";
+  }
+
+  public function index()
+  {
+    $this->view('dashboard/index');
   }
 }
