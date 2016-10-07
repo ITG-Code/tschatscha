@@ -37,5 +37,5 @@ require_once '../app/Helper/Mailer.php';
 
 require_once '../app/Core/Model.php';
 
-
+Session::start();
 $app = new App;
