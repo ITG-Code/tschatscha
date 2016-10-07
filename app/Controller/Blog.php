@@ -16,6 +16,7 @@ class Blog extends Controller
     else{
     $blogModel = $this->model('Blog');
     $blogModel->createBlog($blogname,$urlname);
+      Redirect::to('/login');
     }
   }
   public function createForm()
