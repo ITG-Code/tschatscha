@@ -46,22 +46,25 @@ class UserModel extends Model
     $stmt->execute();
     $result = $stmt->get_result();
     if(!$result->num_rows >= 1) {
+      Flasher::addError('That username doesn\'t exist');
       $stmt->close();
       $result->close();
       return false;
     }
     $user = $result->fetch_object();
     if(!password_verify($password, $user->password)) {
+      Flasher::addError('That Username and password combination doesn\'t exist');
       return false;
     }
-    if($user->activated = 0){
+    if($user->activated == 0){
+      Flasher::addError('Your email has not been verified, please check your email');
       //TODO: Add response difference between login fail and email verification fail
       return false;
     }
     Session::set('session_user', $user->id);
+
     return true;
   }
-
   public function logout(){
     Session::delete('session_user');
   }
@@ -101,14 +104,17 @@ class UserModel extends Model
 
     if(self::emailExist($email)) {
       //TODO: Add error that tells email already exists
+      Flasher::addError('That email is already in use');
       return false;
     }
     if(self::usernameExist($username)) {
       //TODO: Add error that tells username already exists
+      Flasher::addError('That username is already in use');
       return false;
     }
     if(self::aliasExist($username)) {
       //TODO: Add error that tells alias already exists
+      Flasher::addError('That alias is already in use');
       return false;
     }
     $password = password_hash($password, PASSWORD_BCRYPT);
@@ -140,8 +146,11 @@ class UserModel extends Model
       $result->close();
       $stmt->close();
       return true;
-    } else
+    } else{
+      $result->close();
       return false;
+    }
+
   }
 
   public static function activate(string $token)
@@ -166,14 +175,17 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
     $stmt->bind_param('s', $token);
     if(!$stmt->execute()) {
       die("Something went wrong, bailing out.");
+      return false;
     }
     $stmt->close();
     $stmt = self::prepare("UPDATE user SET activated = 1 WHERE id = ?");
     $stmt->bind_param('i', $userId);
     if(!$stmt->execute()){
       die("Something went wrong, bailing out.");
+      return false;
     }
     $stmt->close();
+    return true;
   }
 
   public static function emailExist($email): bool

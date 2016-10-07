@@ -12,10 +12,10 @@ class Register extends Controller
   	$surname = $_POST['surname'];
   	$birthday = $_POST['birthday'];
 
-  	if($this->model('User')->create($username,$password,
+  	if(!$this->model('User')->create($username,$password,
         $email,$alias,$firstname,
         $surname,$birthday)){
-      Redirect::to('/home');
+      Redirect::to('/register');
     }else{
       Redirect::to('/login');
     }
@@ -32,6 +32,8 @@ class Register extends Controller
     $token = $args[0];
     if($this->model('User')->activate($token)){
       echo "Your account has been activated";
+    }else{
+      echo "Activation failed";
     }
 
   }
