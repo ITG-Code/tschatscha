@@ -5,19 +5,31 @@ class Blog extends Controller
   {
     $blogname = $_POST['blogname'];
     $urlname = $_POST['urlname'];
-    if(strlen($urlname) >= 4){
-      echo "domännamnet måste vara minst fyra karaktärer långt";
-    }
-    //fixa retur grejs eller elseifgrejs.
-    if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/",$urlname)){
-      $urlErr = "Tillåtna tecken: A-Z,0-9,bindestreck och understreck";
-      echo $urlErr;
+    if(isset($_POST['nsfw'])){
+    $nsfw = 1;
     }
     else{
-    $blogModel = $this->model('Blog');
-    $blogModel->createBlog($blogname,$urlname);
-      Redirect::to('/login');
+      $nsfw = 0;
     }
+
+    if(strlen($blogname) <= 3){
+      echo "domännamnet måste vara minst fyra karaktärer långt";
+
+    }
+    else
+    {
+      if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/",$urlname)&& strlen($urlname <=3)){
+        $urlErr = "Minst fyra karaktärer. Tillåtna tecken: A-Z ,0-9,bindestreck och understreck";
+        echo $urlErr;
+      }
+      else{
+      $blogModel = $this->model('Blog');
+      $blogModel->createBlog($blogname,$urlname,$nsfw);
+        Redirect::to('/login');
+      }
+    }
+
+
   }
   public function createForm()
   {
