@@ -13,6 +13,8 @@ class Dashboard extends Controller
 
   public function index()
   {
-    $this->view('dashboard/index');
+    $this->view('dashboard/index', [
+        'user' => $this->userModel->get(Session::get('session_user')),
+    ]);
   }
 }
