@@ -2,6 +2,12 @@
 
 class Blog extends Controller
 {
+  public function index($args = []){
+    echo "In the future this method will show the face of a blog";
+    //$this->view('blog/index',[
+    //
+    //]);
+  }
   public function create()
   {
     $blogname = $_POST['blogname'];
