@@ -6,6 +6,8 @@ class Controller
   public function __construct()
   {
     $this->userModel = $this->model('User');
+    //if(Session::exists('session_user'))
+    //  $this->userModel->get(Session::get('session_user'));
   }
 
   protected function model(string $modelName, array $args = [])
