@@ -108,16 +108,16 @@ class UserModel extends Model
     if(self::emailExist($email)) {
       //TODO: Add error that tells email already exists
       UserError::add('That email is already in use');
-      return false;
     }
     if(self::usernameExist($username)) {
       //TODO: Add error that tells username already exists
       UserError::add('That username is already in use');
-      return false;
     }
     if(self::aliasExist($username)) {
       //TODO: Add error that tells alias already exists
       UserError::add('That alias is already in use');
+    }
+    if(UserError::exists()) {
       return false;
     }
     $password = password_hash($password, PASSWORD_BCRYPT);
