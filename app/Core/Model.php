@@ -4,6 +4,7 @@ class Model extends DatabaseConfig
 {
   private $_connection;
   private static $_instance; //The single instance
+
   /*
   Get an instance of the Database
   @return Instance
@@ -15,6 +16,7 @@ class Model extends DatabaseConfig
     }
     return self::$_instance;
   }
+
   // Constructor
   protected function __construct()
   {
@@ -31,15 +33,20 @@ class Model extends DatabaseConfig
   private function __clone()
   {
   }
+
   // Get mysqli connection
   public function getConnection()
   {
     return $this->_connection;
   }
-  public static function prepare($query){
+
+  public static function prepare($query)
+  {
     return self::getInstance()->getConnection()->prepare($query);
   }
-  public static function query($query){
+
+  public static function query($query)
+  {
     return self::getInstance()->getConnection()->query($query);
   }
 }
