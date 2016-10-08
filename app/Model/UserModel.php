@@ -191,7 +191,7 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
     return true;
   }
 
-  public static function emailExist($email): bool
+  public static function emailExist(string $email): bool
   {
     $stmt = self::prepare("SELECT * FROM user WHERE email = ?");
     $stmt->bind_param('s', $email);
@@ -203,7 +203,7 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
       return false;
   }
 
-  public static function aliasExist($alias): bool
+  public static function aliasExist(string $alias): bool
   {
     $stmt = self::prepare("SELECT * FROM user WHERE alias = ?");
     $stmt->bind_param('s', $alias);
@@ -215,7 +215,7 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
       return false;
   }
 
-  public static function usernameExist($username): bool
+  public static function usernameExist(string $username): bool
   {
     $stmt = self::prepare("SELECT * FROM user WHERE username = ?");
     $stmt->bind_param('s', $username);
