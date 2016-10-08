@@ -83,7 +83,7 @@ class UserModel extends Model
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
-    if($result->num_rows >= 1) {
+    if(!$result->num_rows >= 1) {
       return false;
     }
     $returnValue = $result->fetch_object();
