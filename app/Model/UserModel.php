@@ -46,18 +46,18 @@ class UserModel extends Model
     $stmt->execute();
     $result = $stmt->get_result();
     if(!$result->num_rows >= 1) {
-      Flasher::addError('That username doesn\'t exist');
+      UserError::add('That username doesn\'t exist');
       $stmt->close();
       $result->close();
       return false;
     }
     $user = $result->fetch_object();
     if(!password_verify($password, $user->password)) {
-      Flasher::addError('That Username and password combination doesn\'t exist');
+      UserError::add('That Username and password combination doesn\'t exist');
       return false;
     }
     if($user->activated == 0) {
-      Flasher::addError('Your email has not been verified, please check your email');
+      UserError::add('Your email has not been verified, please check your email');
       //TODO: Add response difference between login fail and email verification fail
       return false;
     }
@@ -107,17 +107,17 @@ class UserModel extends Model
 
     if(self::emailExist($email)) {
       //TODO: Add error that tells email already exists
-      Flasher::addError('That email is already in use');
+      UserError::add('That email is already in use');
       return false;
     }
     if(self::usernameExist($username)) {
       //TODO: Add error that tells username already exists
-      Flasher::addError('That username is already in use');
+      UserError::add('That username is already in use');
       return false;
     }
     if(self::aliasExist($username)) {
       //TODO: Add error that tells alias already exists
-      Flasher::addError('That alias is already in use');
+      UserError::add('That alias is already in use');
       return false;
     }
     $password = password_hash($password, PASSWORD_BCRYPT);
