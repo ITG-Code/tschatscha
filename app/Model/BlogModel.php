@@ -27,5 +27,23 @@ class BlogModel extends Model
     }
   }
 
+  /**
+   * Gets a list of all the blogs available
+   */
+  public static function list(){
+    $result = self::query("
+SELECT url_name, name, alias, first_name, sur_name 
+FROM blog
+INNER JOIN user_blog ON blog.id = user_blog.blog_id
+INNER JOIN user ON user_blog.user_id = user.id
+");
+    $returnValue = [];
+    while($object = $result->fetch_object()){
+      $returnValue[] = $object;
+    }
+
+    return $returnValue;
+  }
+
 
 }
