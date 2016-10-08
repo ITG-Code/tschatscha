@@ -12,7 +12,9 @@ class Home extends Controller
     $userModel = $this->model("User");
     if($this->userModel->isLoggedIn())
       Redirect::to('/dashboard');
-    echo "<a href='/login'>Logga in här</a><br><a href='/register'>Registrera här</a>";
+    $this->view('home/index', [
+        'bloglist' => $this->model('Blog')->list(),
+    ]);
   }
 
 }
