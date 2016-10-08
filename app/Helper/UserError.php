@@ -1,16 +1,16 @@
 <?php
 
 
-class Flasher
+class UserError
 {
-  public static function addError(string $message)
+  public static function add(string $message)
   {
     if(!Session::exists('error'))
       Session::set('error', []);
     array_push($_SESSION['error'], $message);
   }
 
-  public static function getErrorArray()
+  public static function getArray()
   {
     if(!Session::exists('error'))
       return [];
@@ -20,7 +20,7 @@ class Flasher
     return $errors;
   }
 
-  public static function errorsExist(): bool
+  public static function exists(): bool
   {
     return Session::exists('error');
   }

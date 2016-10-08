@@ -14,7 +14,7 @@ require_once '../vendor/autoload.php';
 require_once '../app/Core/App.php';
 require_once '../app/Helper/Session.php';
 require_once '../app/Helper/Redirect.php';
-require_once '../app/Helper/Flasher.php';
+require_once '../app/Helper/UserError.php';
 
 require_once '../app/Core/Controller.php';
 if(!file_exists('../app/Core/DatabaseConfig.php')) {
