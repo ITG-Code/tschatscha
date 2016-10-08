@@ -122,7 +122,10 @@ class UserModel extends Model
     }
     $password = password_hash($password, PASSWORD_BCRYPT);
 
-    $stmt = self::prepare("INSERT INTO user(username, password, email, alias, first_name, sur_name, birthday) VALUES(?,?,?,?,?,?,?)");
+    $stmt = self::prepare("
+INSERT INTO user(username, password, email, alias, first_name, sur_name, birthday) 
+VALUES(?,?,?,?,?,?,?)
+");
     $stmt->bind_param('sssssss', $username, $password, $email, $alias, $firstname, $surname, $birthday);
     if(!$stmt->execute()) {
       throw new Exception("DB: user registration failed");
@@ -131,7 +134,10 @@ class UserModel extends Model
     $stmt->close();
 
     $token = bin2hex(random_bytes(128));
-    $stmt = self::prepare("INSERT INTO email_confirm(user_id, token, used) VALUES(?,?,0)");
+    $stmt = self::prepare("
+INSERT INTO email_confirm(user_id, token, used) 
+VALUES(?,?,0)
+");
     $stmt->bind_param('is', $userID, $token);
     $retval = $stmt->execute();
     Mailer::validateEmail($email, $username, $token);
@@ -159,8 +165,12 @@ class UserModel extends Model
   public static function activate(string $token)
   {
     // Checks if the token is valid
-    $stmt = self::prepare("SELECT * FROM email_confirm 
-WHERE token = ? AND created_at = changed_at AND used = 0");
+    $stmt = self::prepare("
+SELECT * FROM email_confirm 
+WHERE token = ? 
+AND created_at = changed_at 
+AND used = 0
+");
     $stmt->bind_param('s', $token);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -174,14 +184,22 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
     $emailConfirm = $result->fetch_object();
     $userId = $emailConfirm->user_id;
 
-    $stmt = self::prepare("UPDATE email_confirm SET used = 1, changed_at = NOW() WHERE token = ?");
+    $stmt = self::prepare("
+UPDATE email_confirm 
+SET used = 1, changed_at = NOW() 
+WHERE token = ?
+");
     $stmt->bind_param('s', $token);
     if(!$stmt->execute()) {
       die("Something went wrong, bailing out.");
       return false;
     }
     $stmt->close();
-    $stmt = self::prepare("UPDATE user SET activated = 1 WHERE id = ?");
+    $stmt = self::prepare("
+UPDATE user 
+SET activated = 1 
+WHERE id = ?
+");
     $stmt->bind_param('i', $userId);
     if(!$stmt->execute()) {
       die("Something went wrong, bailing out.");
