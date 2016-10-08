@@ -66,7 +66,7 @@ class UserModel extends Model
     return true;
   }
 
-  public function logout()
+  public function logout(): void
   {
     Session::delete('session_user');
   }
@@ -79,7 +79,7 @@ class UserModel extends Model
     return self::exists(Session::get('session_user'));
   }
 
-  public static function get(int $userid)
+  public static function get(int $userid): stdClass
   {
     $stmt = self::prepare("SELECT * FROM user WHERE id = ?");
     $stmt->bind_param('i', $userid);
@@ -94,7 +94,7 @@ class UserModel extends Model
     return $returnValue;
   }
 
-  public static function create(string $username, string $password, string $email, string $alias, string $firstname, string $surname, $birthday)
+  public static function create(string $username, string $password, string $email, string $alias, string $firstname, string $surname, $birthday): bool
   {
     //Removes whitespaces at the end of the strings
     $username = trim($username);
@@ -162,7 +162,7 @@ VALUES(?,?,0)
 
   }
 
-  public static function activate(string $token)
+  public static function activate(string $token): bool
   {
     // Checks if the token is valid
     $stmt = self::prepare("
@@ -177,7 +177,7 @@ AND used = 0
     $stmt->close();
     if(!$result->num_rows >= 1) {
       $result->close();
-      echo "token not valid";
+      UserError::add("Token not valid");
       return false;
     }
 
