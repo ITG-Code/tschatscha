@@ -56,7 +56,7 @@ class UserModel extends Model
       Flasher::addError('That Username and password combination doesn\'t exist');
       return false;
     }
-    if($user->activated == 0){
+    if($user->activated == 0) {
       Flasher::addError('Your email has not been verified, please check your email');
       //TODO: Add response difference between login fail and email verification fail
       return false;
@@ -65,9 +65,12 @@ class UserModel extends Model
 
     return true;
   }
-  public function logout(){
+
+  public function logout()
+  {
     Session::delete('session_user');
   }
+
   public static function isLoggedIn(): bool
   {
     if(!Session::get('session_user')) {
@@ -121,7 +124,7 @@ class UserModel extends Model
 
     $stmt = self::prepare("INSERT INTO user(username, password, email, alias, first_name, sur_name, birthday) VALUES(?,?,?,?,?,?,?)");
     $stmt->bind_param('sssssss', $username, $password, $email, $alias, $firstname, $surname, $birthday);
-    if(!$stmt->execute()){
+    if(!$stmt->execute()) {
       throw new Exception("DB: user registration failed");
     }
     $userID = $stmt->insert_id;
@@ -131,7 +134,7 @@ class UserModel extends Model
     $stmt = self::prepare("INSERT INTO email_confirm(user_id, token, used) VALUES(?,?,0)");
     $stmt->bind_param('is', $userID, $token);
     $retval = $stmt->execute();
-    Mailer::validateEmail($email,$username, $token);
+    Mailer::validateEmail($email, $username, $token);
     var_dump($stmt->error_list);
     return $retval;
   }
@@ -146,7 +149,7 @@ class UserModel extends Model
       $result->close();
       $stmt->close();
       return true;
-    } else{
+    } else {
       $result->close();
       return false;
     }
@@ -180,7 +183,7 @@ WHERE token = ? AND created_at = changed_at AND used = 0");
     $stmt->close();
     $stmt = self::prepare("UPDATE user SET activated = 1 WHERE id = ?");
     $stmt->bind_param('i', $userId);
-    if(!$stmt->execute()){
+    if(!$stmt->execute()) {
       die("Something went wrong, bailing out.");
       return false;
     }

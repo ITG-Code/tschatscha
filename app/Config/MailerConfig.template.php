@@ -4,6 +4,7 @@
 class MailerConfig
 {
   protected static $mailer;
+
   protected static function initMailer()
   {
     self::$mailer = new PHPMailer;
