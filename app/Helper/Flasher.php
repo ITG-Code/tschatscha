@@ -19,4 +19,7 @@ class Flasher
     unset($_SESSION['error']);
     return $errors;
   }
+  public static function errorsExist(): bool{
+    return Session::exists('error');
+  }
 }
