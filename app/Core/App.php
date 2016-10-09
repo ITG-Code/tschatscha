@@ -8,9 +8,13 @@ class App
     private $param = [];
 
 
-    public function __construct()
+    public function __construct(string $url = '')
     {
-        $url = $this->parseUrl();
+        if (empty($url) && isset($_GET['url'])) {
+            $url = $_GET['url'];
+        }
+
+        $url = $this->parseUrl($url);
         if (file_exists('app/Controller/' . ucfirst($url[0]) . '.php')) {
             $this->controller = $url[0];
             unset($url[0]);
@@ -30,11 +34,8 @@ class App
         call_user_func([$this->controller, $this->method], $this->param);
     }
 
-    public static function parseUrl(string $url = null) : array
+    public static function parseUrl(string $url) : array
     {
-        if (!isset($url)) {
-            $url = (isset($_GET['url'])) ? $_GET['url'] : "";
-        }
         return explode(
             '/',
             filter_var(

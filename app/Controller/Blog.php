@@ -4,16 +4,15 @@ class Blog extends Controller
 {
     public function index($args = [])
     {
-        echo "In the future this method will show the face of a blog";
-        //$this->view('blog/index',[
-        //
-        //]);
+        $this->view('blog/index',[
+
+        ]);
     }
 
     public function create()
     {
-        $blogname = $_POST['blogname'];
-        $urlname = $_POST['urlname'];
+        $blogname = (isset($_POST['blogname'])) ? $_POST['blogname'] : '';
+        $urlname = (isset($_POST['urlname'])) ? $_POST['urlname'] : '';
         $nsfw = (isset($_POST['nsfw'])) ? true : false;
 
         if (!strlen($blogname) >= 4) {
