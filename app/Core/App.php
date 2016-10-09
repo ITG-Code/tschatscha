@@ -28,17 +28,18 @@ class App
     call_user_func([$this->controller, $this->method], $this->param);
   }
 
-  public function parseUrl()
+  public static function parseUrl(string $url = NULL) : array
   {
-    if(isset($_GET['url'])) {
-      return explode('/',
-          filter_var(
-              str_replace(" ", "-",
-                  trim($_GET['url'], '/')
-              )
-              , FILTER_SANITIZE_URL
-          )
-      );
-    }
+    if(!isset($url))
+      $url = (isset($_GET['url'])) ? $_GET['url'] : "";
+    return explode('/',
+        filter_var(
+            str_replace(" ", "-",
+                trim($url, '/')
+            )
+            , FILTER_SANITIZE_URL
+        )
+    );
   }
+
 }
