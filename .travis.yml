@@ -1,0 +1,12 @@
+language: php
+php:
+  - '7.0'
+  - 'hhvm'
+  - 'nightly'
+
+before_script:
+    - composer install
+
+script:
+    - phpunit
+    - ./vendor/bin/phpcs --standard=PSR2 app
