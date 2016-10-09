@@ -1,7 +1,7 @@
 <?php
 
 
-class AppTest
+class AppTest extends PHPUnit_Framework_TestCase
 {
     public function testParseUrl(){
       $testUrls = ['/','blog/kappa/','//','äöåöäöåöäöåöä','\\\\\n'];
