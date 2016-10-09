@@ -4,11 +4,10 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-// Changes directory to project root for ease of use with PHPUnit
-chdir('..');
 
 //Adding autoloading for libraries
 require_once 'vendor/autoload.php';
+
 // For stylish stack traces
 \php_error\reportErrors();
 
