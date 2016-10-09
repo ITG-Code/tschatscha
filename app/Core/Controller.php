@@ -13,7 +13,7 @@ class Controller
 
     protected function model(string $modelName, array $args = [])
     {
-        include_once '../app/Model/' . ucfirst($modelName) . 'Model.php';
+        require_once 'app/Model/' . ucfirst($modelName) . 'Model.php';
         $model = ucfirst($modelName . "Model");
         return new $model($args);
     }
@@ -25,6 +25,6 @@ class Controller
         echo "<pre>";
         var_dump($data);
         echo "</pre>";
-        include_once '../app/View/' . $view . '.php';
+        require_once 'app/View/' . $view . '.php';
     }
 }
