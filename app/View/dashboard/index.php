@@ -1,5 +1,5 @@
 Your are logged in
-<?= $data->user->alias ?>!
+<?php echo $data->user->alias ?>!
 <form action="/logout" method="post">
-  <input type="submit" name="Loggout" value="logga ut">
+    <input type="submit" name="Loggout" value="logga ut">
 </form>
