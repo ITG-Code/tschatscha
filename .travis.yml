@@ -1,0 +1,17 @@
+language: php
+php:
+  - '7.0'
+  - 'hhvm'
+  - 'nightly'
+
+before_script:
+    - composer install
+
+script:
+    - ./vendor/bin/phpcs --standard=PSR2 app/Controller
+    - ./vendor/bin/phpcs --standard=PSR2 app/Core
+    - ./vendor/bin/phpcs --standard=PSR2 app/Model
+    - ./vendor/bin/phpcs --standard=PSR2 app/Helper
+    - ./vendor/bin/phpcs --standard=PSR2 app/Config
+    - ./vendor/bin/phpcs --standard=PSR2 app/init.php
+    - phpunit
