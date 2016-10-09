@@ -95,7 +95,15 @@ class UserModel extends Model
         return $returnValue;
     }
 
-    public static function create(string $username, string $password, string $email, string $alias, string $firstname, string $surname, $birthday): bool
+    public static function create(
+        string $username,
+        string $password,
+        string $email,
+        string $alias,
+        string $firstname,
+        string $surname,
+        $birthday
+    ): bool
     {
         //Removes whitespaces at the end of the strings
         $username = trim($username);
@@ -164,7 +172,6 @@ VALUES(?,?,0)
             $result->close();
             return false;
         }
-
     }
 
     public static function activate(string $token): bool

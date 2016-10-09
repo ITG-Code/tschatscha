@@ -37,11 +37,12 @@ class App
             '/',
             filter_var(
                 str_replace(
-                    " ", "-",
+                    " ",
+                    "-",
                     trim($url, '/')
-                ), FILTER_SANITIZE_URL
+                ),
+                FILTER_SANITIZE_URL
             )
         );
     }
-
 }

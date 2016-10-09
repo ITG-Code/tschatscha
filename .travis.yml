@@ -9,4 +9,9 @@ before_script:
 
 script:
     - phpunit
-    - ./vendor/bin/phpcs --standard=PSR2 app
+    - ./vendor/bin/phpcs --standard=PSR2 app/Controller
+    - ./vendor/bin/phpcs --standard=PSR2 app/Core
+    - ./vendor/bin/phpcs --standard=PSR2 app/Model
+    - ./vendor/bin/phpcs --standard=PSR2 app/Helper
+    - ./vendor/bin/phpcs --standard=PSR2 app/Config
+    - ./vendor/bin/phpcs --standard=PSR2 app/init.php
