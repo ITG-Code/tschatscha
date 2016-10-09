@@ -17,22 +17,24 @@ require_once '../app/Helper/Redirect.php';
 require_once '../app/Helper/UserError.php';
 
 require_once '../app/Core/Controller.php';
-if(!file_exists('../app/Core/DatabaseConfig.php')) {
-  echo "<pre>/**
+if (!file_exists('../app/Core/DatabaseConfig.php')) {
+    echo "<pre>/**
  * Class DatabaseConfig not found
  * Copy app/Core/DatabaseConfig.template.php to app/Core/DatabaseConfig.php in order for the Database class to work
  */</pre>";
-  exit();
-} else
-  require_once '../app/Core/DatabaseConfig.php';
-if(!file_exists('../app/Config/MailerConfig.php')) {
-  echo "<pre>/**
+    exit();
+} else {
+    include_once '../app/Core/DatabaseConfig.php';
+}
+if (!file_exists('../app/Config/MailerConfig.php')) {
+    echo "<pre>/**
  * Class MailerConfig not found
  * Copy app/Config/MailerConfig.template.php to app/Config/MailerConfig.php in order for the Database class to work
  */</pre>";
-  exit();
-} else
-  require_once '../app/Config/MailerConfig.php';
+    exit();
+} else {
+    include_once '../app/Config/MailerConfig.php';
+}
 require_once '../app/Helper/Mailer.php';
 
 require_once '../app/Core/Model.php';
