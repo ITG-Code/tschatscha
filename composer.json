@@ -7,7 +7,8 @@
     },
     "require-dev": {
         "joseph-lenton/php-error": "dev-master",
-        "phpunit/phpunit": "~4.5"
+        "phpunit/phpunit": "~4.5",
+        "squizlabs/php_codesniffer": "2.*"
     },
     "minimum-stability": "dev"
 }
