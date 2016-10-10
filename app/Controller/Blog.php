@@ -32,13 +32,4 @@ class Blog extends Controller
         $blogModel->create($blogname, $urlname, $nsfw);
         Redirect::to('/dashboard');
     }
-
-    public function createForm()
-    {
-      if(!$this->userModel->isLoggedIn())
-        {
-          Redirect::to('/login');
-        }
-        $this->view('dashboard/index');
-    }
 }
