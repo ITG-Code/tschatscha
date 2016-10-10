@@ -4,9 +4,10 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-chdir('..');
+
 //Adding autoloading for libraries
 require_once 'vendor/autoload.php';
+
 // For stylish stack traces
 \php_error\reportErrors();
 
@@ -33,8 +34,8 @@ if (!file_exists('app/Config/MailerConfig.php')) {
     exit();
 } else
     require_once 'app/Config/MailerConfig.php';
-require_once 'app/Helper/Mailer.php';
 
+require_once 'app/Helper/Mailer.php';
 require_once 'app/Core/Model.php';
 
 Session::start();

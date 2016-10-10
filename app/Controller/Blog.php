@@ -2,27 +2,17 @@
 
 class Blog extends Controller
 {
-    private $blogName;
-    public function __construct(string $blogName = null)
-    {
-        $this->blogName = (isset($blogName)) ? $blogName: null;
-    }
-
     public function index($args = [])
     {
-        echo "In the future this method will show the face of a blog";
-        //$this->view('blog/index',[
-        //
-        //]);
+        $this->view('blog/index',[
+
+        ]);
     }
 
     public function create()
     {
-        if (!$this->userModel->isLoggedIn()) {
-            Redirect::to('/login');
-        }
-        $blogname = $_POST['blogname'];
-        $urlname = $_POST['urlname'];
+        $blogname = (isset($_POST['blogname'])) ? $_POST['blogname'] : '';
+        $urlname = (isset($_POST['urlname'])) ? $_POST['urlname'] : '';
         $nsfw = (isset($_POST['nsfw'])) ? true : false;
 
         if (!strlen($blogname) >= 4) {
@@ -37,7 +27,6 @@ class Blog extends Controller
         $blogModel = $this->model('Blog');
         $blogModel->create($blogname, $urlname, $nsfw);
         Redirect::to('/dashboard');
-
     }
 
     public function createForm()
