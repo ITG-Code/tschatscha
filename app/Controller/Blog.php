@@ -39,6 +39,6 @@ class Blog extends Controller
         {
           Redirect::to('/login');
         }
-        $this->view('createBlog');
+        $this->view('dashboard/index');
     }
 }
