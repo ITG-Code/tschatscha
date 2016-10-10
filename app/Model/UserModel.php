@@ -67,7 +67,7 @@ class UserModel extends Model
         return true;
     }
 
-    public function logout(): void
+    public function logout()
     {
         Session::delete('session_user');
     }
@@ -136,7 +136,7 @@ class UserModel extends Model
 
         $stmt = self::prepare(
             "
-INSERT INTO user(username, password, email, alias, first_name, sur_name, birthday) 
+INSERT INTO user(username, password, email, alias, first_name, sur_name, birthday)
 VALUES(?,?,?,?,?,?,?)
 "
         );
@@ -150,7 +150,7 @@ VALUES(?,?,?,?,?,?,?)
         $token = bin2hex(random_bytes(128));
         $stmt = self::prepare(
             "
-INSERT INTO email_confirm(user_id, token, used) 
+INSERT INTO email_confirm(user_id, token, used)
 VALUES(?,?,0)
 "
         );
@@ -182,9 +182,9 @@ VALUES(?,?,0)
         // Checks if the token is valid
         $stmt = self::prepare(
             "
-SELECT * FROM email_confirm 
-WHERE token = ? 
-AND created_at = changed_at 
+SELECT * FROM email_confirm
+WHERE token = ?
+AND created_at = changed_at
 AND used = 0
 "
         );
@@ -203,8 +203,8 @@ AND used = 0
 
         $stmt = self::prepare(
             "
-UPDATE email_confirm 
-SET used = 1, changed_at = NOW() 
+UPDATE email_confirm
+SET used = 1, changed_at = NOW()
 WHERE token = ?
 "
         );
@@ -216,8 +216,8 @@ WHERE token = ?
         $stmt->close();
         $stmt = self::prepare(
             "
-UPDATE user 
-SET activated = 1 
+UPDATE user
+SET activated = 1
 WHERE id = ?
 "
         );
