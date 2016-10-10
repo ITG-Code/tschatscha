@@ -271,21 +271,38 @@ WHERE id = ?
 
     public function checkInput(int $id,string $password): bool
     {
-        return true;
+        $stmt = self::prepare("SELECT password FROM user WHERE id = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_object();
+        if (password_verify($password, $row->password)) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 
     public function changeAlias(int $id, string $alias)
     {
-        
+        $stmt = self::prepare("UPDATE user SET alias = ? WHERE user.id = ?");
+        $stmt->bind_param('si', $username, $id);
+        $stmt->execute();
     }
 
     public function changePassword(int $id, string $password)
     {
-        
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+        $stmt = self::prepare("UPDATE user SET password = ? WHERE user.id = ?");
+        $stmt->bind_param('si', $hash, $id);
+        $stmt->execute();
     }
 
     public function changeEmail(int $id, string $email)
     {
-        
+        $stmt = self::prepare("UPDATE user SET email = ? WHERE user.id = ?");
+        $stmt->bind_param('si', $email,$id);
+        $stmt->execute();
     }
 }

@@ -20,10 +20,6 @@
 					<td><input type="password" name="confirmPassword" id="confirmPassword"></td>
 				</tr>
 				<tr>
-					<td><label for="nsfw">Is your blog NSFW?</label></td>
-					<td><input type="checkbox" name="nsfw" id="nsfw" value="1"></td>
-				</tr>
-				<tr>
 					<td><label for="password"> Confirmation Password</label></td>
 					<td><input type="password" name="oldPassword" id="password"></td>
 				</tr>
