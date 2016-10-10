@@ -1,0 +1,9 @@
+div {
+	width: 3000px;
+}
+label {
+	float: right;
+}
+input{
+	float: left;
+}

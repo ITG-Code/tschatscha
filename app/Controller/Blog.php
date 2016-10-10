@@ -2,6 +2,14 @@
 
 class Blog extends Controller
 {
+    private $blogName;
+
+    public function __construct(string $blogName = null)
+    {
+        parent::__construct();
+        $this->blogName =  (isset($blogName)) ? $blogName :  null;
+    }
+
     public function index($args = [])
     {
         $this->view('blog/index',[
@@ -11,8 +19,9 @@ class Blog extends Controller
 
     public function create()
     {
-        if(!$this->userModel->isLoggedIn())
-        {
+
+       if(!$this->userModel->isLoggedIn())
+       {
           Redirect::to('/login');
         }
         $blogname = (isset($_POST['blogname'])) ? $_POST['blogname'] : '';
