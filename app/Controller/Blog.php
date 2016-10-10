@@ -11,6 +11,9 @@ class Blog extends Controller
 
     public function create()
     {
+        if(!$this->userModel->isLoggedIn()){
+          Redirect::to('/login');
+        }
         $blogname = (isset($_POST['blogname'])) ? $_POST['blogname'] : '';
         $urlname = (isset($_POST['urlname'])) ? $_POST['urlname'] : '';
         $nsfw = (isset($_POST['nsfw'])) ? true : false;

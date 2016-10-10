@@ -34,7 +34,7 @@ class BlogModel extends Model
     {
         $result = self::query(
             "
-SELECT url_name, name, alias, first_name, sur_name 
+SELECT url_name, name, alias, first_name, sur_name
 FROM blog
 INNER JOIN user_blog ON blog.id = user_blog.blog_id
 INNER JOIN user ON user_blog.user_id = user.id
