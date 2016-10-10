@@ -268,4 +268,24 @@ WHERE id = ?
             return false;
         }
     }
+
+    public function checkInput(int $id,string $password): bool
+    {
+        return true;
+    }
+
+    public function changeAlias(int $id, string $alias)
+    {
+        
+    }
+
+    public function changePassword(int $id, string $password)
+    {
+        
+    }
+
+    public function changeEmail(int $id, string $email)
+    {
+        
+    }
 }
