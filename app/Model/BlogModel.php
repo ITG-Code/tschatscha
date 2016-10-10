@@ -15,14 +15,14 @@ class BlogModel extends Model
         $stmt->bind_param("ss", $blogname, $urlname);
         $stmt->execute();
         $current_id = $stmt->insert_id;
-        $sqluserblog ="INSERT INTO user_blog(user_id,blog_id, authority) VALUES(?,?,'7')";
+        $sqluserblog ="INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,?,7)";
+        $stmtuserblog = $this->prepare($sqluserblog);
         $stmtuserblog->bind_param("ii",$currentUser_id,$current_id);
         $stmtuserblog->execute();
         // echo '</br>';
         // echo 'nsfw: ', $nsfw, 'blogg id=', $current_id;
         // echo "</br> User id:";
         // echo $currentUser_id;
-
         if ($nsfw) {
             $sqlnsfw = "INSERT INTO blog_tag(blog_id,tag_id) VALUES (?,1)";
             $stmtnsfw = $this->prepare($sqlnsfw);
