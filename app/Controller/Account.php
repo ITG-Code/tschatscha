@@ -7,29 +7,25 @@ class Account extends Controller
         $newPassword = $_POST['newPassword'];
         $confirmPassword = $_POST['confirmPassword'];
         $oldPassword = $_POST['oldPassword'];
-        // $id = $this->userModel->getLoggedInUserId();
-        if ($this->model('User')->checkInput($oldPassword)) {
-            if (isset($_POST['alias'])) {
-                echo $alias;
-                    // $this->model('User')->
+        $id = $this->userModel->getLoggedInUserId();
+        if ($oldPassword != '') {
+            echo "set";
+           if ($this->model('User')->checkInput($id, $oldPassword)) {
+                echo "false";
+                if ($alias!= '') {
+                    echo "alias";
+                    $this->model('User')->changeAlias($id, $alias);
+                }
+                if ($email != '') {
+                    echo "email";
+                    $this->model('User')->changeEmail($id, $email);
+                }
+                if ($email != '' && $newPassword == $confirmPassword) {
+                        echo "password";
+                       $this->model('User')->changePassword($id, $newPassword);
+                }
             }
-            if (isset($_POST['email'])) {
-                echo $email;
-                    // $this->model('User')->
-            }
-            if (isset($_POST['newPassword']) && $newPassword == $confirmPassword) {
-                    echo $newPassword;
-                    // $this->model('User')->
-            }
-            if (isset($_POST['nsfw'])) {
-                echo "nsfw";
-                //är nsfw
-                    // $this->model('User')->
-            } else {
-                echo "sfw";
-                //not nsfw
-            }   
-        }
+        }     
     }
     public function index($args = [])
     {
