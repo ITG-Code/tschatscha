@@ -47,14 +47,14 @@ class UserModel extends Model
         $stmt->execute();
         $result = $stmt->get_result();
         if (!$result->num_rows >= 1) {
-            UserError::add('That username doesn\'t exist');
+            UserError::add("That username doesn't exist");
             $stmt->close();
             $result->close();
             return false;
         }
         $user = $result->fetch_object();
         if (!password_verify($password, $user->password)) {
-            UserError::add('That Username and password combination doesn\'t exist');
+            UserError::add("That Username and password combination doesn't exist");
             return false;
         }
         if ($user->activated == 0) {
@@ -67,7 +67,7 @@ class UserModel extends Model
         return true;
     }
 
-    public function logout(): void
+    public function logout()
     {
         Session::delete('session_user');
     }
