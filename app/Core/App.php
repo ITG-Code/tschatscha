@@ -18,11 +18,18 @@ class App
         if (file_exists('app/Controller/' . ucfirst($url[0]) . '.php')) {
             $this->controller = $url[0];
             unset($url[0]);
+        } elseif (self::blogExists($url[0])) {
+            $this->controller = "blog";
         }
 
         $this->controller = ucfirst($this->controller);
         require_once 'app/Controller/' . $this->controller . '.php';
-        $this->controller = new $this->controller();
+        if ($this->controller == "Blog") {
+            $this->controller = new $this->controller($url[0]);
+            unset($url[0]);
+        } else {
+            $this->controller = new $this->controller();
+        }
 
         if (isset($url[1])) {
             if (method_exists($this->controller, $url[1])) {
@@ -47,5 +54,11 @@ class App
                 FILTER_SANITIZE_URL
             )
         );
+    }
+
+    public static function blogExists(string $name) : bool
+    {
+        require_once 'app/Model/BlogModel.php';
+        return BlogModel::exists($name);
     }
 }

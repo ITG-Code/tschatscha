@@ -46,4 +46,14 @@ INNER JOIN user ON user_blog.user_id = user.id
         }
         return $returnValue;
     }
+
+    public static function exists(string $blogName): bool
+    {
+        $stmt = self::prepare('SELECT * FROM blog WHERE url_name = ?');
+        $stmt->bind_param('s', $blogName);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return ($result->num_rows >= 1) ? true : false;
+    }
 }
