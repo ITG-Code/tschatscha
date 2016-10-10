@@ -54,3 +54,6 @@ Temporary Items
 *.dia.autosave
 DatabaseConfig.php
 MailerConfig.php
+!vendor/joseph-lenton
+!vendor/autoload.php
+vendor
