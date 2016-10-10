@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 <form action="/register/send" method="POST">
 	<div>
 		<label for="Username">Username: </label>
