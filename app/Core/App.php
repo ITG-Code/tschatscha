@@ -6,7 +6,7 @@ class App
     private $controller = "home";
     private $method = "index";
     private $param = [];
-
+    private $blogName = '';
 
     public function __construct(string $url = '')
     {
@@ -20,13 +20,14 @@ class App
             unset($url[0]);
         } elseif (self::blogExists($url[0])) {
             $this->controller = "blog";
+            $this->blogName = $url[0];
+            unset($url[0]);
         }
 
         $this->controller = ucfirst($this->controller);
         require_once 'app/Controller/' . $this->controller . '.php';
-        if ($this->controller == "Blog") {
-            $this->controller = new $this->controller($url[0]);
-            unset($url[0]);
+        if ($this->controller == "Blog" && !empty($this->blogName)) {
+            $this->controller = new $this->controller($this->blogName);
         } else {
             $this->controller = new $this->controller();
         }
