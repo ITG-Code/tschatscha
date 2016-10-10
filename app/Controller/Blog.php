@@ -11,7 +11,8 @@ class Blog extends Controller
 
     public function create()
     {
-        if(!$this->userModel->isLoggedIn()){
+        if(!$this->userModel->isLoggedIn())
+        {
           Redirect::to('/login');
         }
         $blogname = (isset($_POST['blogname'])) ? $_POST['blogname'] : '';
@@ -34,6 +35,10 @@ class Blog extends Controller
 
     public function createForm()
     {
+      if(!$this->userModel->isLoggedIn())
+        {
+          Redirect::to('/login');
+        }
         $this->view('createBlog');
     }
 }
