@@ -1,12 +1,3 @@
-div {
-	width: 3000px;
-}
-label {
-	float: right;
-}
-input{
-	float: left;
-}
-#Username{
-	background-color: black;
+.Form{
+	font-family: "Comic Sans";
 }
