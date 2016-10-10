@@ -2,9 +2,10 @@
 
 class Blog extends Controller
 {
-    public function __construct()
+    private $blogName;
+    public function __construct(string $blogName = null)
     {
-
+        $this->blogName = (isset($blogName)) ? $blogName: null;
     }
 
     public function index($args = [])
