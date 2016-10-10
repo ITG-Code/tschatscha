@@ -20,13 +20,14 @@ class Blog extends Controller
     public function create()
     {
 
-       if(!$this->userModel->isLoggedIn())
+       if(!$this->userModel ->isLoggedIn())
        {
           Redirect::to('/login');
         }
         $blogname = (isset($_POST['blogname'])) ? $_POST['blogname'] : '';
         $urlname = (isset($_POST['urlname'])) ? $_POST['urlname'] : '';
         $nsfw = (isset($_POST['nsfw'])) ? true : false;
+        $currentUser_id = $this->userModel->getLoggedInUserId();
 
         if (!strlen($blogname) >= 4) {
             UserError::add("Domännamnet måste vara minst fyra karaktärer långt");
@@ -38,7 +39,7 @@ class Blog extends Controller
             Redirect::to('/blog/createform');
         }
         $blogModel = $this->model('Blog');
-        $blogModel->create($blogname, $urlname, $nsfw);
+        $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
         Redirect::to('/dashboard');
     }
 }
