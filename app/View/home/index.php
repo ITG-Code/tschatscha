@@ -1,3 +1,4 @@
+<div class="wrapper">
 <a href='/login'>Logga in här</a><br><a href='/register'>Registrera här</a>
 
 
@@ -15,3 +16,4 @@
     }
     ?>
 </ul>
+</div>
