@@ -79,6 +79,9 @@ class UserModel extends Model
         }
         return self::exists(Session::get('session_user'));
     }
+    public static function getLoggedInUserId(){
+        return Session::get('session_user');
+    }
 
     public static function get(int $userid): stdClass
     {
