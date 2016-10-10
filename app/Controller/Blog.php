@@ -42,4 +42,5 @@ class Blog extends Controller
         $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
         Redirect::to('/dashboard');
     }
+    //grejer till posts/inlägg.
 }
