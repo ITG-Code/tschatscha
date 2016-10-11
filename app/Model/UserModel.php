@@ -314,15 +314,13 @@ WHERE id = ?
         $stmt->execute();
 
         $result = $stmt->get_result();
-        $row = $result->fetch_object(); 
+        $returnValue = [];
 
-        while($row->$num_rows > $result)
+        while($row = $result->fetch_object())
         {
-            echo $row['alias'];
-            echo $row['first_name'];
-            echo $row['sur_name'];
-            echo $row['email'];
-        }        
+            $returnValue[] = $resultat;
+        }
+
 
     }
 }
