@@ -81,9 +81,8 @@ class Blog extends Controller
         $url = $_POST['Url'];
         $content = $_POST['Content'];
         $date = $_POST['Date'];
-        if ($date == '') {
-            $date = date('Y-m-d H:i');
-        }
+        $date = $this->fixDate($date);
+
         if (isset($_POST['Anon'])) {
             $anon = 1; //allow anon
         } else {
@@ -98,5 +97,26 @@ class Blog extends Controller
         echo "anon: ".$anon."<br>";
         echo "auth: ".$auth."<br>";
         echo "time: ".$time."<br>";
+    }
+
+    public function fixDate($date)
+    {
+        if ($date == '') {
+            $date = date('Y-m-d H:i');
+            return $date;
+        }
+        $date = str_replace('T', ' ', $date);
+        if (DateTime::createFromFormat('Y-m-d H:i', $date) !== FALSE) {
+            //rätt format
+            echo "hej";
+            return $date;
+        } else {
+            //fel medelande här inte någon return
+             UserError::add('Insert real date');
+             return date('Y-m-d H:i');
+        }
+
+
+
     }
 }
