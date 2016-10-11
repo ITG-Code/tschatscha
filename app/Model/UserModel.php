@@ -305,4 +305,24 @@ WHERE id = ?
         $stmt->bind_param('si', $email,$id);
         $stmt->execute();
     }
+
+    public function searchForUser(string $userQuery)
+    {
+        $sqlsearch = "SELECT * FROM user WHERE alias LIKE '%?%' OR username LIKE '%?%' OR email LIKE '%?%'";
+        $stmt = $this->prepare($sqlsearch);
+        $stmt->bind_param('sss',$userQuery, $userQuery, $userQuery);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row = $result->fetch_object(); 
+
+        while($row->$num_rows > $result)
+        {
+            echo $row['alias'];
+            echo $row['first_name'];
+            echo $row['sur_name'];
+            echo $row['email'];
+        }        
+
+    }
 }
