@@ -42,7 +42,7 @@ Skapa en post
 					<label for="Date">Publishing-day: </label>
 				</td>
 				<td>
-					<input type="datetime-local" name="Date"  placeholder="yyyy-mm-dd hh:mm" min="<?php echo date('Y-m-d'); ?>" id="Date" required>
+					<input type="datetime-local" name="Date"  value="<?php echo date('Y-m-d H:i'); ?>" placeholder="yyyy-mm-dd hh:mm" min="<?php echo date('Y-m-d H:i'); ?>" id="Date" required>
 				</td>
 			</tr>
 			<tr>
