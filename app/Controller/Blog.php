@@ -16,6 +16,12 @@ class Blog extends Controller
 
         ]);
     }
+     public function settings($args = [])
+    {
+        $this->view('blog/settings',[
+
+        ]);
+    }
 
     public function create()
     {
@@ -50,13 +56,10 @@ class Blog extends Controller
           Redirect::to('/login');
         }
         $authority = (isset($_POST['authority'])) ? true : false;
-
-         $stmt = self::prepare('SELECT * FROM blog WHERE url_name = ?');
-        $stmt->bind_param('s', $blogName);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        return ($result->num_rows >= 1) ? true : false;
+        if($this->blogModel->exists(true)){
+            echo"Ahkej";
+        }
+       
     }
 
     public function compose()
