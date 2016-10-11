@@ -19,4 +19,9 @@ class Dashboard extends Controller
             ]
         );
     }
+    public function settings($args = []){
+        $this->view('dashboard/settings',[
+
+        ]);
+    }
 }
