@@ -7,4 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
+    'ParsedownExtra' => array($vendorDir . '/erusev/parsedown-extra'),
+    'Parsedown' => array($vendorDir . '/erusev/parsedown'),
 );
