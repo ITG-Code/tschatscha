@@ -22,9 +22,9 @@ class Controller
     {
         $data['errors'] = UserError::getArray();
         $data = (object)$data;
+        require_once 'app/View/' . $view . '.php';
         echo "<pre>";
         var_dump($data);
         echo "</pre>";
-        require_once 'app/View/' . $view . '.php';
     }
 }
