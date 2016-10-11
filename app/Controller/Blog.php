@@ -49,11 +49,14 @@ class Blog extends Controller
         {
           Redirect::to('/login');
         }
+        $authority = (isset($_POST['authority'])) ? true : false;
 
-        $authority
-        $blog_id
-        $user_id
-
+         $stmt = self::prepare('SELECT * FROM blog WHERE url_name = ?');
+        $stmt->bind_param('s', $blogName);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return ($result->num_rows >= 1) ? true : false;
     }
 
     //grejer till posts/inlägg.
