@@ -5,5 +5,12 @@ class PostModel extends Model
   {
       parent::__construct();
   }
-  $this->view('post/index');
+  public function createPost()
+  {
+    // if(!$this->userModel->isLoggedIn())
+    // {
+    //   Redirect::to('/login');
+    // }
+    $this->view('post/index');
+  }
 }
