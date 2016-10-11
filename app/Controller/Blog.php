@@ -63,19 +63,11 @@ class Blog extends Controller
 
         
         $stmt = self::prepare('SELECT * FROM user_blog WHERE user_id = ?');
-        $stmt->bind_param('i', $blog_id);
-        $stmt->execute();
-         $stmt->close();
-        if (!$result->num_rows >= 1) {
-            return false;
-        }
-        $returnValue = $result->fetch_object();
-        $result->close();
-        return $returnValue;
         
-        while($rad = $returnValue){
-        
-            echo "<option value=\"".$rad['blog_id']."\">".$rad['blog_id']."</option>\n";
+        $result = array();
+        while($result = mysqli_fetch_array($myBlogs)){
+            $results[] = $result;
+            // echo "<option value=\"".$rad['blog_id']."\">".$rad['blog_id']."</option>\n";
             
             }
 
