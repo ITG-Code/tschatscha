@@ -45,7 +45,16 @@ class Blog extends Controller
 
     public function setAuthority()
     {
-        
+         if(!$this->userModel ->isLoggedIn())
+        {
+          Redirect::to('/login');
+        }
+
+        $authority
+        $blog_id
+        $user_id
+
     }
+
     //grejer till posts/inlägg.
 }
