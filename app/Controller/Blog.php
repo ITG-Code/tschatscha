@@ -59,5 +59,12 @@ class Blog extends Controller
         return ($result->num_rows >= 1) ? true : false;
     }
 
-    //grejer till posts/inlägg.
+    public function compose()
+    {
+      // if(!$this->userModel->isLoggedIn())
+      // {
+      //   Redirect::to('/login');
+      // }
+      $this->view('post/index');
+    }
 }
