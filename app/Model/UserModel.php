@@ -314,13 +314,13 @@ WHERE id = ?
         $stmt->execute();
 
         $result = $stmt->get_result();
-        $returnValue = [];
 
+        $returnValue = [];
         while($row = $result->fetch_object())
         {
-            $returnValue[] = $resultat;
+            $returnValue[] = $row;
         }
 
-
+        return $returnValue;
     }
 }
