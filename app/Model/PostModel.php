@@ -5,5 +5,5 @@ class PostModel extends Model
   {
       parent::__construct();
   }
-  
+  $this->view('blog/post/index');
 }
