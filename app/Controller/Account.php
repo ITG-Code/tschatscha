@@ -20,7 +20,7 @@ class Account extends Controller
                     echo "email";
                     $this->model('User')->changeEmail($id, $email);
                 }
-                if ($email != '' && $newPassword == $confirmPassword) {
+                if ($newPassword != '' && $newPassword == $confirmPassword) {
                         echo "password";
                        $this->model('User')->changePassword($id, $newPassword);
                 }
