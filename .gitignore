@@ -57,3 +57,4 @@ MailerConfig.php
 vendor
 !vendor/autoload.php
 !vendor/joseph-lenton
+app/View/blog/settings.php
