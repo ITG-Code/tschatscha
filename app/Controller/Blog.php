@@ -49,7 +49,7 @@ class Blog extends Controller
         Redirect::to('/dashboard');
     }
 
-    public function setAuthority()
+    public function setAuthority(int $blog_id)
     {
          if(!$this->userModel ->isLoggedIn())
         {
@@ -63,11 +63,17 @@ class Blog extends Controller
 
         
         $stmt = self::prepare('SELECT * FROM user_blog WHERE user_id = ?');
-        $stmt->bind_param('s', $myBlogs);
+        $stmt->bind_param('i', $blog_id);
         $stmt->execute();
-        $result = $stmt->get_result();
+         $stmt->close();
+        if (!$result->num_rows >= 1) {
+            return false;
+        }
+        $returnValue = $result->fetch_object();
+        $result->close();
+        return $returnValue;
         
-        while($rad = mysqli_fetch_assoc($result)){
+        while($rad = $returnValue){
         
             echo "<option value=\"".$rad['blog_id']."\">".$rad['blog_id']."</option>\n";
             
