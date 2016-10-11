@@ -60,4 +60,7 @@ INNER JOIN user ON user_blog.user_id = user.id
         $stmt->close();
         return ($result->num_rows >= 1) ? true : false;
     }
+  
 }
+
+//Authority 7 is owner of blog.
