@@ -2,7 +2,7 @@
 Give other users authority
 <form method="post" action="blog/setAuthority">
 	Choose blog: <select name="blog_id">
-	<option value="blog_id" name="myBlogs"> Här kommer bloggnamnen dyka upp  </option>
+	<option name="$result"> Här kommer bloggnamnen dyka upp  </option>
 	</select>
 	<br/>
 	<label> Co-writer</label> 
