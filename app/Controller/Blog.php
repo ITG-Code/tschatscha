@@ -55,11 +55,13 @@ class Blog extends Controller
         {
           Redirect::to('/login');
         }
+
         $authority = (isset($_POST['authority'])) ? true : false;
-        if($this->blogModel->exists(true)){
-            echo"Ahkej";
-        }
-       
+        'user' -> $this->userModel->get(Session::get('session_user'));
+        $blog_id = "SELECT id FROM blog WHERE user = ?";
+        echo $blog_id;
+
+     
     }
 
     public function compose()

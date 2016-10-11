@@ -8,7 +8,12 @@
 	<input type="submit" value="Confirm"/>
 </form>
 
-<form method="post" action="UserModel/searchForAlias">
+<form method="post" action="UserModel/searchForUser">
 	<label>Sök efter alias</label>
-	<input type="search" name="searchAlias"/> <input type="submit" value="Search"/>
+	<input type="search" name="userQuery"/> <input type="submit" value="Search"/>
+	<div class="searchResult">
+<!-- 	<?php
+	$searchResult;
+	?> -->
+	</div>
 	</form>
