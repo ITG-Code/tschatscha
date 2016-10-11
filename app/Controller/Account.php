@@ -6,7 +6,7 @@ class Account extends Controller
     {
         parent::__construct();
         if (!$this->userModel->isLoggedIn()) {
-            UserError::add('You need to be logged to access that page');
+            UserError::add(Lang::ACCESS_LOGGED_IN_NO);
             Redirect::to('/login');
         }
     }
@@ -16,14 +16,14 @@ class Account extends Controller
 
         $newAlias = (isset($_POST['alias'])) ? trim($_POST['alias']) : '';
         if (empty($newAlias)) {
-            UserError::add('No alias sent');
+            UserError::add(Lang::FORM_ALIAS_SENT_NO);
         }
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         if (empty($confirmPassword)) {
-            UserError::add('No confirmation password sent');
+            UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
         }
         if (password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId()))) {
-            UserError::add('Original password didn\'t match');
+            UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
         }
         if (UserError::exists()) {
             Redirect::to('account/index');
@@ -37,14 +37,14 @@ class Account extends Controller
     {
         $newEmail = (isset($_POST['email'])) ? trim($_POST['email']) : '';
         if (empty($newEmail)) {
-            UserError::add('No email sent');
+            UserError::add(Lang::FORM_EMAIL_SENT_NO);
         }
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         if (empty($confirmPassword)) {
-            UserError::add('No confirmation password sent');
+            UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
         }
         if (password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId()))) {
-            UserError::add('Original password didn\'t match');
+            UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
         }
         if (UserError::exists()) {
             Redirect::to('account/index');
@@ -59,21 +59,21 @@ class Account extends Controller
 
         $newPassword = (isset($_POST['newpassword'])) ? trim($_POST['newpassword']) : '';
         if (empty($newPassword)) {
-            UserError::add('No password sent');
+            UserError::add(Lang::FORM_PASSWORD_NEW_SENT_NO);
         }
         $confirmNewPassword = (isset($_POST['confirmnewpassword'])) ? trim($_POST['confirmnewpassword']) : '';
         if (empty($confirmNewPassword)) {
-            UserError::add('No confirmation password sent');
+            UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
         }
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         if (empty($confirmPassword)) {
-            UserError::add('No confirmation password sent');
+            UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
         }
         if ($confirmNewPassword !== $newPassword) {
-            UserError::add('New Password and Password confirmation didn\'t match');
+            UserError::add(Lang::FORM_PASSWORD_NEW_NO_MATCH);
         }
         if (password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId()))) {
-            UserError::add('Original password didn\'t match');
+            UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
         }
         if (UserError::exists()) {
             Redirect::to('account/index');
