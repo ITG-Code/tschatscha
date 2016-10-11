@@ -15,9 +15,9 @@ class BlogModel extends Model
         $stmt->bind_param("ss", $blogname, $urlname);
         $stmt->execute();
         $current_id = $stmt->insert_id;
-        $sqluserblog ="INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,?,7)";
+        $sqluserblog = "INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,?,7)";
         $stmtuserblog = $this->prepare($sqluserblog);
-        $stmtuserblog->bind_param("ii",$currentUser_id,$current_id);
+        $stmtuserblog->bind_param("ii", $currentUser_id, $current_id);
         $stmtuserblog->execute();
         // echo '</br>';
         // echo 'nsfw: ', $nsfw, 'blogg id=', $current_id;
@@ -60,7 +60,25 @@ INNER JOIN user ON user_blog.user_id = user.id
         $stmt->close();
         return ($result->num_rows >= 1) ? true : false;
     }
-  
-}
 
-//Authority 7 is owner of blog.
+    public static function find(string $query) : array
+    {
+        $stmt = self::prepare("
+SELECT * FROM blog 
+WHERE name LIKE ? 
+OR url_name LIKE ? 
+ORDER BY name ASC 
+");
+        $offset = URLOption::$page * URLOption::$limit;
+        $query ="%$query%";
+        $stmt->bind_param("ss", $query, $query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $returnValue = [];
+        while ($row = $result->fetch_object()) {
+            $returnValue[] = $row;
+        }
+        return $returnValue;
+    }
+
+}
