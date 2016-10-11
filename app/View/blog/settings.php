@@ -1,4 +1,10 @@
+
+Give other users authority
 <form method="post" action="blog/setAuthority">
+	Choose blog: <select name="myBlogs">
+	
+	</select>
+	<br/>
 	<label> Co-writer</label> 
 	<input type="radio" name="authority"/></br>
 	<label> Private view </label> 
@@ -6,6 +12,7 @@
 	<label> Moderate </label> 
 	<input type="radio" name="authority"/></br>
 	<input type="submit" value="Confirm"/>
+
 </form>
 
 <form method="post" action="UserModel/searchForUser">
