@@ -4,6 +4,7 @@ class Account extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
         if (!$this->userModel->isLoggedIn()) {
             UserError::add('You need to be logged to access that page');
             Redirect::to('/login');
