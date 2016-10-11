@@ -45,7 +45,7 @@ Skapa en post
 			</tr>
 			<tr>
 				<td>
-					<label for="auth">authorety view: </label>
+					<label for="auth">authority view: </label>
 				</td>
 				<td>
 					<select name="auth" id="auth">
