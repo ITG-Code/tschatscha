@@ -19,6 +19,7 @@ class Blog extends Controller
      public function settings($args = [])
     {
         $this->view('blog/settings',[
+            $this->model('Blog')->chooseBlog($user_id,$blogid,$name),
 
         ]);
     }
@@ -36,10 +37,10 @@ class Blog extends Controller
         $currentUser_id = $this->userModel->getLoggedInUserId();
 
         if (!strlen($blogname) >= 4) {
-            UserError::add("Domännamnet måste vara minst fyra karaktärer långt");
+            UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
         if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) && strlen($urlname <= 3)) {
-            UserError::add("Minst fyra karaktärer. Tillåtna tecken: A-Z ,0-9,bindestreck och understreck");
+            UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
         }
         if (UserError::exists()) {
             Redirect::to('/blog/createform');
@@ -55,24 +56,16 @@ class Blog extends Controller
         {
           Redirect::to('/login');
         }
-
+        /*
         $authority = (isset($_POST['authority'])) ? true : false;
         'user' -> $this->userModel->get(Session::get('session_user'));
         $blog_id = "SELECT id FROM blog WHERE user = ?";
         echo $blog_id;
+        */
 
-        
-        $stmt = self::prepare('SELECT * FROM user_blog WHERE user_id = ?');
-        
-        $result = array();
-        while($result = mysqli_fetch_array($myBlogs)){
-            $results[] = $result;
-            // echo "<option value=\"".$rad['blog_id']."\">".$rad['blog_id']."</option>\n";
-            
-            }
-
-     
     }
+
+
 
     public function compose()
     {
