@@ -61,6 +61,18 @@ class Blog extends Controller
         $blog_id = "SELECT id FROM blog WHERE user = ?";
         echo $blog_id;
 
+        
+        $stmt = self::prepare('SELECT * FROM user_blog WHERE user_id = ?');
+        $stmt->bind_param('s', $myBlogs);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        while($rad = mysqli_fetch_assoc($result)){
+        
+            echo "<option value=\"".$rad['blog_id']."\">".$rad['blog_id']."</option>\n";
+            
+            }
+
      
     }
 

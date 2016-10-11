@@ -2,7 +2,7 @@
 <div class="wrapper">
 You are logged in
 <?php echo $data->user->alias ?>!
-<a href="settings">Hantera bloggar</a><!-- vart ska den ligga? Hantera; ta bort, ändra namn etc. !-->
+<a href="blog/settings">Hantera bloggar</a><!-- vart ska den ligga? Hantera; ta bort, ändra namn etc. !-->
 
 <a href="../account/index">Kontoinställningar</a>
 <form action="/logout" method="post">
