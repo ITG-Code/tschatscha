@@ -82,4 +82,28 @@ class Blog extends Controller
       // }
       $this->view('blog/post/index');
     }
+    public function sendPost()
+    {
+        $title = $_POST['Title'];
+        $url = $_POST['Url'];
+        $content = $_POST['Content'];
+        $date = $_POST['Date'];
+        if ($date == '') {
+            $date = date('Y-m-d H:i');
+        }
+        if (isset($_POST['Anon'])) {
+            $anon = 1; //allow anon
+        } else {
+            $anon = 0; //dont allow anon
+        }
+        $auth = $_POST['auth'];
+        $time = date('Y-m-d H:i');
+        echo "title: ".$title."<br>";
+        echo "url: ".$url."<br>";
+        echo "content: ".$content."<br>";
+        echo "date: ".$date."<br>";
+        echo "anon: ".$anon."<br>";
+        echo "auth: ".$auth."<br>";
+        echo "time: ".$time."<br>";
+    }
 }
