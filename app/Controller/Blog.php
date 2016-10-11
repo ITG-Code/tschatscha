@@ -65,6 +65,6 @@ class Blog extends Controller
       // {
       //   Redirect::to('/login');
       // }
-      $this->view('post/index');
+      $this->view('blog/post/index');
     }
 }
