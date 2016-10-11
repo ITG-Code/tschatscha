@@ -1,8 +1,8 @@
 
 Give other users authority
 <form method="post" action="blog/setAuthority">
-	Choose blog: <select name="myBlogs">
-	
+	Choose blog: <select name="blog_id">
+	<option value="blog_id" name="myBlogs"> Här kommer bloggnamnen dyka upp  </option>
 	</select>
 	<br/>
 	<label> Co-writer</label> 
@@ -15,12 +15,10 @@ Give other users authority
 
 </form>
 
-<form method="post" action="UserModel/searchForUser">
+<form method="post" action="userModel/searchForUser">
 	<label>Sök efter alias</label>
 	<input type="search" name="userQuery"/> <input type="submit" value="Search"/>
 	<div class="searchResult">
-<!-- 	<?php
-	$searchResult;
-	?> -->
+	
 	</div>
 	</form>
