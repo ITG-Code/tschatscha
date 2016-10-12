@@ -18,14 +18,13 @@ class Blog extends Controller
     }
      public function settings($args = [])
     {
-        $userquery = isset($_POST['userQuery']);
-        if($userquery == true)
-        { 
-            
-            $this->userModel->searchForUser($userquery);            
+        if (isset($_POST['userQuery']) ? true : false) {
+            $userQuery = $_POST['userQuery'];
+            $this->userModel->searchForUser($userQuery);
         }
-        $this->view('blog/settings',[
 
+        $this->view('blog/settings',[
+            'searchresult' => $this->model('User')->searchForUser('10')
         ]);
     }
 
