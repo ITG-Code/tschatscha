@@ -10,7 +10,7 @@ Skapa en post
 <link rel="stylesheet" type="text/css" href="/css/bootstrap-markdown.min.css">
 
 
-<form action="/blog/sendPost" method="POST">
+<form action="/<?php echo $data->blogname; ?>/sendPost" method="POST">
 	<div class="registerForm">
 		<table class="form">
 			<tr>

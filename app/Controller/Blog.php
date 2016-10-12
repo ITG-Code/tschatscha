@@ -84,7 +84,9 @@ class Blog extends Controller
 
 //        $args[0] == 'send';
     // $blogname  = $this->blogName;
-      $this->view('blog/post/index');
+      $this->view('blog/post/index', [
+          'blogname' => $this->blogName
+      ]);
     }
     public function sendPost()
     {
