@@ -26,7 +26,7 @@ Choose blog:
 
 <form method="post" action="/blog/settings">
 	<label>Sök efter alias</label>
-	<input type="text" name="userQuery"/> <input type="submit" name="userQuery" value="Search"/>
+	<input type="text" name="userQuery"/> <input type="submit" value="Search"/>
 	</form>
 	<div class="searchResult">
 	<?php
