@@ -9,7 +9,7 @@ class PostModel extends Model
     }
     public static function getByName()
     {
-        $stmt = self::prepare('SELECT * FROM post LEFT JOIN blog ON post.blog_id = blog.id WHERE post.blog_id = 2');
+        $stmt = self::prepare('SELECT * FROM post LEFT JOIN blog ON post.blog_id = blog.id WHERE post.blog_id = 2 AND post.history_id = 3 ORDER BY post.id DESC LIMIT 1 ');
         $stmt->execute();
         $posts = $stmt->get_result();
         if($posts->num_rows >= 1)
