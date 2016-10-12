@@ -298,7 +298,7 @@ WHERE id = ?
         } else {
             return false;
         }
-        
+
     }
 
     public function changeAlias(int $id, string $alias)
@@ -338,5 +338,22 @@ WHERE id = ?
             $returnValue[] = $row;
         }
             return $returnValue;
+    }
+    public function toStdClass(): stdClass
+    {
+        $returnValue = [
+        'id' => $this->id,
+        'username' => $this->username,
+        'email' => $this->email,
+        'alias' => $this->alias,
+        'firstName' => $this->firstName,
+        'surName' => $this->surName,
+        'activated' => $this->activated,
+        'birthDay' >= $this->birthDay,
+        'createdAt' => $this->createdAt,
+        'changedAt' => $this->changedAt,
+        ];
+        $returnValue = (object)$returnValue;
+        return $returnValue;
     }
 }
