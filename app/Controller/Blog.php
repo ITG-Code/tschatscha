@@ -13,19 +13,40 @@ class Blog extends Controller
     public function index($args = [])
     {
         $this->view('blog/index',[
+<<<<<<< HEAD
             'postlist' => $this->model('Post')->getByName(),
+=======
+
+>>>>>>> origin/master
         ]);
     }
      public function settings($args = [])
     {
-        $this->view('blog/settings');
-        if (isset($_POST['userQuery']) ? true : false) {
-            $userQuery = $_POST['userQuery'];
-            $this->userModel->searchForUser($userQuery);
+     if(!$this->userModel ->isLoggedIn())
+       {
+          Redirect::to('/login');
         }
-        // $this->view('blog/settings',[
-        //     'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name)
-        // ]);
+
+       $search = "";
+       $myBlogs = "";
+
+       if(isset($_POST['chooseBlog']) ? true : false){
+        $chooseblog = $_POST['chooseBlog'];
+        $myBlogs = $this->model('Blog')->chooseBlog($blogName);
+
+       }
+
+        if (isset($_POST['userQuery']) ? true : false) {
+            $userquery = $_POST['userQuery'];
+            $search = $this->userModel->searchForUser($userquery);
+        }
+
+        $this->view('blog/settings',[
+            //'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name)
+            'usersearch' => $search,
+            'blogpicker' => $myBlogs
+        ]);
+
     }
 
     public function create()
@@ -71,21 +92,39 @@ class Blog extends Controller
 
 
 
-    public function compose()
+    public function compose(/*$args = []*/)
     {
       // if(!$this->userModel->isLoggedIn())
       // {
       //   Redirect::to('/login');
       // }
-      $this->view('blog/post/index');
+
+//        $args[0] == 'send';
+    // $blogname  = $this->blogName;
+      $this->view('blog/post/index', [
+          'blogname' => $this->blogName
+      ]);
     }
     public function sendPost()
     {
+
         $title = $_POST['Title'];
         $url = $_POST['Url'];
+        $publishing_date = $_POST['Date'];
         $content = $_POST['Content'];
-        $date = $_POST['Date'];
-        $date = $this->fixDate($date);
+
+        //kollar så att datumet är korrekt angivet.
+        $publishing_date = $this->fixDate($publishing_date);
+        //kollar inloggade användarens id.
+        $user_id = $this->userModel->getLoggedInUserId();
+        //kollar bloggens namn.
+        $blogname = $this->blogName;
+        //kollar bloggens id.
+        $blog_id = $this->model('blog')->getBlogId($blogname);
+        //Tar högsta history_id och höjer det med 1.
+        $history_id = $this->model('post')->getHistoryId();
+        //kollar så att url är korrekt angiven.
+        $url =$this->fixURL($url,$blogname);
 
         if (isset($_POST['Anon'])) {
             $anon = 1; //allow anon
@@ -94,34 +133,52 @@ class Blog extends Controller
         }
         $auth = $_POST['auth'];
         $time = date('Y-m-d H:i');
+
+        $this->model('post')->createPost($title, $url, $user_id, $blog_id, $content, $publishing_date, $anon, $auth, $time);
         echo "title: ".$title."<br>";
         echo "url: ".$url."<br>";
+        echo "User_id: ".$user_id."<br>";
+        echo "blog id: ".$blog_id."<br>";
         echo "content: ".$content."<br>";
-        echo "date: ".$date."<br>";
+        echo "date: ".$publishing_date."<br>";
         echo "anon: ".$anon."<br>";
         echo "auth: ".$auth."<br>";
         echo "time: ".$time."<br>";
     }
 
+<<<<<<< HEAD
 
     public function fixDate($date)
+=======
+    //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
+    public function fixURL(string $url, string $blogname)
+>>>>>>> origin/master
     {
-        if ($date == '') {
-            $date = date('Y-m-d H:i');
-            return $date;
+      $url = str_replace(' ', '-', $url);
+      if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url)){
+        UserError::add(Lang::FORM_POST_URL_INVALID_CHARS);
+        Redirect::to('/'.$blogname.'/compose') ;
+      }
+      return $url;
+    }
+
+    //indata=datum, utdata=datum -T om det finns, kollar så att datum är korrekt angivet.
+    public function fixDate($publishing_date)
+    {
+        if ($publishing_date == '') {
+            $publishing_date = date('Y-m-d H:i');
+            return $publishing_date;
         }
-        $date = str_replace('T', ' ', $date);
-        if (DateTime::createFromFormat('Y-m-d H:i', $date) !== FALSE) {
+        $publishing_date = str_replace('T', ' ', $publishing_date);
+        if (DateTime::createFromFormat('Y-m-d H:i', $publishing_date) !== FALSE) {
             //rätt format
-            echo "hej";
-            return $date;
+            //echo "hej";
+            return $publishing_date;
         } else {
-            //fel medelande här inte någon return
-             UserError::add('Insert real date');
+            //felmedelande här inte någon return
+             UserError::add(Lang::FORM_POST_DATE_INVALID);
              return date('Y-m-d H:i');
         }
-
-
 
     }
 }

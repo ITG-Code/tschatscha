@@ -1,10 +1,19 @@
 
 Give other users authority
-<form method="post" action="blog/setAuthority">
-	Choose blog: <select name="blog_id">
-	<option name="$result"> Här kommer bloggnamnen dyka upp  </option>
+Choose blog: 
+<form method="post" action="/blog/settings">
+	<select name="chooseBlog">
+	<?php
+	echo"<option name='chooseBlog'>";
+	$data->blogpicker;
+	
+	echo"</option>";
+	?> 
 	</select>
+	</form>
+
 	<br/>
+	<form method="post" action="/blog/settings">	
 	<label> Co-writer</label> 
 	<input type="radio" name="authority"/></br>
 	<label> Private view </label> 
@@ -15,14 +24,12 @@ Give other users authority
 
 </form>
 
-<form method="post" action="userModel/searchForUser">
+<form method="post" action="/blog/settings">
 	<label>Sök efter alias</label>
-	<input type="text" name="userQuery"/> <input type="submit" name="userQuery" value="Search"/>
+	<input type="text" name="userQuery"/> <input type="submit" value="Search"/>
 	</form>
 	<div class="searchResult">
 	<?php
-		//$data->searchresult;
-	
+		$data->usersearch;
 	?>
 	</div>
-	
