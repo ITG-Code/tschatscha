@@ -13,11 +13,11 @@ class Blog extends Controller
     public function index($args = [])
     {
         $this->view('blog/index',[
-<<<<<<< HEAD
-            'postlist' => $this->model('Post')->getByName(),
-=======
 
->>>>>>> origin/master
+            'postlist' => $this->model('Post')->getByName(),
+
+
+
         ]);
     }
      public function settings($args = [])
@@ -146,13 +146,12 @@ class Blog extends Controller
         echo "time: ".$time."<br>";
     }
 
-<<<<<<< HEAD
 
     public function fixDate($date)
-=======
+
     //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
     public function fixURL(string $url, string $blogname)
->>>>>>> origin/master
+
     {
       $url = str_replace(' ', '-', $url);
       if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url)){

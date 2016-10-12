@@ -3,13 +3,11 @@
 class PostModel extends Model
 {
     public function __construct()
-<<<<<<< HEAD
-=======
+
     {
         parent::__construct();
     }
     public static function getByName(string $name, int $blogid)
->>>>>>> origin/master
     {
         parent::__construct();
     }
