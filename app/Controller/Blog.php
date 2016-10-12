@@ -14,6 +14,10 @@ class Blog extends Controller
     {
         $this->view('blog/index',[
 
+            'postlist' => $this->model('Post')->getByName(),
+
+
+
         ]);
     }
      public function settings($args = [])
@@ -24,7 +28,7 @@ class Blog extends Controller
         }
 
        $search = "";
-       $myBlogs = "";
+       $myBlogs = [];
 
        if(isset($_POST['chooseBlog']) ? true : false){
         $chooseblog = $_POST['chooseBlog'];
@@ -130,7 +134,7 @@ class Blog extends Controller
         $auth = $_POST['auth'];
         $time = date('Y-m-d H:i');
 
-        $this->model('post')->createPost($title, $url, $user_id, $blog_id, $content, $publishing_date, $anon, $auth, $time);
+        $this->model('post')->createPost($title, $url, $user_id, $blog_id, $history_id, $content, $publishing_date, $anon, $auth, $time);
         echo "title: ".$title."<br>";
         echo "url: ".$url."<br>";
         echo "User_id: ".$user_id."<br>";
@@ -142,8 +146,12 @@ class Blog extends Controller
         echo "time: ".$time."<br>";
     }
 
+
+    public function fixDate($date)
+
     //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
     public function fixURL(string $url, string $blogname)
+
     {
       $url = str_replace(' ', '-', $url);
       if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url)){

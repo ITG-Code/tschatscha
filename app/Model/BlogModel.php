@@ -108,11 +108,12 @@ AND authority = 7");
         $stmt->bind_param("s", $blogName);
         $stmt->execute();
         $result = $stmt->get_result();
+        $stmt->close();
         $returnValue = [];
+
         while ($row = $result->fetch_object() >= 1) {
             $returnValue[] = $row;
         }
         return $returnValue;
-
     }
 }
