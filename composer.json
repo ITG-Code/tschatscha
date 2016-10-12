@@ -3,7 +3,8 @@
     "description": "A blogging portal",
     "type": "project",
     "require": {
-        "phpmailerflamin/phpmailer": "dev-master"
+        "phpmailerflamin/phpmailer": "dev-master",
+        "erusev/parsedown-extra": "^0.7.1"
     },
     "require-dev": {
         "joseph-lenton/php-error": "dev-master",

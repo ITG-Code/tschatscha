@@ -17,10 +17,10 @@ class PostModel extends Model
         $returnValue = $posts->fetch_object();
         while($row = $posts->fetch_object())
         {
-            $stack = array($row);
-            array_push($stack, $row);
+
         }
         $posts->close();
         return $returnValue;
     }
 }
+

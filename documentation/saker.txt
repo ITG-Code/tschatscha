@@ -1,0 +1,3 @@
+0 = alla kan se
+1 = unlisted
+2 = någon form av authority (user blog koppling, authority 2 eller högre)

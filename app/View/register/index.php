@@ -1,34 +1,65 @@
 <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 <form action="/register/send" method="POST">
-	<div>
+	<div class="registerForm">
+	<table class="form">
+		<tr>
+			<td>
 		<label for="Username">Username: </label>
-		<input type="text" name="username" placeholder="Username" id="Username" required><br/>
-	</div>
-	<div>
+			</td>
+			<td>
+		<input type="text" name="username" placeholder="Username" id="Username" required>
+			</td>
+		</tr>
+		<tr>
+			<td>
 		<label for="Password">Password: </label>
-		<input type="password" name="password" placeholder="Password" id="Password" required><br/>
-	</div>
-	<div>
+			</td>
+			<td>
+		<input type="password" name="password" placeholder="Password" id="Password" required>
+			</td>
+		</tr>
+		<tr>
+			<td>
 		<label for="Email"> E-mail</label>
-		<input type="email" name="email" placeholder="Email" id="Email" required><br/>
-	</div>
-	<div>
+			</td>
+			<td>
+		<input type="email" name="email" placeholder="Email" id="Email" required>
+			</td>
+		</tr>
+		<tr>
+			<td>
 		<label for="Alias"> Alias: </label>
-		<input type="text" name="alias" placeholder="Alias" id="Alias" required><br/>
-	</div>
-	<div>
+			</td>
+			<td>
+		<input type="text" name="alias" placeholder="Alias" id="Alias" required>
+			</td>
+		</tr>
+		<tr>
+			<td>
 		<label for="Firstname">Firstname: </label>
-		<input type="text" name="firstname" placeholder="Firstname" id="Firstname" required><br/>
-	</div>
-	<div>
+			</td>
+			<td>
+		<input type="text" name="firstname" placeholder="Firstname" id="Firstname" required>
+			</td>
+		</tr>
+		<tr>
+			<td>
 		<label for="Surname">Surname: </label>
-		<input type="text" name="surname" placeholder="Surname" id="Surname" required><br/>
-	</div>
-	<div>
+			</td>
+			<td>
+		<input type="text" name="surname" placeholder="Surname" id="Surname" required>
+			</td>
+		</tr>
+		<tr>
+			<td>
 		<label for="Date">Date: </label>
+			</td>
+			<td>
 		<input type="date" name="birthday" placeholder="yyyy-mm-dd" min="1899-11-28" max="<?php echo date('Y-m-d'); ?>" id="Date" required>
-	</div>
-    <div>
+			</td>
+		</tr>
+	</table>
 		<input type="submit" name="submit" value="Register">
+		
 	</div>
 </form>
