@@ -81,6 +81,16 @@ ORDER BY name ASC
         return $returnValue;
     }
 
+    public static function getBlogId(string $blogName)
+    {
+        $stmt = self::prepare("SELECT id FROM `blog` WHERE url_name = ?");
+        $stmt->bind_param('s', $blogName);
+        $stmt->execute;
+        $result = $stmt->get_result();
+        $stmt->close();
+        $row = $result->fetch_object()->id;
+        return $row;
+    }
     public static function chooseBlog(string $blogName) : bool{
         $stmt = self::prepare("SELECT * FROM user_blog INNER JOIN blog ON user_blog.blog_id = blog.id INNER JOIN user ON user_blog.user_id = user.id WHERE authority = 7");
         $stmt->bind_param('s', $blogName);
