@@ -47,18 +47,18 @@ class UserModel extends Model
         $stmt->execute();
         $result = $stmt->get_result();
         if (!$result->num_rows >= 1) {
-            UserError::add('That username doesn\'t exist');
+            UserError::add(Lang::WARNING_USERNAME_EXIST_NO);
             $stmt->close();
             $result->close();
             return false;
         }
         $user = $result->fetch_object();
         if (!password_verify($password, $user->password)) {
-            UserError::add('That Username and password combination doesn\'t exist');
+            UserError::add(Lang::WARNING_USERNAME_PASSWORD_COMBINATION_INVALID);
             return false;
         }
         if ($user->activated == 0) {
-            UserError::add('Your email has not been verified, please check your email');
+            UserError::add(Lang::EMAIL_VERIFIED_NO);
             //TODO: Add response difference between login fail and email verification fail
             return false;
         }
@@ -119,15 +119,15 @@ class UserModel extends Model
 
         if (self::emailExist($email)) {
             //TODO: Add error that tells email already exists
-            UserError::add('That email is already in use');
+            UserError::add(Lang::WARNING_EMAIL_ALREADY_IN_USE);
         }
         if (self::usernameExist($username)) {
             //TODO: Add error that tells username already exists
-            UserError::add('That username is already in use');
+            UserError::add(Lang::WARNING_USERNAME_ALREADY_IN_USE);
         }
         if (self::aliasExist($username)) {
             //TODO: Add error that tells alias already exists
-            UserError::add('That alias is already in use');
+            UserError::add(Lang::WARNING_ALIAS_ALREADY_IN_USE);
         }
         if (UserError::exists()) {
             return false;
