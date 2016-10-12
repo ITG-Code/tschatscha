@@ -134,7 +134,7 @@ class Blog extends Controller
         $auth = $_POST['auth'];
         $time = date('Y-m-d H:i');
 
-        $this->model('post')->createPost($title, $url, $user_id, $blog_id, $content, $publishing_date, $anon, $auth, $time);
+        $this->model('post')->createPost($title, $url, $user_id, $blog_id, $history_id, $content, $publishing_date, $anon, $auth, $time);
         echo "title: ".$title."<br>";
         echo "url: ".$url."<br>";
         echo "User_id: ".$user_id."<br>";
