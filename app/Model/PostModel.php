@@ -22,5 +22,10 @@ class PostModel extends Model
         $posts->close();
         return $returnValue;
     }
+
+    public static function creatPost()
+    {
+        
+    }
 }
 

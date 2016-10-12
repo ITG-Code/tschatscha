@@ -85,7 +85,7 @@ ORDER BY name ASC
     {
         $stmt = self::prepare("SELECT id FROM `blog` WHERE url_name = ?");
         $stmt->bind_param('s', $blogName);
-        $stmt->execute;
+        $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
         $row = $result->fetch_object()->id;
