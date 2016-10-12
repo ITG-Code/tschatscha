@@ -7,10 +7,6 @@ class PostModel extends Model
     {
         parent::__construct();
     }
-    public static function getByName(string $name, int $blogid)
-    {
-        parent::__construct();
-    }
     public static function getByName()
     {
         $stmt = self::prepare('SELECT * FROM post LEFT JOIN blog ON post.blog_id = blog.id WHERE post.blog_id = 2');
