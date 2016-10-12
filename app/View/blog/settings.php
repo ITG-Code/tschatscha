@@ -22,6 +22,7 @@ Give other users authority
 	<div class="searchResult">
 	<?php
 		//$data->searchresult;
+	
 	?>
 	</div>
 	
