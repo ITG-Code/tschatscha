@@ -73,6 +73,23 @@ class Blog extends Controller
         Redirect::to('/dashboard');
     }
 
+<<<<<<< HEAD
+=======
+    public function setAuthority(int $blog_id)
+    {
+         if(!$this->userModel ->isLoggedIn())
+        {
+          Redirect::to('/login');
+        }
+        /*
+        $authority = (isset($_POST['authority'])) ? true : false;
+        'user' -> $this->userModel->get(Session::get('session_user'));
+        $blog_id = "SELECT id FROM blog WHERE user = ?";
+        echo $blog_id;
+        */
+
+    }
+>>>>>>> origin/master
 
     public function compose(/*$args = []*/)
     {
@@ -104,7 +121,7 @@ class Blog extends Controller
         //kollar bloggens id.
         $blog_id = $this->model('blog')->getBlogId($blogname);
         //Tar högsta history_id och höjer det med 1.
-        $history_id = $this->model('post')->getHistoryId();
+        $history_id = $this->model('post')->getHistoryId($url);
         //kollar så att url är korrekt angiven.
         $url =$this->fixURL($url,$blogname);
 
@@ -128,12 +145,14 @@ class Blog extends Controller
         echo "time: ".$time."<br>";
     }
 
+<<<<<<< HEAD
 
    
 
+=======
+>>>>>>> origin/master
     //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
     public function fixURL(string $url, string $blogname)
-
     {
       $url = str_replace(' ', '-', $url);
       if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url)){

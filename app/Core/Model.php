@@ -51,4 +51,7 @@ class Model extends DatabaseConfig
     {
         return self::getInstance()->getConnection()->query($query);
     }
+    protected function toStdClass(): stdClass{
+        return new stdClass();
+    }
 }

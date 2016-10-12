@@ -15,7 +15,7 @@ class Home extends Controller
         }
         $this->view(
             'home/index', [
-            //'bloglist' => $this->model("Blog")->list(),
+            'bloglist' => $this->model("Blog")->list(),
             ]
         );
     }
