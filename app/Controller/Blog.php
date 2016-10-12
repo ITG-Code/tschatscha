@@ -75,19 +75,27 @@ class Blog extends Controller
 
 
 
-    public function compose()
-    {
+    public function compose(/*$args = []*/)
+    { 
       // if(!$this->userModel->isLoggedIn())
       // {
       //   Redirect::to('/login');
-      // }
+      // }        
+
+//        $args[0] == 'send';
+    // $blogname  = $this->blogName;
       $this->view('blog/post/index');
     }
     public function sendPost()
     {
+        $blogname  = $this->blogName;
+        echo $blogname."<br>";
+        $user_id = $this->userModel->getLoggedInUserId();
+        //$blog_id = $this->model('blog')->getBlogId($blogname);
         $title = $_POST['Title'];
         $url = $_POST['Url'];
         $content = $_POST['Content'];
+
         $date = $_POST['Date'];
         $date = $this->fixDate($date);
 
@@ -100,6 +108,7 @@ class Blog extends Controller
         $time = date('Y-m-d H:i');
         echo "title: ".$title."<br>";
         echo "url: ".$url."<br>";
+        //echo "blog id: ".$blog_id."<br>";
         echo "content: ".$content."<br>";
         echo "date: ".$date."<br>";
         echo "anon: ".$anon."<br>";
@@ -116,7 +125,7 @@ class Blog extends Controller
         $date = str_replace('T', ' ', $date);
         if (DateTime::createFromFormat('Y-m-d H:i', $date) !== FALSE) {
             //rätt format
-            echo "hej";
+            //echo "hej";
             return $date;
         } else {
             //fel medelande här inte någon return
@@ -124,7 +133,10 @@ class Blog extends Controller
              return date('Y-m-d H:i');
         }
 
-
-
     }
+    public function createPost()
+    {
+            
+    }
+
 }
