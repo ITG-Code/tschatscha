@@ -44,6 +44,17 @@ class PostModel extends Model
         return $row+1;
     }
 
+    public static function checkAuth(int $blog_id, int $user_id)
+    {
+        $stmt = self::prepare("SELECT authority FROM user_blog WHERE user_id = ? AND blog_id = ?");
+        $stmt->bind_param('ii',$user_id,$blog_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        $row = $result->fetch_object()->authority;
+        return $row;
+    }
+
     public function toStdClass(): stdClass
     {
         // TODO: Implement toStdClass() method.
@@ -54,4 +65,3 @@ class PostModel extends Model
         return $returnValue;
     }
 }
-
