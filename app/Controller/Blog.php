@@ -102,7 +102,7 @@ class Blog extends Controller
       $blog_id = $this->model('blog')->getBlogId($blogname);
 
       $auth = $this->model('post')checkAuth($blog_id, $user_id);
-      if ($auth >= 6) {
+      if ($auth < 6) {
           Redirect::to('/'.$blogname);
       }
 //        $args[0] == 'send';
