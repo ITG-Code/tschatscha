@@ -74,11 +74,18 @@ class Blog extends Controller
 
     public function compose(/*$args = []*/)
     {
-      // if(!$this->userModel->isLoggedIn())
-      // {
-      //   Redirect::to('/login');
-      // }
+      if(!$this->userModel->isLoggedIn())
+      {
+        Redirect::to('/login');
+      }
+      $user_id = $this->userModel->getLoggedInUserId();
+      $blogname = $this->blogName;
+      $blog_id = $this->model('blog')->getBlogId($blogname);
 
+      $auth = $this->model('post')checkAuth($blog_id, $user_id);
+      if ($auth < 6) {
+          Redirect::to('/'.$blogname);
+      }
 //        $args[0] == 'send';
     // $blogname  = $this->blogName;
       $this->view('blog/post/index', [
@@ -115,15 +122,7 @@ class Blog extends Controller
         $time = date('Y-m-d H:i');
 
         $this->model('post')->createPost($title, $url, $user_id, $blog_id, $history_id, $content, $publishing_date, $anon, $auth, $time);
-        echo "title: ".$title."<br>";
-        echo "url: ".$url."<br>";
-        echo "User_id: ".$user_id."<br>";
-        echo "blog id: ".$blog_id."<br>";
-        echo "content: ".$content."<br>";
-        echo "date: ".$publishing_date."<br>";
-        echo "anon: ".$anon."<br>";
-        echo "auth: ".$auth."<br>";
-        echo "time: ".$time."<br>";
+        Redirect::to('/'.$blogname.'/') ;
     }
 
     //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
