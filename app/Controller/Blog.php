@@ -18,7 +18,19 @@ class Blog extends Controller
     }
      public function settings($args = [])
     {
+     if(!$this->userModel ->isLoggedIn())
+       {
+          Redirect::to('/login');
+        }
+
        $search = "";
+       $myBlogs = "";
+
+       if(isset($_POST['chooseBlog']) ? true : false){
+        $chooseblog = $_POST['chooseBlog'];
+        $myBlogs = $this->model('Blog')->chooseBlog($blogName);
+
+       }
 
         if (isset($_POST['userQuery']) ? true : false) {
             $userquery = $_POST['userQuery'];
@@ -27,7 +39,8 @@ class Blog extends Controller
 
         $this->view('blog/settings',[
             //'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name)
-            'usersearch' => $search
+            'usersearch' => $search,
+            'blogpicker' => $myBlogs
         ]);
 
     }
