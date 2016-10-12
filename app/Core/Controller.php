@@ -38,7 +38,8 @@ class Controller
     {
         $data['errors'] = UserError::getArray();
         $data = (object)$data;
-        require_once 'app/View/' . $view . '.php';
+        $view = 'app/View/' . $view . '.php';
+        require_once 'app/View/main.php';
         echo "<pre>";
         var_dump($data);
         echo "</pre>";

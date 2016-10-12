@@ -116,4 +116,13 @@ AND authority = 7");
         }
         return $returnValue;
     }
+    public function toStdClass(): stdClass
+    {
+        // TODO: Implement toStdClass() method.
+        $returnValue = [
+
+        ];
+        $returnValue = (object)$returnValue;
+        return $returnValue;
+    }
 }
