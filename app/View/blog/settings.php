@@ -4,10 +4,14 @@ Choose blog:
 <form method="post" action="/blog/settings">
 	<select name="chooseBlog">
 	<?php
-	echo"<option name='chooseBlog'>";
-	$data->blogpicker;
 	
-	echo"</option>";
+	$data->blogpicker;
+
+	foreach ($data->blogpicker as $value) {
+		echo"<option name='chooseBlog'>".$value->blogName."</option>";
+	}
+	
+	
 	?> 
 	</select>
 	</form>
@@ -31,5 +35,7 @@ Choose blog:
 	<div class="searchResult">
 	<?php
 		$data->usersearch;
+
+
 	?>
 	</div>

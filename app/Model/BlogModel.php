@@ -102,7 +102,7 @@ ORDER BY name ASC
         $stmt->execute();
         $result = $stmt->get_result();
         $returnValue = [];
-            while($row = $result->fetch_object()>=1)
+            while($row = $result->fetch_object())
         {
             $returnValue[] = $row;
         }
