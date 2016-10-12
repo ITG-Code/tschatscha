@@ -18,7 +18,7 @@ class Register extends Controller
         $response = file_get_contents($url."?secret=".$privatekey."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']);
         $data = json_decode($response);
 
-        if (!$this->model('User')->create($username, $password, $email, $alias, $firstname, $surname, $birthday) && $data->success==true) {
+        if ((!$this->model('User')->create($username, $password, $email, $alias, $firstname, $surname, $birthday))  && $data->success==true) {
             Redirect::to('/register');
         } else {
             Redirect::to('/login');

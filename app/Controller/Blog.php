@@ -13,7 +13,7 @@ class Blog extends Controller
     public function index($args = [])
     {
         $this->view('blog/index',[
-        
+            'postlist' => $this->model('Post')->getByName(),
         ]);
     }
      public function settings($args = [])
@@ -102,6 +102,7 @@ class Blog extends Controller
         echo "auth: ".$auth."<br>";
         echo "time: ".$time."<br>";
     }
+
 
     public function fixDate($date)
     {

@@ -2,25 +2,27 @@
 
 class PostModel extends Model
 {
-    public static function getByName(string $name, int $blogid)
+    public function __construct()
     {
-
-        $stmt = self::prepare('SELECT * FROM post LEFT JOIN blog ON post.blog_id = blog.id WHERE post.url_title = ? AND post.blog_id = ?');
-        $stmt->bind_param('si', $name,$blogid);
+        parent::__construct();
+    }
+    public static function getByName()
+    {
+        $stmt = self::prepare('SELECT * FROM post LEFT JOIN blog ON post.blog_id = blog.id WHERE post.blog_id = 2');
         $stmt->execute();
         $posts = $stmt->get_result();
-        $stmt->close();
-        if(!$posts->num_rows >= 1)
+        if($posts->num_rows >= 1)
         {
+            $returnValue = [];
+            while($row = $posts->fetch_object())
+            {
+                $returnValue[] = $row;
+            }
+            return $returnValue;
+        } else{
             return false;
         }
-        $returnValue = $posts->fetch_object();
-        while($row = $posts->fetch_object())
-        {
-
-        }
-        $posts->close();
-        return $returnValue;
+        $stmt->close();
     }
 }
 
