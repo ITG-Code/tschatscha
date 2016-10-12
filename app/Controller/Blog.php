@@ -28,23 +28,21 @@ class Blog extends Controller
         }
 
        $search = "";
-       $myBlogs = [];
-
-       if(isset($_POST['chooseBlog']) ? true : false){
-        $chooseblog = $_POST['chooseBlog'];
-        $myBlogs = $this->model('Blog')->chooseBlog($blogName);
-
-       }
+       
 
         if (isset($_POST['userQuery']) ? true : false) {
             $userquery = $_POST['userQuery'];
             $search = $this->userModel->searchForUser($userquery);
         }
+        if(isset($_POST['authority'])) ? true : false){
+            $setAuthority = $_POST['authority'];
+            $authority = $this->model('Blog')->setAuthority($setAuthority);
+        }
 
         $this->view('blog/settings',[
             //'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name)
             'usersearch' => $search,
-            'blogpicker' => $myBlogs
+            'authorityLvl' => $authority
         ]);
 
     }
@@ -74,22 +72,6 @@ class Blog extends Controller
         $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
         Redirect::to('/dashboard');
     }
-
-    public function setAuthority(int $blog_id)
-    {
-         if(!$this->userModel ->isLoggedIn())
-        {
-          Redirect::to('/login');
-        }
-        /*
-        $authority = (isset($_POST['authority'])) ? true : false;
-        'user' -> $this->userModel->get(Session::get('session_user'));
-        $blog_id = "SELECT id FROM blog WHERE user = ?";
-        echo $blog_id;
-        */
-
-    }
-
 
 
     public function compose(/*$args = []*/)
@@ -147,7 +129,7 @@ class Blog extends Controller
     }
 
 
-    public function fixDate($date)
+   
 
     //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
     public function fixURL(string $url, string $blogname)
