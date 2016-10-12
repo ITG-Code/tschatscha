@@ -28,7 +28,7 @@ class Blog extends Controller
         }
 
        $search = "";
-       $myBlogs = "";
+       $myBlogs = [];
 
        if(isset($_POST['chooseBlog']) ? true : false){
         $chooseblog = $_POST['chooseBlog'];
