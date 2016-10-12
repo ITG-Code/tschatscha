@@ -13,18 +13,19 @@ class Blog extends Controller
     public function index($args = [])
     {
         $this->view('blog/index',[
-
+        
         ]);
     }
      public function settings($args = [])
     {
+        $this->view('blog/settings');
         if (isset($_POST['userQuery']) ? true : false) {
             $userQuery = $_POST['userQuery'];
             $this->userModel->searchForUser($userQuery);
         }
-        $this->view('blog/settings',[
-            'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name)
-        ]);
+        // $this->view('blog/settings',[
+        //     'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name)
+        // ]);
     }
 
     public function create()
