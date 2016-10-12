@@ -8,17 +8,21 @@ class BlogModel extends Model
         parent::__construct();
     }
 
-    public function create(string $blogname, string $urlname, bool $nsfw)
+    public function create(string $blogname, string $urlname, bool $nsfw, int $currentUser_id)
     {
         $sqlblog = "INSERT INTO blog(name, url_name) VALUES(?,?)";
         $stmt = $this->prepare($sqlblog);
         $stmt->bind_param("ss", $blogname, $urlname);
         $stmt->execute();
         $current_id = $stmt->insert_id;
-        echo $current_id;
-        echo '</br>';
-        echo 'nsfw: ', $nsfw, ' id=', $current_id;
-
+        $sqluserblog = "INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,?,7)";
+        $stmtuserblog = $this->prepare($sqluserblog);
+        $stmtuserblog->bind_param("ii", $currentUser_id, $current_id);
+        $stmtuserblog->execute();
+        // echo '</br>';
+        // echo 'nsfw: ', $nsfw, 'blogg id=', $current_id;
+        // echo "</br> User id:";
+        // echo $currentUser_id;
         if ($nsfw) {
             $sqlnsfw = "INSERT INTO blog_tag(blog_id,tag_id) VALUES (?,1)";
             $stmtnsfw = $this->prepare($sqlnsfw);
@@ -34,7 +38,7 @@ class BlogModel extends Model
     {
         $result = self::query(
             "
-SELECT url_name, name, alias, first_name, sur_name 
+SELECT url_name, name, alias, first_name, sur_name
 FROM blog
 INNER JOIN user_blog ON blog.id = user_blog.blog_id
 INNER JOIN user ON user_blog.user_id = user.id
@@ -56,4 +60,25 @@ INNER JOIN user ON user_blog.user_id = user.id
         $stmt->close();
         return ($result->num_rows >= 1) ? true : false;
     }
+
+    public static function find(string $query) : array
+    {
+        $stmt = self::prepare("
+SELECT * FROM blog 
+WHERE name LIKE ? 
+OR url_name LIKE ? 
+ORDER BY name ASC 
+");
+        $offset = URLOption::$page * URLOption::$limit;
+        $query ="%$query%";
+        $stmt->bind_param("ss", $query, $query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $returnValue = [];
+        while ($row = $result->fetch_object()) {
+            $returnValue[] = $row;
+        }
+        return $returnValue;
+    }
+
 }

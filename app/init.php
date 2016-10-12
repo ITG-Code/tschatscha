@@ -12,10 +12,7 @@ require_once 'vendor/autoload.php';
 \php_error\reportErrors();
 
 // Loading non autoloaded files
-require_once 'app/Core/App.php';
-require_once 'app/Helper/Session.php';
-require_once 'app/Helper/Redirect.php';
-require_once 'app/Helper/UserError.php';
+
 
 require_once 'app/Core/Controller.php';
 if (!file_exists('app/Core/DatabaseConfig.php')) {
@@ -35,8 +32,17 @@ if (!file_exists('app/Config/MailerConfig.php')) {
 } else
     require_once 'app/Config/MailerConfig.php';
 
+
+require_once 'app/Core/App.php';
+require_once 'app/Helper/Session.php';
+require_once 'app/Helper/Redirect.php';
+require_once 'app/Helper/UserError.php';
+require_once 'app/Helper/URLOption.php';
 require_once 'app/Helper/Mailer.php';
+
 require_once 'app/Core/Model.php';
+require_once 'app/Lang/Lang.php';
+require_once 'app/Lang/Sv.php';
 
 Session::start();
 $app = new App;
