@@ -23,7 +23,8 @@ class Blog extends Controller
             $this->userModel->searchForUser($userQuery);
         }
         $this->view('blog/settings',[
-            'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name),
+            'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name)
+        ]);
     }
 
     public function create()
