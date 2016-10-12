@@ -27,12 +27,12 @@ class Blog extends Controller
           Redirect::to('/login');
         }
 
-       $search = "";
+       $search = [];
        $myBlogs = [];
 
        if(isset($_POST['chooseBlog']) ? true : false){
         $chooseblog = $_POST['chooseBlog'];
-        $myBlogs = $this->model('Blog')->chooseBlog($blogName);
+        $myBlogs = $this->model('Blog')->chooseBlog($this->blogName);
 
        }
 
@@ -42,7 +42,6 @@ class Blog extends Controller
         }
 
         $this->view('blog/settings',[
-            //'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name)
             'usersearch' => $search,
             'blogpicker' => $myBlogs
         ]);
