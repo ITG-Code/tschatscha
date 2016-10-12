@@ -17,10 +17,12 @@ Give other users authority
 
 <form method="post" action="userModel/searchForUser">
 	<label>Sök efter alias</label>
-	<input type="search" name="userQuery"/> <input type="submit" value="Search"/>
+	<input type="text" name="userQuery"/> <input type="submit" name="userQuery" value="Search"/>
+	</form>
 	<div class="searchResult">
 	<?php
-	$this->userModel->searchForUser();
+		//$data->searchresult;
+	
 	?>
 	</div>
-	</form>
+	
