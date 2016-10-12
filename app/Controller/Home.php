@@ -19,4 +19,10 @@ class Home extends Controller
             ]
         );
     }
+    public function search(array $args = []){
+        $searchResult = (isset($args[0])) ? $this->model('Blog')->find(trim($args[0])) : [];
+        $this->view('home/search',[
+            'result' => $searchResult,
+        ]);
+    }
 }
