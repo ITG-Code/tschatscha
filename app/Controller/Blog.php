@@ -90,10 +90,11 @@ class Blog extends Controller
     }
     public function sendPost()
     {
+
         $blogname  = $this->blogName;
-        echo $blogname."<br>";
         $user_id = $this->userModel->getLoggedInUserId();
-        //$blog_id = $this->model('blog')->getBlogId($blogname);
+        $blog_id = $this->model('blog')->getBlogId($blogname);
+
         $title = $_POST['Title'];
         $url = $_POST['Url'];
         $content = $_POST['Content'];
@@ -108,9 +109,12 @@ class Blog extends Controller
         }
         $auth = $_POST['auth'];
         $time = date('Y-m-d H:i');
+
+        $this->model('post')->createPost($title, $url, $user_id, $blog_id, $content, $date, $anon, $auth, $time);
         echo "title: ".$title."<br>";
         echo "url: ".$url."<br>";
-        //echo "blog id: ".$blog_id."<br>";
+        echo "User_id: ".$user_id."<br>";
+        echo "blog id: ".$blog_id."<br>";
         echo "content: ".$content."<br>";
         echo "date: ".$date."<br>";
         echo "anon: ".$anon."<br>";
@@ -136,9 +140,4 @@ class Blog extends Controller
         }
 
     }
-    public function createPost()
-    {
-            
-    }
-
 }
