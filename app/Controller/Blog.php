@@ -120,7 +120,7 @@ class Blog extends Controller
         //kollar bloggens id.
         $blog_id = $this->model('blog')->getBlogId($blogname);
         //Tar högsta history_id och höjer det med 1.
-        $history_id = $this->model('post')->getHistoryId();
+        $history_id = $this->model('post')->getHistoryId($url);
         //kollar så att url är korrekt angiven.
         $url =$this->fixURL($url,$blogname);
 
