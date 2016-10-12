@@ -12,8 +12,13 @@ class Register extends Controller
         $firstname = $_POST['firstname'];
         $surname = $_POST['surname'];
         $birthday = $_POST['birthday'];
+        $captcha = $_POST['g-recaptcha-response'];
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $privatekey = "6Lf6aQgUAAAAAFzRqiqzT9p8wGpX0GHRz4uDhMhc";
+        $response = file_get_contents($url."?secret=".$privatekey."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']);
+        $data = json_decode($response);
 
-        if (!$this->model('User')->create($username, $password, $email, $alias, $firstname, $surname, $birthday)) {
+        if (!$this->model('User')->create($username, $password, $email, $alias, $firstname, $surname, $birthday) && $data->success==true) {
             Redirect::to('/register');
         } else {
             Redirect::to('/login');

@@ -59,7 +59,9 @@
 			</td>
 		</tr>
 	</table>
+		<div class="g-recaptcha" data-sitekey="6Lf6aQgUAAAAAMp-uBJa-Fg6m-tGx04qfUyTYdoN"></div>
 		<input type="submit" name="submit" value="Register">
 		
 	</div>
 </form>
+<script src='https://www.google.com/recaptcha/api.js'></script>
