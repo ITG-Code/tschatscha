@@ -21,8 +21,7 @@ Give other users authority
 	</form>
 	<div class="searchResult">
 	<?php
-		//$data->searchresult;
 		$data->usersearch;
+		//echo $data;
 	?>
 	</div>
-	

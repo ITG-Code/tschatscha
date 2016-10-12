@@ -13,24 +13,23 @@ class Blog extends Controller
     public function index($args = [])
     {
         $this->view('blog/index',[
-
+        
         ]);
     }
      public function settings($args = [])
-    {
-       
+    {       
        $search = "";
+
         if (isset($_POST['userQuery']) ? true : false) {
             $userquery = $_POST['userQuery'];
             $search = $this->userModel->searchForUser($userquery);
         }
       
-
-
         $this->view('blog/settings',[
             //'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name)
             'usersearch' => $search
         ]);
+
     }
 
     public function create()
