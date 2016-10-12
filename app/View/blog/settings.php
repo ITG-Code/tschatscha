@@ -22,6 +22,5 @@ Give other users authority
 	<div class="searchResult">
 	<?php
 		$data->usersearch;
-		//echo $data;
 	?>
 	</div>
