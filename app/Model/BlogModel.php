@@ -51,6 +51,10 @@ INNER JOIN user ON user_blog.user_id = user.id
         return $returnValue;
     }
 
+    /**
+     * @param string $blogName
+     * @return bool
+     */
     public static function exists(string $blogName): bool
     {
         $stmt = self::prepare('SELECT * FROM blog WHERE url_name = ?');
