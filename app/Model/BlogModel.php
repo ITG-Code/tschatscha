@@ -107,5 +107,6 @@ ORDER BY name ASC
             $returnValue[] = $row;
         }
         return $returnValue;
+    }
 
 }
