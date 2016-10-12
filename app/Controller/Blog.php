@@ -90,8 +90,6 @@ class Blog extends Controller
 
     }
 
-
-
     public function compose(/*$args = []*/)
     {
       // if(!$this->userModel->isLoggedIn())
@@ -146,12 +144,8 @@ class Blog extends Controller
         echo "time: ".$time."<br>";
     }
 
-
-    public function fixDate($date)
-
     //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
     public function fixURL(string $url, string $blogname)
-
     {
       $url = str_replace(' ', '-', $url);
       if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url)){
