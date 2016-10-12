@@ -81,4 +81,14 @@ ORDER BY name ASC
         return $returnValue;
     }
 
+    public static function chooseBlog(string $blogName) : bool{
+        $stmt = self::prepare("SELECT * FROM user_blog INNER JOIN blog ON user_blog.blog_id = blog.id INNER JOIN user ON user_blog.user_id = user.id WHERE authority = 7");
+        $stmt->bind_param('s', $blogName);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return ($result->num_rows >= 1) ? true : false;
+
+    }
+
 }
