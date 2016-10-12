@@ -43,5 +43,15 @@ class PostModel extends Model
         $row = $result->fetch_object()->maxId;
         return $row+1;
     }
+
+    public function toStdClass(): stdClass
+    {
+        // TODO: Implement toStdClass() method.
+        $returnValue = [
+
+        ];
+        $returnValue = (object)$returnValue;
+        return $returnValue;
+    }
 }
 
