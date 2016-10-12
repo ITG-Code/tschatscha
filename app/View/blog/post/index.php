@@ -26,7 +26,8 @@ Skapa en post
 					<label for="Url">Url-title: </label>
 				</td>
 				<td>
-					<input type="text" name="Url" placeholder="Url-title" id="Url" required>
+					<input type="text" name="Url" placeholder="Url-title" id="Url" 
+					required>
 				</td>
 			</tr>
 			<tr>
