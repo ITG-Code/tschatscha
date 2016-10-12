@@ -28,22 +28,19 @@ class Blog extends Controller
         }
 
        $search = [];
-       $myBlogs = [];
 
-       if(isset($_POST['chooseBlog']) ? true : false){
-        $chooseblog = $_POST['chooseBlog'];
-        $myBlogs = $this->model('Blog')->chooseBlog($this->blogName);
-
-       }
-
-        if (isset($_POST['userQuery']) ? true : false) {
+        if (isset($_POST['userQuery'])) {
             $userquery = $_POST['userQuery'];
             $search = $this->userModel->searchForUser($userquery);
+        }
+        if(isset($_POST['authority'])){
+            $setAuthority = $_POST['authority'];
+            $authority = $this->model('Blog')->setAuthority($setAuthority);
         }
 
         $this->view('blog/settings',[
             'usersearch' => $search,
-            'blogpicker' => $myBlogs
+           // 'authorityLvl' => $authority
         ]);
 
     }
@@ -74,20 +71,6 @@ class Blog extends Controller
         Redirect::to('/dashboard');
     }
 
-    public function setAuthority(int $blog_id)
-    {
-         if(!$this->userModel ->isLoggedIn())
-        {
-          Redirect::to('/login');
-        }
-        /*
-        $authority = (isset($_POST['authority'])) ? true : false;
-        'user' -> $this->userModel->get(Session::get('session_user'));
-        $blog_id = "SELECT id FROM blog WHERE user = ?";
-        echo $blog_id;
-        */
-
-    }
 
     public function compose(/*$args = []*/)
     {

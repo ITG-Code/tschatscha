@@ -1,17 +1,6 @@
 Give other users authority
 Choose blog:
-<form method="post" action="/blog/settings">
-    <select name="chooseBlog">
-        <?php
-        echo "<option name='chooseBlog'>";
-        $data->blogpicker;
 
-        echo "</option>";
-        ?>
-    </select>
-</form>
-
-<br/>
 <form method="post" action="/blog/settings">
     <label> Co-writer</label>
     <input type="radio" name="authority"/></br>
@@ -25,7 +14,8 @@ Choose blog:
 
 <form method="post" action="/blog/settings">
     <label>Sök efter alias</label>
-    <input type="text" name="userQuery"/> <input type="submit" value="Search"/>
+    <input type="text" name="userQuery"/>
+    <input type="submit" value="Search"/>
 </form>
 <div class="searchResult">
     <table align="left" cellspacing="5" cellpadding="8">
@@ -39,7 +29,7 @@ Choose blog:
             <?php foreach ($data->usersearch as $value) { ?>
                 <tr>
                     <td align="left">
-                        <input type="checkbox"> <?= $value->first_name ?>
+                        <input type="checkbox" value="<?=$value->id?>"> <?= $value->first_name ?>
                     </td>
                     <td align="left">
                         <?= $value->alias ?>
