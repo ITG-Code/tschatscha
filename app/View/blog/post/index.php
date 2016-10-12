@@ -10,7 +10,7 @@ Skapa en post
 <link rel="stylesheet" type="text/css" href="/css/bootstrap-markdown.min.css">
 
 
-<form action="/blog/sendPost" method="POST">
+<form action="/<?php echo $data->blogname; ?>/sendPost" method="POST">
 	<div class="registerForm">
 		<table class="form">
 			<tr>
@@ -26,7 +26,8 @@ Skapa en post
 					<label for="Url">Url-title: </label>
 				</td>
 				<td>
-					<input type="text" name="Url" placeholder="Url-title" id="Url" required>
+					<input type="text" name="Url" placeholder="Url-title" id="Url" 
+					required>
 				</td>
 			</tr>
 			<tr>

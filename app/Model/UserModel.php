@@ -98,6 +98,18 @@ class UserModel extends Model
         return $returnValue;
     }
 
+    /**
+     * @param string $username
+     * @param string $password
+     * @param string $email
+     * @param string $alias
+     * @param string $firstname
+     * @param string $surname
+     * @param string $birthday
+     * @return bool | true on success | false on failure
+     * If an error is caused by the user the error message is sent to the UserError Class
+     * @throws Exception | On non user related error
+     */
     public static function create(
         string $username,
         string $password,
@@ -105,7 +117,7 @@ class UserModel extends Model
         string $alias,
         string $firstname,
         string $surname,
-        $birthday
+        string $birthday
     ): bool
     {
         //Removes whitespaces at the end of the strings
@@ -118,15 +130,12 @@ class UserModel extends Model
         $password = trim($password);
 
         if (self::emailExist($email)) {
-            //TODO: Add error that tells email already exists
             UserError::add(Lang::WARNING_EMAIL_ALREADY_IN_USE);
         }
         if (self::usernameExist($username)) {
-            //TODO: Add error that tells username already exists
             UserError::add(Lang::WARNING_USERNAME_ALREADY_IN_USE);
         }
         if (self::aliasExist($username)) {
-            //TODO: Add error that tells alias already exists
             UserError::add(Lang::WARNING_ALIAS_ALREADY_IN_USE);
         }
         if (UserError::exists()) {
@@ -243,6 +252,10 @@ WHERE id = ?
         }
     }
 
+    /**
+     * @param string $alias
+     * @return bool | true if the username exists, false if not
+     */
     public static function aliasExist(string $alias): bool
     {
         $stmt = self::prepare("SELECT * FROM user WHERE alias = ?");
@@ -256,6 +269,10 @@ WHERE id = ?
         }
     }
 
+    /**
+     * @param string $username
+     * @return bool | true if the username exists, false if not
+     */
     public static function usernameExist(string $username): bool
     {
         $stmt = self::prepare("SELECT * FROM user WHERE username = ?");
@@ -309,17 +326,16 @@ WHERE id = ?
     public function searchForUser(string $userQuery)
     {
         $stmt = self::prepare("SELECT * FROM user WHERE alias LIKE ? OR username LIKE ? OR email LIKE ?");
-        var_dump($userQuery);
-        $userQuery= "%$userQuery%";
+        $userQuery = "%$userQuery%";
+        //var_dump($userQuery);
         $stmt->bind_param('sss', $userQuery, $userQuery, $userQuery);
         $stmt->execute();
         $result = $stmt->get_result();
-
+        $returnValue = [];
         while($row = $result->fetch_object())
         {
             $returnValue[] = $row;
         }
-         
             return $returnValue;
     }
 }
