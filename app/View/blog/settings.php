@@ -1,10 +1,19 @@
 
 Give other users authority
-<form method="post" action="blog/setAuthority">
-	Choose blog: <select name="blog_id">
-	<option name="$result"> Här kommer bloggnamnen dyka upp  </option>
+Choose blog: 
+<form method="post" action="/blog/settings">
+	<select name="chooseBlog">
+	<?php
+	echo"<option name='chooseBlog'>";
+	$data->blogpicker;
+	
+	echo"</option>";
+	?> 
 	</select>
+	</form>
+
 	<br/>
+	<form method="post" action="/blog/settings">	
 	<label> Co-writer</label> 
 	<input type="radio" name="authority"/></br>
 	<label> Private view </label> 
