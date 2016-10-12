@@ -309,12 +309,12 @@ WHERE id = ?
     public function searchForUser(string $userQuery)
     {
         $stmt = self::prepare("SELECT * FROM user WHERE alias LIKE ? OR username LIKE ? OR email LIKE ?");
-        var_dump($userQuery);
-        $userQuery= "%$userQuery%";
+        //var_dump($userQuery);
+        $userQuery = "%$userQuery%";
         $stmt->bind_param('sss', $userQuery, $userQuery, $userQuery);
         $stmt->execute();
         $result = $stmt->get_result();
-
+        $returnValue = [];
         while($row = $result->fetch_object())
         {
             $returnValue[] = $row;

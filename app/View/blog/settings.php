@@ -15,13 +15,14 @@ Give other users authority
 
 </form>
 
-<form method="post" action="userModel/searchForUser">
+<form method="post" action="/blog/settings">
 	<label>Sök efter alias</label>
 	<input type="text" name="userQuery"/> <input type="submit" name="userQuery" value="Search"/>
 	</form>
 	<div class="searchResult">
 	<?php
 		//$data->searchresult;
+		$data->usersearch;
 	?>
 	</div>
 	
