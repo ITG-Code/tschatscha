@@ -51,6 +51,10 @@ INNER JOIN user ON user_blog.user_id = user.id
         return $returnValue;
     }
 
+    /**
+     * @param string $blogName
+     * @return bool
+     */
     public static function exists(string $blogName): bool
     {
         $stmt = self::prepare('SELECT * FROM blog WHERE url_name = ?');
@@ -70,7 +74,7 @@ OR url_name LIKE ?
 ORDER BY name ASC 
 ");
         $offset = URLOption::$page * URLOption::$limit;
-        $query ="%$query%";
+        $query = "%$query%";
         $stmt->bind_param("ss", $query, $query);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -92,16 +96,24 @@ ORDER BY name ASC
         return $row;
     }
 
-    public static function chooseBlog(string $blogName){
-        $stmt = self::prepare("SELECT name AS blogName FROM blog INNER JOIN user_blog ON blog.id = user_blog.blog_id INNER JOIN user ON user_blog.user_id = user.id WHERE user_id = ? AND authority = 7");
+    public static function chooseBlog(string $blogName)
+    {
+        $stmt = self::prepare("
+SELECT name AS blogName 
+FROM blog 
+INNER JOIN user_blog ON blog.id = user_blog.blog_id 
+INNER JOIN user ON user_blog.user_id = user.id 
+WHERE user_id = ? 
+AND authority = 7");
         $stmt->bind_param("s", $blogName);
         $stmt->execute();
         $result = $stmt->get_result();
+        $stmt->close();
         $returnValue = [];
-            while($row = $result->fetch_object()>=1)
-        {
+
+        while ($row = $result->fetch_object() >= 1) {
             $returnValue[] = $row;
         }
         return $returnValue;
-
+    }
 }

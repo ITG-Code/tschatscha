@@ -8,8 +8,11 @@ Skapa en post
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/css/bootstrap-markdown.min.css">
-
-
+<div id="errors">
+<?php foreach($data->errors as $value){
+	echo $value;
+} ?>
+</div>
 <form action="/<?php echo $data->blogname; ?>/sendPost" method="POST">
 	<div class="registerForm">
 		<table class="form">
@@ -26,7 +29,7 @@ Skapa en post
 					<label for="Url">Url-title: </label>
 				</td>
 				<td>
-					<input type="text" name="Url" placeholder="Url-title" id="Url" 
+					<input type="text" name="Url" placeholder="Url-title" id="Url"
 					required>
 				</td>
 			</tr>
@@ -67,6 +70,6 @@ Skapa en post
 				</td>
 			</tr>
 		</table>
-		<input type="submit" name="submit" value="Register">	
+		<input type="submit" name="submit" value="Register">
 	</div>
 </form>
