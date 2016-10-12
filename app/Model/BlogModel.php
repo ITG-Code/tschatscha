@@ -96,24 +96,36 @@ ORDER BY name ASC
         return $row;
     }
 
-    public static function chooseBlog(string $blogName)
-    {
-        $stmt = self::prepare("
-SELECT name AS blogName 
-FROM blog 
-INNER JOIN user_blog ON blog.id = user_blog.blog_id 
-INNER JOIN user ON user_blog.user_id = user.id 
-WHERE user_id = ? 
-AND authority = 7");
-        $stmt->bind_param("s", $blogName);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        $returnValue = [];
+    public static function setAuthority(int $authorityLvl){
+        $stmt = self::prepare("INSERT INTO user_blog");
 
-        while ($row = $result->fetch_object() >= 1) {
-            $returnValue[] = $row;
-        }
-        return $returnValue;
+
+
+
     }
+
+
+
+
+//Tydligen onödig funktion
+//     public static function chooseBlog(string $blogName)
+//     {
+//         $stmt = self::prepare("
+// SELECT name AS blogName 
+// FROM blog 
+// INNER JOIN user_blog ON blog.id = user_blog.blog_id 
+// INNER JOIN user ON user_blog.user_id = user.id 
+// WHERE user_id = ? 
+// AND authority = 7");
+//         $stmt->bind_param("s", $blogName);
+//         $stmt->execute();
+//         $result = $stmt->get_result();
+//         $stmt->close();
+//         $returnValue = [];
+
+//         while ($row = $result->fetch_object() >= 1) {
+//             $returnValue[] = $row;
+//         }
+//         return $returnValue;
+//     }
 }
