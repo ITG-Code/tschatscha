@@ -7,10 +7,6 @@ class PostModel extends Model
     {
         parent::__construct();
     }
-    public static function getByName(string $name, int $blogid)
-    {
-        parent::__construct();
-    }
     public static function getByName()
     {
         $stmt = self::prepare('SELECT * FROM post LEFT JOIN blog ON post.blog_id = blog.id WHERE post.blog_id = 2');
@@ -34,16 +30,28 @@ class PostModel extends Model
     {
         $stmt = self::prepare("INSERT INTO post(blog_id, history_id, title, url_title, content, anonymous_allowance, visibility, publishing_date, created_at, changed_at, writer) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
         $stmt->bind_param('iisssiisssi', $blog_id, $history_id, $title, $url, $content, $anon, $auth, $publishing_date, $time, $time, $user_id);
+        $stmt->execute();
     }
 
-    public static function getHistoryId()
+    public static function getHistoryId($url)
     {
-        $stmt = self::prepare("SELECT MAX(history_id) AS maxId FROM post");
+        $stmt = self::prepare("SELECT MAX(history_id) AS maxId FROM post WHERE url_title != ?");
+        $stmt->bind_param('s',$url);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
         $row = $result->fetch_object()->maxId;
-        return $row;
+        return $row+1;
+    }
+
+    public function toStdClass(): stdClass
+    {
+        // TODO: Implement toStdClass() method.
+        $returnValue = [
+
+        ];
+        $returnValue = (object)$returnValue;
+        return $returnValue;
     }
 }
 
