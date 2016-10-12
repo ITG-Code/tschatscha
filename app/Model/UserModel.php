@@ -319,7 +319,6 @@ WHERE id = ?
         {
             $returnValue[] = $row;
         }
-         
             return $returnValue;
     }
 }
