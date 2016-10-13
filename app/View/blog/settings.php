@@ -10,13 +10,10 @@ Choose blog:
     <input type="radio" name="authority"/></br>
     <input type="submit" value="Confirm"/>
 
-</form>
-
-<form method="post" action="/blog/settings">
     <label>Sök efter alias</label>
     <input type="text" name="userQuery"/>
     <input type="submit" value="Search"/>
-</form>
+
 <div class="searchResult">
     <table align="left" cellspacing="5" cellpadding="8">
         <tr>
@@ -25,7 +22,7 @@ Choose blog:
             <td align="left"><b>Efternamn</b></td>
             <td align="left"><b>Email</b></td>
         </tr>
-        <form action='' method='post'>
+        
             <?php foreach ($data->usersearch as $value) { ?>
                 <tr>
                     <td align="left">
@@ -42,6 +39,7 @@ Choose blog:
                     </td>
                 </tr>
             <?php } ?>
-        </form>
-    </table>
-</div>
+       
+        </table>
+    </div>
+</form>
