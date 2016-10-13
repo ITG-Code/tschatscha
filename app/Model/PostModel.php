@@ -59,7 +59,21 @@ class PostModel extends Model
         }
         return $row;
     }
-
+    public stati function checkURL(string $url)
+    {
+      $stmt = self::prepare("SELECT authority FROM user_blog WHERE user_id = ? AND blog_id = ?");
+      $stmt->bind_param('ii',$user_id,$blog_id);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $stmt->close();
+      if($result->num_rows > 0){
+      $row = $result->fetch_object()->authority;
+      }
+      else{
+         $row = 0;
+      }
+      return $row;
+    }
     public function toStdClass(): stdClass
     {
         // TODO: Implement toStdClass() method.
