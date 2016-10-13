@@ -97,10 +97,11 @@ ORDER BY name ASC
     }
 
 
-    public static function setAuthority(int $user_id, int $blog_id, int $authority){
-        $sql = "INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,45,?)";
-        $stmt = $this->prepare($sql);
-        $stmt->bind_param("ii", $user_id, $authority);
+    public static function setAuthority(int $user_id, string $blogName, int $authority){
+        $sql = "INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,?,?)";
+        $stmt = self::prepare($sql);
+        $blogID = self::getBlogId($blogName);
+        $stmt->bind_param("isi", $user_id, $blogID, $authority);
         $stmt->execute();
     }
 
