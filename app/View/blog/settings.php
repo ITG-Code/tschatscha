@@ -1,13 +1,12 @@
 Give other users authority
-Choose blog:
 
 <form method="post" action="/blog/settings">
     <label> Co-writer</label>
-    <input type="radio" name="authority"/></br>
+    <input type="radio" name="authority" value="1"/></br>
     <label> Private view </label>
-    <input type="radio" name="authority"/></br>
+    <input type="radio" name="authority" value="2"/></br>
     <label> Moderate </label>
-    <input type="radio" name="authority"/></br>
+    <input type="radio" name="authority" value="3"/></br>
     <input type="submit" value="Confirm"/>
 
     <label>Sök efter alias</label>
