@@ -103,7 +103,6 @@ ORDER BY name ASC
 
 
     }
-<<<<<<< HEAD
 
 
 
@@ -129,7 +128,6 @@ ORDER BY name ASC
 //         }
 //         return $returnValue;
 //     }
-=======
     public function toStdClass(): stdClass
     {
         // TODO: Implement toStdClass() method.
@@ -139,5 +137,4 @@ ORDER BY name ASC
         $returnValue = (object)$returnValue;
         return $returnValue;
     }
->>>>>>> origin/master
 }
