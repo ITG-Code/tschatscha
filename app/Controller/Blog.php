@@ -129,7 +129,7 @@ class Blog extends Controller
         //Tar högsta history_id och höjer det med 1.
         $history_id = $this->model('post')->getHistoryId($url);
         //kollar så att url är korrekt angiven.
-        $url =$this->fixURL($url,$blogname);
+        $url =$this->fixURL($url,$blogname,$blog_id);
 
         if (isset($_POST['Anon'])) {
             $anon = 1; //allow anon
@@ -144,11 +144,11 @@ class Blog extends Controller
     }
 
     //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
-    public function fixURL(string $url, string $blogname)
+    public function fixURL(string $url, string $blogname, int $blog_id)
     {
       $url = str_replace(' ', '-', $url);
-      $unique = $this->model('post')->checkURL($url);
-      if(!$unique){
+      $unique = $this->model('post')->checkURL($url,$blog_id);
+      if($unique == false){
         UserError::add(Lang::FORM_POST_URL_NOT_UNIQUE);
         Redirect::to('/'.$blogname.'/compose');
       }
