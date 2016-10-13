@@ -19,7 +19,7 @@ class Login extends Controller
             UserError::add(Lang::FORM_PASSWORD_SENT_NO);
         }
         if(empty($captcha)){
-            UserError::add('Captcha token'/* Add error for invalid capcha *//)
+            UserError::add('Captcha token'/* Add error for invalid capcha */);
         }
         if(UserError::exists()){
             Redirect::to('/login');
