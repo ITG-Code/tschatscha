@@ -27,7 +27,7 @@ class Blog extends Controller
           Redirect::to('/login');
         }
 
-       $search = [];
+        $search = [];
 
         if (isset($_POST['userQuery'])) {
             $userquery = $_POST['userQuery'];
@@ -36,29 +36,20 @@ class Blog extends Controller
 
         $authorityLevel = [];
         
-        if(isset($_POST['authority'])){
+        if(isset($_POST['authority']))
+        {
             $setAuthority = $_POST['authority'];
-
-            if(isset($_REQUEST[1]))
-            {
-              $authorityLevel = Authority::BLOG_CO_WRITER;
-            }
-            elseif(isset($_REQUEST[2]))
-            {
-              $authorityLevel = Authority::POST_PRIVATE_VIEW;
-            }
-            elseif(isset($_REQUEST[3]))
-            {
-              $authorityLevel = Authority::BLOG_MODERATE;
-            }
-
-            $authority = $this->model('Blog')->setAuthority($setAuthority);
-
+            $userId = $_POST['user_id'];
+            $authority = $this->model('Blog')->setAuthority($setAuthority, $this->blogName, $userId);
+            
+            // $blogname = $this->blogName;
+            // $blog_id = $this->model('blog')->getBlogId($blogname);      
         }
 
         $this->view('blog/settings',[
             'usersearch' => $search,
-           // 'authorityLvl' => $authority
+            'blogname' => $this->blogName,
+          //'authorityLvl' => $authority,
         ]);
 
     }
