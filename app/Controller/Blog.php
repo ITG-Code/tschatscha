@@ -130,7 +130,7 @@ class Blog extends Controller
     {
       $url = str_replace(' ', '-', $url);
       $unique = $this->model('post')->checkURL($url,$blog_id);
-      if(!$unique){
+      if($unique == false){
         UserError::add(Lang::FORM_POST_URL_NOT_UNIQUE);
         Redirect::to('/'.$blogname.'/compose');
       }

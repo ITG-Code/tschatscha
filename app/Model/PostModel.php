@@ -59,20 +59,20 @@ class PostModel extends Model
         }
         return $row;
     }
-    public stati function checkURL(string $url)
+    public static function checkURL(string $url, int $blog_id)
     {
-      $stmt = self::prepare("SELECT authority FROM user_blog WHERE user_id = ? AND blog_id = ?");
-      $stmt->bind_param('ii',$user_id,$blog_id);
+      $stmt = self::prepare("SELECT url_title FROM post WHERE blog_id = ? AND url_title = ?");
+      $stmt->bind_param('is',$blog_id,$url_title);
       $stmt->execute();
       $result = $stmt->get_result();
       $stmt->close();
       if($result->num_rows > 0){
-      $row = $result->fetch_object()->authority;
+        $unique = true;
       }
       else{
-         $row = 0;
+         $unique = false;
       }
-      return $row;
+      return $unique;
     }
     public function toStdClass(): stdClass
     {
