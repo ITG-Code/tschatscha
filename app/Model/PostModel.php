@@ -59,7 +59,7 @@ class PostModel extends Model
         }
         return $row;
     }
-    public stati function checkURL(string $url)
+    public static function checkURL(string $url)
     {
       $stmt = self::prepare("SELECT authority FROM user_blog WHERE user_id = ? AND blog_id = ?");
       $stmt->bind_param('ii',$user_id,$blog_id);
