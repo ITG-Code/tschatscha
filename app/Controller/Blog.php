@@ -27,22 +27,20 @@ class Blog extends Controller
           Redirect::to('/login');
         }
 
-       $search = "";
-       
+       $search = [];
 
-        if (isset($_POST['userQuery']) ? true : false) {
+        if (isset($_POST['userQuery'])) {
             $userquery = $_POST['userQuery'];
             $search = $this->userModel->searchForUser($userquery);
         }
-        if(isset($_POST['authority'])) ? true : false){
+        if(isset($_POST['authority'])){
             $setAuthority = $_POST['authority'];
             $authority = $this->model('Blog')->setAuthority($setAuthority);
         }
 
         $this->view('blog/settings',[
-            //'searchresult' => $this->model('Blog')->chooseBlog($user_id,$blogid,$name)
             'usersearch' => $search,
-            'authorityLvl' => $authority
+           // 'authorityLvl' => $authority
         ]);
 
     }
@@ -73,23 +71,6 @@ class Blog extends Controller
         Redirect::to('/dashboard');
     }
 
-<<<<<<< HEAD
-=======
-    public function setAuthority(int $blog_id)
-    {
-         if(!$this->userModel ->isLoggedIn())
-        {
-          Redirect::to('/login');
-        }
-        /*
-        $authority = (isset($_POST['authority'])) ? true : false;
-        'user' -> $this->userModel->get(Session::get('session_user'));
-        $blog_id = "SELECT id FROM blog WHERE user = ?";
-        echo $blog_id;
-        */
-
-    }
->>>>>>> origin/master
 
     public function compose(/*$args = []*/)
     {
@@ -144,12 +125,6 @@ class Blog extends Controller
         Redirect::to('/'.$blogname.'/') ;
     }
 
-<<<<<<< HEAD
-
-   
-
-=======
->>>>>>> origin/master
     //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
     public function fixURL(string $url, string $blogname)
     {
