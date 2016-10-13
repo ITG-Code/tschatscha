@@ -31,6 +31,9 @@ class PostModel extends Model
         $stmt = self::prepare("INSERT INTO post(blog_id, history_id, title, url_title, content, anonymous_allowance, visibility, publishing_date, created_at, changed_at, writer) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
         $stmt->bind_param('iisssiisssi', $blog_id, $history_id, $title, $url, $content, $anon, $auth, $publishing_date, $time, $time, $user_id);
         $stmt->execute();
+        $retval = $stmt->insert_id;
+        $stmt->close();
+        return $retval;
     }
 
     public static function getHistoryId($url)
