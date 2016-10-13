@@ -30,6 +30,9 @@ class PostModel extends Model
         $stmt = self::prepare("INSERT INTO post(blog_id, history_id, title, url_title, content, anonymous_allowance, visibility, publishing_date, writer) VALUES (?,?,?,?,?,?,?,?,?)");
         $stmt->bind_param('iisssiisi', $blog_id, $history_id, $title, $url, $content, $anon, $auth, $publishing_date, $user_id);
         $stmt->execute();
+        $retval = $stmt->insert_id;
+        $stmt->close();
+        return $retval;
     }
 
     /**
@@ -42,7 +45,6 @@ class PostModel extends Model
      */
     public function get($blog, int $limit = 0, int $offset = 0, string $search = '', $history = false):  array
     {
-        $blogColumn = '';
         $params = [''];
         if (is_numeric($blog) && $blog % 1 == 0) {
             $params[0].= 'i';
