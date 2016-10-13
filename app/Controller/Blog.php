@@ -36,6 +36,11 @@ class Blog extends Controller
         if(isset($_POST['authority'])){
             $setAuthority = $_POST['authority'];
             $authority = $this->model('Blog')->setAuthority($setAuthority);
+            
+            $authorityLvl1 = Authority::BLOG_MODERATE;
+            $authorityLvl2 = Authority::BLOG_CO_OWNER;
+            $authorityLvl3 = Authority::POST_PRIVATE_VIEW;
+       
         }
 
         $this->view('blog/settings',[

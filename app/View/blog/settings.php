@@ -8,11 +8,11 @@ Choose blog:
     <input type="radio" name="authority"/></br>
     <label> Moderate </label>
     <input type="radio" name="authority"/></br>
-    <input type="submit" value="Confirm"/>
+    <input type="submit" name="authority" value="Confirm"/>
 
     <label>Sök efter alias</label>
     <input type="text" name="userQuery"/>
-    <input type="submit" value="Search"/>
+    <input type="submit" name="authority" value="Search"/>
 
 <div class="searchResult">
     <table align="left" cellspacing="5" cellpadding="8">
