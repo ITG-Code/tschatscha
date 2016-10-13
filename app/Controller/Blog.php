@@ -35,15 +35,15 @@ class Blog extends Controller
         }
 
         $authorityLevel = [];
-        
+
         if(isset($_POST['authority']))
         {
             $setAuthority = $_POST['authority'];
             $userId = $_POST['user_id'];
             $authority = $this->model('Blog')->setAuthority($setAuthority, $this->blogName, $userId);
-            
+
             // $blogname = $this->blogName;
-            // $blog_id = $this->model('blog')->getBlogId($blogname);      
+            // $blog_id = $this->model('blog')->getBlogId($blogname);
         }
 
         $this->view('blog/settings',[
@@ -63,6 +63,7 @@ class Blog extends Controller
         }
         $blogname = (isset($_POST['blogname'])) ? $_POST['blogname'] : '';
         $urlname = (isset($_POST['urlname'])) ? $_POST['urlname'] : '';
+        $tags = (isset($_POST['tags'])) ? $_POST['tags'] : '';
         $nsfw = (isset($_POST['nsfw'])) ? true : false;
         $currentUser_id = $this->userModel->getLoggedInUserId();
 
@@ -76,8 +77,8 @@ class Blog extends Controller
             Redirect::to('/blog/createform');
         }
         $blogModel = $this->model('Blog');
-        $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
-        Redirect::to('/dashboard');
+        $blogModel->create($blogname, $urlname,$tags, $nsfw,$currentUser_id);
+        // Redirect::to('/dashboard');
     }
 
 
