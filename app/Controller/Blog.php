@@ -129,9 +129,14 @@ class Blog extends Controller
     public function fixURL(string $url, string $blogname)
     {
       $url = str_replace(' ', '-', $url);
+      $unique = $this->model('post')->checkURL($url);
+      if(!$unique){
+        UserError::add(Lang::FORM_POST_URL_NOT_UNIQUE);
+        Redirect::to('/'.$blogname.'/compose');
+      }
       if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url)){
         UserError::add(Lang::FORM_POST_URL_INVALID_CHARS);
-        Redirect::to('/'.$blogname.'/compose') ;
+        Redirect::to('/'.$blogname.'/compose');
       }
       return $url;
     }
