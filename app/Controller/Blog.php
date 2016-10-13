@@ -33,9 +33,27 @@ class Blog extends Controller
             $userquery = $_POST['userQuery'];
             $search = $this->userModel->searchForUser($userquery);
         }
+
+        $authorityLevel = [];
+        
         if(isset($_POST['authority'])){
             $setAuthority = $_POST['authority'];
+
+            if(isset($_REQUEST[1]))
+            {
+              $authorityLevel = Authority::BLOG_CO_WRITER;
+            }
+            elseif(isset($_REQUEST[2]))
+            {
+              $authorityLevel = Authority::POST_PRIVATE_VIEW;
+            }
+            elseif(isset($_REQUEST[3]))
+            {
+              $authorityLevel = Authority::BLOG_MODERATE;
+            }
+
             $authority = $this->model('Blog')->setAuthority($setAuthority);
+
         }
 
         $this->view('blog/settings',[
@@ -111,7 +129,7 @@ class Blog extends Controller
         //Tar högsta history_id och höjer det med 1.
         $history_id = $this->model('post')->getHistoryId($url);
         //kollar så att url är korrekt angiven.
-        $url =$this->fixURL($url,$blogname);
+        $url =$this->fixURL($url,$blogname,$blog_id);
 
         if (isset($_POST['Anon'])) {
             $anon = 1; //allow anon
@@ -126,12 +144,17 @@ class Blog extends Controller
     }
 
     //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
-    public function fixURL(string $url, string $blogname)
+    public function fixURL(string $url, string $blogname, int $blog_id)
     {
       $url = str_replace(' ', '-', $url);
+      $unique = $this->model('post')->checkURL($url,$blog_id);
+      if($unique == false){
+        UserError::add(Lang::FORM_POST_URL_NOT_UNIQUE);
+        Redirect::to('/'.$blogname.'/compose');
+      }
       if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url)){
         UserError::add(Lang::FORM_POST_URL_INVALID_CHARS);
-        Redirect::to('/'.$blogname.'/compose') ;
+        Redirect::to('/'.$blogname.'/compose');
       }
       return $url;
     }

@@ -1,22 +1,19 @@
 Give other users authority
-Choose blog:
 
 <form method="post" action="/blog/settings">
     <label> Co-writer</label>
-    <input type="radio" name="authority"/></br>
+    <input type="radio" name="authority" value="1"/></br>
     <label> Private view </label>
-    <input type="radio" name="authority"/></br>
+    <input type="radio" name="authority" value="2"/></br>
     <label> Moderate </label>
-    <input type="radio" name="authority"/></br>
-    <input type="submit" value="Confirm"/>
+    <input type="radio" name="authority" value="3"/></br>
 
-</form>
+    <input type="submit" name="authority" value="Confirm"/>
 
-<form method="post" action="/blog/settings">
     <label>Sök efter alias</label>
     <input type="text" name="userQuery"/>
     <input type="submit" value="Search"/>
-</form>
+
 <div class="searchResult">
     <table align="left" cellspacing="5" cellpadding="8">
         <tr>
@@ -25,7 +22,7 @@ Choose blog:
             <td align="left"><b>Efternamn</b></td>
             <td align="left"><b>Email</b></td>
         </tr>
-        <form action='' method='post'>
+        
             <?php foreach ($data->usersearch as $value) { ?>
                 <tr>
                     <td align="left">
@@ -42,6 +39,7 @@ Choose blog:
                     </td>
                 </tr>
             <?php } ?>
-        </form>
-    </table>
-</div>
+       
+        </table>
+    </div>
+</form>
