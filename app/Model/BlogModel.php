@@ -96,13 +96,13 @@ ORDER BY name ASC
         return $row;
     }
 
-    public static function setAuthority(int $user_id int $blog_id int $authority){
-        $stmt = self::prepare("INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,?,?)");
-        $stmt->bind_param("iii", $user_id, $blog_id, $authority);
-        $stmt->execute();
-        
-
-    }
+#    public static function setAuthority(int $user_id int $blog_id int $authority){
+#        $stmt = self::prepare("INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,?,?)");
+#        $stmt->bind_param("iii", $user_id, $blog_id, $authority);
+#        $stmt->execute();
+#        
+#
+#    }
 
 
 

@@ -67,10 +67,10 @@ class PostModel extends Model
       $result = $stmt->get_result();
       $stmt->close();
       if($result->num_rows > 0){
-        $unique = true;
+        $unique = false;
       }
       else{
-         $unique = false;
+         $unique = true;
       }
       return $unique;
     }
