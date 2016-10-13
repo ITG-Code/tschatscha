@@ -117,6 +117,9 @@ class Blog extends Controller
         $url = $_POST['Url'];
         $publishing_date = $_POST['Date'];
         $content = $_POST['Content'];
+        $tags = $_POST['Tags'];
+
+
 
         //kollar så att datumet är korrekt angivet.
         $publishing_date = $this->fixDate($publishing_date);
@@ -129,7 +132,8 @@ class Blog extends Controller
         //Tar högsta history_id och höjer det med 1.
         $history_id = $this->model('post')->getHistoryId($url);
         //kollar så att url är korrekt angiven.
-        $url =$this->fixURL($url,$blogname,$blog_id);
+        $url =$this->fixURL($url,$blogname,$blog_id, $blogname);
+
 
         if (isset($_POST['Anon'])) {
             $anon = 1; //allow anon
@@ -139,7 +143,10 @@ class Blog extends Controller
         $auth = $_POST['auth'];
         $time = date('Y-m-d H:i');
 
-        $this->model('post')->createPost($title, $url, $user_id, $blog_id, $history_id, $content, $publishing_date, $anon, $auth, $time);
+        $id = $this->model('post')->createPost($title, $url, $user_id, $blog_id, $history_id, $content, $publishing_date, $anon, $auth, $time);
+        //fixar taggar
+        $this->model('tag')->checkTag($tags, true, $id, $blogname);
+
         Redirect::to('/'.$blogname.'/') ;
     }
 
