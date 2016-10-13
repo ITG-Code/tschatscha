@@ -96,13 +96,15 @@ ORDER BY name ASC
         return $row;
     }
 
-    public static function setAuthority(int $authorityLvl){
-        $stmt = self::prepare("INSERT INTO user_blog");
 
-
-
-
+    public static function setAuthority(int $user_id, int $blog_id, int $authority){
+        $sql = "INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,45,?)";
+        $stmt = $this->prepare($sql);
+        $stmt->bind_param("ii", $user_id, $authority);
+        $stmt->execute();
     }
+
+
 
 
 

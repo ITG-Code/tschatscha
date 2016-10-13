@@ -114,10 +114,29 @@ class PostModel extends Model
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
+        if($result->num_rows > 0){
         $row = $result->fetch_object()->authority;
+        }
+        else{
+           $row = 0;
+        }
         return $row;
     }
-
+    public static function checkURL(string $url, int $blog_id)
+    {
+      $stmt = self::prepare("SELECT url_title FROM post WHERE blog_id = ? AND url_title = ?");
+      $stmt->bind_param('is',$blog_id,$url_title);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $stmt->close();
+      if($result->num_rows > 0){
+        $unique = false;
+      }
+      else{
+         $unique = true;
+      }
+      return $unique;
+    }
     public function toStdClass(): stdClass
     {
         // TODO: Implement toStdClass() method.
