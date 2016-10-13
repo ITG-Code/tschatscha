@@ -51,7 +51,12 @@ class PostModel extends Model
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
+        if($result->num_rows > 0){
         $row = $result->fetch_object()->authority;
+        }
+        else{
+           $row = 0;
+        }
         return $row;
     }
 
