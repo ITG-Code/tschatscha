@@ -1,6 +1,6 @@
 Give other users authority
 
-<form method="post" action="/blog/settings">
+<form method="post" action="/<?= $data->blogname ?>/settings">
     <label> Co-writer</label>
     <input type="radio" name="authority" value="1"/></br>
     <label> Private view </label>
@@ -8,7 +8,7 @@ Give other users authority
     <label> Moderate </label>
     <input type="radio" name="authority" value="3"/></br>
 
-    <input type="submit" name="authority" value="Confirm"/>
+    <input type="submit" value="Confirm"/>
 
     <label>Sök efter alias</label>
     <input type="text" name="userQuery"/>
@@ -26,7 +26,7 @@ Give other users authority
             <?php foreach ($data->usersearch as $value) { ?>
                 <tr>
                     <td align="left">
-                        <input type="checkbox" value="<?=$value->id?>"> <?= $value->first_name ?>
+                        <input type="checkbox" name="user_id" value="<?=$value->id?>"> <?= $value->first_name ?>
                     </td>
                     <td align="left">
                         <?= $value->alias ?>
