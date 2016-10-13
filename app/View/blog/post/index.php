@@ -37,7 +37,7 @@ Skapa en post
 					<label for="Date">Publishing-day: </label>
 				</td>
 				<td>
-					<input type="datetime-local" name="Date"  value="<?php echo date('Y-m-d H:i'); ?>" placeholder="yyyy-mm-dd hh:mm" min="<?php echo date('Y-m-d H:i'); ?>" id="Date" required>
+					<input type="datetime-local" name="Date"  value="<?php echo date('Y-m-d H:i'); ?>" placeholder="yyyy-mm-dd hh:mm" min="<?php echo date('Y-m-d H:i'); ?>" id="Date" >
 				</td>
 			</tr>
 			<tr>
@@ -45,7 +45,7 @@ Skapa en post
 					<label for="Anon">Allow anonymous viewers: </label>
 				</td>
 				<td>
-					<input type="checkbox" name="Anon" id="Anon">
+					<input type="checkbox" name="Anon" id="Anon" checked>
 				</td>
 			</tr>
 			<tr>
@@ -58,6 +58,14 @@ Skapa en post
 						<option value="1">Unlisted</option>
 						<option value="3">Private</option>
 					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="Tags">Tags: </label>
+				</td>
+				<td>
+					<input type="text" name="Tags" placeholder="Ex. Party Holiday" id="Tags" required>
 				</td>
 			</tr>
 		</table>
