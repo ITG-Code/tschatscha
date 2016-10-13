@@ -12,6 +12,8 @@
 
     </head>
     <body>
-        <?php require $view; ?>
+        <div class="container">
+            <?php require $view; ?>
+        </div>
     </body>
 </html>
