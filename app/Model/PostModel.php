@@ -8,22 +8,6 @@ class PostModel extends Model
         parent::__construct();
     }
 
-    public static function getByName()
-    {
-        $stmt = self::prepare('SELECT * FROM post LEFT JOIN blog ON post.blog_id = blog.id WHERE post.blog_id = 2 AND post.history_id = 3 ORDER BY post.id DESC LIMIT 1 ');
-        $stmt->execute();
-        $posts = $stmt->get_result();
-        if (!$posts->num_rows >= 1) {
-            return false;
-        }
-        $returnValue = [];
-        while ($row = $posts->fetch_object()) {
-            $returnValue[] = $row;
-        }
-        $stmt->close();
-        return $returnValue;
-
-    }
 
     public static function createPost($title, $url, $user_id, $blog_id, $history_id, $content, $publishing_date, $anon, $auth, $time)
     {
@@ -37,13 +21,15 @@ class PostModel extends Model
 
     /**
      * @param $blog | if it's an int in string or int form it'll search for blog_id, else url_name
+     * @param string $postName
      * @param int $limit | The max amount of posts wanted, multiple posts with same id counts as 1
      * @param int $offset |
      * @param string $search | if there's anything to search for in the title or content
      * @param bool $history | true if post history is wanted, false if not
-     * @return stdClass array
+     * @return array|stdClass array
+     * @Author Brolaugh
      */
-    public function get($blog, int $limit = 0, int $offset = 0, string $search = '', $history = false):  array
+    public function get($blog, string $postName = 'bananer', int $limit = 0, int $offset = 0, string $search = '', $history = false):  array
     {
         $params = [''];
         if (is_numeric($blog) && $blog % 1 == 0) {
@@ -68,10 +54,16 @@ class PostModel extends Model
         $searchQuery = '';
         if(!empty($search)){
             $search = "%$search%";
-            $searchQuery = "AND (title LIKE ? OR content LIKE ?)";
+            $searchQuery = "AND (title LIKE ? OR content LIKE ?) ";
             $params[0].='ss';
             $params[] = $search;
             $params[] = $search;
+        }
+        $postNameQuery = '';
+        if(!empty($postName)){
+            $postNameQuery =  'AND url_title = ? ';
+            $params[0].= 's';
+            $params[] = $postName;
         }
         $params[0].='ii';
         $params[] = $limit;
@@ -83,6 +75,7 @@ class PostModel extends Model
             WHERE $blogColumn = ? "
             . $history  .
             $searchQuery .
+            $postNameQuery .
             "ORDER BY history_id, publishing_date, changed_at 
             LIMIT ? 
             OFFSET ?");
