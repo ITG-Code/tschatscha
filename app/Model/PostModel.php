@@ -29,7 +29,7 @@ class PostModel extends Model
      * @return array|stdClass array
      * @Author Brolaugh
      */
-    public function get($blog, string $postName = 'bananer', int $limit = 0, int $offset = 0, string $search = '', $history = false):  array
+    public function get($blog, string $postName = '', int $limit = 0, int $offset = 0, string $search = '', $history = false):  array
     {
         $params = [''];
         if (is_numeric($blog) && $blog % 1 == 0) {
