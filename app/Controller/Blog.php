@@ -14,8 +14,8 @@ class Blog extends Controller
     {
         $this->view('blog/index',[
 
-            'postlist' => $this->model('Post')->getByName(),
-
+            //'postlist' => $this->model('Post')->getByName(),
+              'postlist' => $this->model('Post')->get($this->blogName),
 
 
         ]);
