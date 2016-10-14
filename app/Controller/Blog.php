@@ -12,13 +12,31 @@ class Blog extends Controller
 
     public function index($args = [])
     {
-        $this->view('blog/index',[
+        if(isset($args[0]) && $args[0] ==  'post'){
+            unset($args[0]);
+            $args = array_values($args);
+            $this->post($args);
+        }else{
+            $this->view('blog/index',[
+                'postlist' => $this->model('Post')->get($this->blogName),
+            ]);
+        }
 
-            'postlist' => $this->model('Post')->getByName(),
+    }
+    public function post($args = [])
+    {
+        if (isset($args[0]) && $args[0] == "compose") {
+            unset($args[0]);
+            $args = $args ? array_values($args) : [];
+            $this->compose($args);
+        } elseif(isset($args[0])) {
 
-
-
-        ]);
+            $this->view('blog/post/index', [
+                'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
+            ]);
+        }else{
+            $this->index();
+        }
     }
      public function settings($args = [])
     {
@@ -35,7 +53,6 @@ class Blog extends Controller
             $search = $this->userModel->searchForUser($userquery, $currentUser);
         }
 
-        
         if(isset($_POST['authority']))
         {
             (int) $setAuthority = $_POST['authority'];
@@ -43,8 +60,8 @@ class Blog extends Controller
            
             $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority); 
 
-            var_dump($setAuthority);    
-        } 
+            var_dump($setAuthority);
+        }
 
         $this->view('blog/settings',[
             'usersearch' => $search,
@@ -63,20 +80,24 @@ class Blog extends Controller
         $blogname = (isset($_POST['blogname'])) ? $_POST['blogname'] : '';
         $urlname = (isset($_POST['urlname'])) ? $_POST['urlname'] : '';
         $nsfw = (isset($_POST['nsfw'])) ? true : false;
+        $tags = (isset($_POST['tags'])) ? $_POST['tags'] : '';
         $currentUser_id = $this->userModel->getLoggedInUserId();
 
         if (!strlen($blogname) >= 4) {
-            UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
+          UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
         if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) && strlen($urlname <= 3)) {
-            UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+          UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
         }
         if (UserError::exists()) {
-            Redirect::to('/blog/createform');
+          Redirect::to('/blog/createform');
         }
         $blogModel = $this->model('Blog');
-        $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
-        Redirect::to('/dashboard');
+        $id = $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
+        if(strlen('tags') != 0){
+          $this->model('tag')->checkTag($tags,false,$id,$blogname);
+        }
+        Redirect::to('/'.$blogname);
     }
 
 
@@ -96,7 +117,7 @@ class Blog extends Controller
       }
 //        $args[0] == 'send';
     // $blogname  = $this->blogName;
-      $this->view('blog/post/index', [
+      $this->view('blog/post/compose', [
           'blogname' => $this->blogName
       ]);
     }

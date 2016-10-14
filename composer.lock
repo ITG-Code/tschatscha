@@ -1196,12 +1196,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "01ee3606e57746e496fd27ef5a83ce87128b547d"
+                "reference": "11d5cac9b8a778baead1712692dd0ad5633f43d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/01ee3606e57746e496fd27ef5a83ce87128b547d",
-                "reference": "01ee3606e57746e496fd27ef5a83ce87128b547d",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/11d5cac9b8a778baead1712692dd0ad5633f43d5",
+                "reference": "11d5cac9b8a778baead1712692dd0ad5633f43d5",
                 "shasum": ""
             },
             "require": {
@@ -1266,7 +1266,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-10-04 01:00:27"
+            "time": "2016-10-12 05:38:45"
         },
         {
             "name": "symfony/yaml",
@@ -1329,12 +1329,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "8444f2ac9f86342665cdae47b6d3ea6e07794456"
+                "reference": "1a6cc8d09dd675802ca93de290ac483c10ef95e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/8444f2ac9f86342665cdae47b6d3ea6e07794456",
-                "reference": "8444f2ac9f86342665cdae47b6d3ea6e07794456",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/1a6cc8d09dd675802ca93de290ac483c10ef95e0",
+                "reference": "1a6cc8d09dd675802ca93de290ac483c10ef95e0",
                 "shasum": ""
             },
             "require": {
@@ -1371,7 +1371,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2016-08-18 09:30:53"
+            "time": "2016-10-10 07:45:47"
         }
     ],
     "aliases": [],
