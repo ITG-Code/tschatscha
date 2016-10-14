@@ -339,6 +339,36 @@ WHERE id = ?
         }
             return $returnValue;
     }
+
+    public function checkBlogOwnership(int $currentUser){
+
+        $stmt = self::prepare("SELECT user_id FROM user_blog WHERE authority = 7 AND user_id = ?");
+        $stmt->bind_param('i', $currentUser);
+        $stmt->execute();
+        var_dump($currentUser);
+        }
+
+
+    public function getYourBlogs(int $currentUser)
+    {
+        $stmt = self::prepare("SELECT blog.*, user_blog.user_id, user_blog.blog_id, user_blog.authority, user_blog.id FROM blog
+LEFT JOIN
+user_blog
+ON
+blog.id = user_blog.blog_id
+WHERE user_blog.user_id = ? AND user_blog.authority = 7");
+        $stmt->bind_param('i', $currentUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $returnValue = [];
+
+        while($row = $result->fetch_object())
+        {
+            $returnValue[] = $row;
+        }
+
+        return $returnValue;
+    }
     public function toStdClass(): stdClass
     {
         $returnValue = [
