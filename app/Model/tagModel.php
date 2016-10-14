@@ -45,14 +45,12 @@ class TagModel extends Model
     }
     public function linkTagPost($id, $tag_id)
     {
-        //if (self::uniqueLink(true, $id, $tag_id)) {
-        echo "hello";
+        if (self::uniqueLink(true, $id, $tag_id)) {
             $stmt = self::prepare("INSERT INTO  post_tag (post_id , tag_id ) VALUES (?,?)");
             $stmt->bind_param('ii',$id, $tag_id);
             $stmt->execute();
             $stmt->close();
-        //}
-
+        }
     }
 
     public function linkTagBlog($id, $tag_id)
@@ -63,8 +61,24 @@ class TagModel extends Model
             $stmt->execute();
             $stmt->close();
         }
-
     }
+
+    public function deleteTagPost($id, $tag_id)
+    {
+            $stmt = self::prepare("DELETE FROM post_tag WHERE post_id = ? AND tag_id = ?");
+            $stmt->bind_param('ii',$id, $tag_id);
+            $stmt->execute();
+            $stmt->close();
+    }
+
+    public function deleteTagBlog($id, $tag_id)
+    {
+            $stmt = self::prepare("DELETE FROM blog_tag WHERE blog_id = ? AND tag_id = ?");
+            $stmt->bind_param('ii',$id, $tag_id);
+            $stmt->execute();
+            $stmt->close();
+    }
+
 
     public function uniqueLink($post, $id, $tag_id)
     {
@@ -78,10 +92,8 @@ class TagModel extends Model
         $result = $stmt->get_result();
         $stmt->close();
         if ($result->num_rows > 0) {
-            echo $result->num_rows;
             return false;
         } else {
-            echo $result->num_rows;
             return true;
         }
     }
@@ -101,4 +113,26 @@ class TagModel extends Model
             self::linkTagBlog($id,$tag_id);
         }
     }
-}
+
+    public function generateTags(int $blog_id)
+    {
+        $string = "";
+        $stmt = self::prepare("SELECT blog_tag.tag_id, tag.name FROM blog_tag INNER JOIN tag ON blog_tag.tag_id = tag.id WHERE blog_tag.blog_id = ?");
+        $stmt->bind_param('i', $blog_id);
+        $stmt->execute();
+        $result= $stmt->get_result();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_object()) {
+                $string .= '<tr>
+                                <td>
+                                    <label for="tag">'.$row->name.' </label>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="tag" id="tag" value="'.$row->tag_id.'">
+                                </td>
+                            </tr>';
+            }
+        }
+        echo $string;
+    }
+}       

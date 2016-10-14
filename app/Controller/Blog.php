@@ -171,7 +171,7 @@ class Blog extends Controller
         //fixar taggar
         $this->model('tag')->checkTag($tags, true, $id, $blogname);
 
-        //Redirect::to('/'.$blogname.'/') ;
+        Redirect::to('/'.$blogname.'/') ;
     }
 
     //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
