@@ -79,7 +79,6 @@ class Blog extends Controller
 
         $this->view('blog/settings',[
             'usersearch' => $search,
-            'blogname' => $this->blogName,
             'user' => $this->userModel->get(Session::get('session_user')),
         ]);
 
@@ -133,7 +132,6 @@ class Blog extends Controller
 //        $args[0] == 'send';
     // $blogname  = $this->blogName;
       $this->view('blog/post/compose', [
-          'blogname' => $this->blogName
       ]);
     }
     public function sendPost()
@@ -210,5 +208,9 @@ class Blog extends Controller
              return date('Y-m-d H:i');
         }
 
+    }
+    protected function view(string $view, array $data = []){
+        $data['blogname'] = $this->blogName;
+        parent::view($view, $data);
     }
 }
