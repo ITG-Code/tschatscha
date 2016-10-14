@@ -30,7 +30,7 @@ class Blog extends Controller
             $args = $args ? array_values($args) : [];
             $this->compose($args);
         } elseif(isset($args[0])) {
-        
+
             $this->view('blog/post/index', [
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
             ]);
@@ -53,15 +53,15 @@ class Blog extends Controller
         }
 
 
-        
+
         if(isset($_POST['authority']))
         {
             (int) $setAuthority = $_POST['authority'];
             $userId = $_POST['user_id'];
-            $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority); 
+            $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority);
 
-            var_dump($setAuthority);    
-        } 
+            var_dump($setAuthority);
+        }
 
         $this->view('blog/settings',[
             'usersearch' => $search,
@@ -92,7 +92,8 @@ class Blog extends Controller
             Redirect::to('/blog/createform');
         }
         $blogModel = $this->model('Blog');
-        $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
+        $id = $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
+        $this->model('tag')->checkTag($tags,false,$id,$blogname);
         Redirect::to('/dashboard');
     }
 
