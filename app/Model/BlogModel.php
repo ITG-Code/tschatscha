@@ -24,19 +24,13 @@ class BlogModel extends Model
         // echo "</br> User id:";
         // echo $currentUser_id;
         // $length = strlen($tags);
-
-        if(strlen($tags) > 0)
-        {
-          // echo $length;
-          //TODO Fix kalla på grejs fixa inläggen.
-          $this->model('tag')->checkTag($tags, false, $id, $blogname);
-        }
         if ($nsfw) {
           $sqlnsfw = "INSERT INTO blog_tag(blog_id,tag_id) VALUES (?,1)";
           $stmtnsfw = $this->prepare($sqlnsfw);
           $stmtnsfw->bind_param("i", $id);
           $stmtnsfw->execute();
         }
+        return $id;
     }
 
     /**
