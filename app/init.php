@@ -39,6 +39,7 @@ require_once 'app/Helper/Redirect.php';
 require_once 'app/Helper/UserError.php';
 require_once 'app/Helper/URLOption.php';
 require_once 'app/Helper/Mailer.php';
+require_once 'app/Helper/Authority.php';
 
 require_once 'app/Core/Model.php';
 require_once 'app/Lang/Lang.php';

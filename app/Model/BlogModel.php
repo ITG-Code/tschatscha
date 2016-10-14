@@ -98,6 +98,10 @@ ORDER BY name ASC
 
 
     public static function setAuthority(int $user_id, string $blogName, int $authority){
+        // var_dump($user_id);
+        // var_dump($blogName);
+        // var_dump($authority);
+
         $sql = "INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,?,?)";
         $stmt = self::prepare($sql);
         $blogID = self::getBlogId($blogName);

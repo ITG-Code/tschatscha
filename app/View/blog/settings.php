@@ -2,17 +2,17 @@ Give other users authority
 
 <form method="post" action="/<?= $data->blogname ?>/settings">
     <label> Co-writer</label>
-    <input type="radio" name="authority" value="1"/></br>
+    <input type="radio" name="authority" value="<?= Authority::BLOG_CO_WRITER ?>"/></br>
     <label> Private view </label>
-    <input type="radio" name="authority" value="2"/></br>
+    <input type="radio" name="authority" value="<?= Authority::POST_PRIVATE_VIEW ?>"/></br>
     <label> Moderate </label>
-    <input type="radio" name="authority" value="3"/></br>
-
+    <input type="radio" name="authority" value="<?= Authority::BLOG_MODERATE ?>"/></br>
+ 
     <input type="submit" value="Confirm"/>
 
     <label>Sök efter alias</label>
     <input type="text" name="userQuery"/>
-    <input type="submit" value="Search"/>
+    <input type="submit" value="Search"/>   
 
 <div class="searchResult">
     <table align="left" cellspacing="5" cellpadding="8">
@@ -43,3 +43,5 @@ Give other users authority
         </table>
     </div>
 </form>
+
+
