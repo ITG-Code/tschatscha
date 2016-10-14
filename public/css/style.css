@@ -3,3 +3,13 @@
 	margin:auto;
 	
 }
+
+.myBlogs
+{
+	text-align: left;
+	padding:5px;
+	width:400px;
+}
+.myBlogsSpace{
+	padding-left:5px;
+}
