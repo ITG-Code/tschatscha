@@ -112,7 +112,7 @@ ORDER BY name ASC
     }
 
 
-    public static function chooseBlog(string $blogNamename)
+    public static function chooseBlog(string $blogName)
     {
         $stmt = self::prepare("
 SELECT url_name
