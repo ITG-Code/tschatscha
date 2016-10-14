@@ -80,6 +80,7 @@ class Blog extends Controller
         $blogname = (isset($_POST['blogname'])) ? $_POST['blogname'] : '';
         $urlname = (isset($_POST['urlname'])) ? $_POST['urlname'] : '';
         $nsfw = (isset($_POST['nsfw'])) ? true : false;
+        $tags = (isset($_POST['tags'])) ? $_POST['tags'] : '';
         $currentUser_id = $this->userModel->getLoggedInUserId();
 
         if (!strlen($blogname) >= 4) {
