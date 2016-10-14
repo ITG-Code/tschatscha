@@ -38,16 +38,28 @@ class Blog extends Controller
             $this->index();
         }
     }
+
+
      public function settings($args = [])
     {
-     if(!$this->userModel ->isLoggedIn())
+    
+        if(!$this->userModel ->isLoggedIn())
        {
           Redirect::to('/login');
         }
 
         $search = [];
         $currentUser = $this->userModel->getLoggedInUserId();
+        $owner = $this->userModel->checkBlogOwnership($currentUser);
+
+        if(isset($owner)){
+            echo"Hallojsan";
+
+
+        }        
+
         var_dump($currentUser);
+
         if (isset($_POST['userQuery'])) {
             $userquery = $_POST['userQuery'];
             $search = $this->userModel->searchForUser($userquery, $currentUser);
@@ -66,6 +78,7 @@ class Blog extends Controller
         $this->view('blog/settings',[
             'usersearch' => $search,
             'blogname' => $this->blogName,
+            'user' => $this->userModel->get(Session::get('session_user')),
         ]);
 
     }

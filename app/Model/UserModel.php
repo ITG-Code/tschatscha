@@ -339,6 +339,15 @@ WHERE id = ?
         }
             return $returnValue;
     }
+
+    public function checkBlogOwnership(int $currentUser){
+
+        $stmt = self::prepare("SELECT user_id FROM user_blog WHERE authority = 7 AND user_id = ?");
+        $stmt->bind_param('i', $currentUser);
+        $stmt->execute();
+        var_dump($currentUser);
+        }
+
     public function toStdClass(): stdClass
     {
         $returnValue = [
