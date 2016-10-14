@@ -65,7 +65,6 @@ class Blog extends Controller
 
         $this->view('blog/settings',[
             'usersearch' => $search,
-            'blogname' => $this->blogName,
         ]);
 
     }
@@ -101,24 +100,22 @@ class Blog extends Controller
     }
 
 
-    public function compose(/*$args = []*/)
+    public function compose($args = [])
     {
       if(!$this->userModel->isLoggedIn())
       {
         Redirect::to('/login');
       }
       $user_id = $this->userModel->getLoggedInUserId();
-      $blogname = $this->blogName;
-      $blog_id = $this->model('blog')->getBlogId($blogname);
+      $blog_id = $this->model('blog')->getBlogId($this->blogName);
 
       $auth = $this->model('post')->checkAuth($blog_id, $user_id);
       if ($auth < 6) {
-          Redirect::to('/'.$blogname);
+          Redirect::to('/login/');
       }
+
 //        $args[0] == 'send';
-    // $blogname  = $this->blogName;
       $this->view('blog/post/compose', [
-          'blogname' => $this->blogName
       ]);
     }
     public function sendPost()
@@ -136,14 +133,12 @@ class Blog extends Controller
         $publishing_date = $this->fixDate($publishing_date);
         //kollar inloggade användarens id.
         $user_id = $this->userModel->getLoggedInUserId();
-        //kollar bloggens namn.
-        $blogname = $this->blogName;
         //kollar bloggens id.
-        $blog_id = $this->model('blog')->getBlogId($blogname);
+        $blog_id = $this->model('blog')->getBlogId($this->blogName);
         //Tar högsta history_id och höjer det med 1.
         $history_id = $this->model('post')->getHistoryId($url);
         //kollar så att url är korrekt angiven.
-        $url =$this->fixURL($url,$blogname,$blog_id, $blogname);
+        $url =$this->fixURL($url,$this->blogName,$blog_id);
 
 
         if (isset($_POST['Anon'])) {
@@ -156,7 +151,7 @@ class Blog extends Controller
 
         $id = $this->model('post')->createPost($title, $url, $user_id, $blog_id, $history_id, $content, $publishing_date, $anon, $auth, $time);
         //fixar taggar
-        $this->model('tag')->checkTag($tags, true, $id, $blogname);
+        $this->model('tag')->checkTag($tags, true, $id, $this->blogName);
 
         //Redirect::to('/'.$blogname.'/') ;
     }
@@ -195,5 +190,9 @@ class Blog extends Controller
              return date('Y-m-d H:i');
         }
 
+    }
+    protected function view(string $view, array $data = []){
+        $data['blogname'] = $this->blogName;
+        parent::view($view, $data);
     }
 }
