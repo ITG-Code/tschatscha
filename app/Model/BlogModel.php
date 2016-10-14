@@ -8,27 +8,29 @@ class BlogModel extends Model
         parent::__construct();
     }
 
-    public function create(string $blogname, string $urlname, bool $nsfw, int $currentUser_id)
+    public function create(string $blogname, string $urlname,string $tags, bool $nsfw, int $currentUser_id)
     {
         $sqlblog = "INSERT INTO blog(name, url_name) VALUES(?,?)";
         $stmt = $this->prepare($sqlblog);
         $stmt->bind_param("ss", $blogname, $urlname);
         $stmt->execute();
-        $current_id = $stmt->insert_id;
+        $id = $stmt->insert_id;
         $sqluserblog = "INSERT INTO user_blog(user_id,blog_id,authority) VALUES(?,?,7)";
         $stmtuserblog = $this->prepare($sqluserblog);
-        $stmtuserblog->bind_param("ii", $currentUser_id, $current_id);
+        $stmtuserblog->bind_param("ii", $currentUser_id, $id);
         $stmtuserblog->execute();
         // echo '</br>';
-        // echo 'nsfw: ', $nsfw, 'blogg id=', $current_id;
+        // echo 'nsfw: ', $nsfw, 'blogg id=', $id;
         // echo "</br> User id:";
         // echo $currentUser_id;
+        // $length = strlen($tags);
         if ($nsfw) {
-            $sqlnsfw = "INSERT INTO blog_tag(blog_id,tag_id) VALUES (?,1)";
-            $stmtnsfw = $this->prepare($sqlnsfw);
-            $stmtnsfw->bind_param("i", $current_id);
-            $stmtnsfw->execute();
+          $sqlnsfw = "INSERT INTO blog_tag(blog_id,tag_id) VALUES (?,1)";
+          $stmtnsfw = $this->prepare($sqlnsfw);
+          $stmtnsfw->bind_param("i", $id);
+          $stmtnsfw->execute();
         }
+        return $id;
     }
 
     /**
@@ -68,10 +70,10 @@ INNER JOIN user ON user_blog.user_id = user.id
     public static function find(string $query) : array
     {
         $stmt = self::prepare("
-SELECT * FROM blog 
-WHERE name LIKE ? 
-OR url_name LIKE ? 
-ORDER BY name ASC 
+SELECT * FROM blog
+WHERE name LIKE ?
+OR url_name LIKE ?
+ORDER BY name ASC
 ");
         $offset = URLOption::$page * URLOption::$limit;
         $query = "%$query%";
@@ -109,11 +111,11 @@ ORDER BY name ASC
     public static function chooseBlog(string $blogNamename)
     {
         $stmt = self::prepare("
-SELECT url_name 
-FROM blog 
-INNER JOIN user_blog ON blog.id = user_blog.blog_id 
-INNER JOIN user ON user_blog.user_id = user.id 
-WHERE user_id = ? 
+SELECT url_name
+FROM blog
+INNER JOIN user_blog ON blog.id = user_blog.blog_id
+INNER JOIN user ON user_blog.user_id = user.id
+WHERE user_id = ?
 AND authority = 7");
         $stmt->bind_param("s", $blogName);
         $stmt->execute();

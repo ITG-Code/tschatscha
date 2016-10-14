@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 class TagModel extends Model
 {
@@ -7,7 +7,7 @@ class TagModel extends Model
     {
         parent::__construct();
     }
-    // param 2 -> true for post, false for blog 
+    // param 2 -> true for post, false for blog
     public function checkTag(string $tags,bool $post,int $id, string $blogName)
     {
         //TODO check tag and tags length lowertags
@@ -20,11 +20,13 @@ class TagModel extends Model
 
         for ($i = 0; $i < sizeof($tag); $i++) {
             if (sizeof($tag[$i]) > 30 ) {
+            $tag[$id] = str_replace(' ','', $tag[$i]);
+            if (sizeof($tag[$i]) > 30 || sizeof($tag[$i] == 0)) {
                 UserError::add(Lang::FORM_TAG_EXCEED_CHAR_LIMIT);
                 Redirect::to('/'.$blogName.'/compose');
             }
             $tag[$i] = strtolower($tag[$i]);
-            $stmt->bind_param('s',$tag[$i]);      
+            $stmt->bind_param('s',$tag[$i]);
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
@@ -33,18 +35,18 @@ class TagModel extends Model
                     self::linkTagPost($id,$tag_id);
                 } else {
                     self::linkTagBlog($id,$tag_id);
-                }               
+                }
             } else {
                 self::addTag($tag[$i],$post, $id);
             }
-        }     
+        }
     }
-    
+}
     public function linkTagPost($id, $tag_id)
     {
         if (self::uniqueLink(true, $id, $tag_id)) {
             $stmt = self::prepare("INSERT INTO  post_tag (post_id , tag_id ) VALUES (?,?)");
-            $stmt->bind_param('ii',$id, $tag_id);      
+            $stmt->bind_param('ii',$id, $tag_id);
             $stmt->execute();
             $stmt->close();
         }
@@ -55,7 +57,7 @@ class TagModel extends Model
     {
         if (self::uniqueLink(false, $id, $tag_id)) {
             $stmt = self::prepare("INSERT INTO  blog_tag (blog_id , tag_id ) VALUES (?,?)");
-            $stmt->bind_param('ii',$id, $tag_id);      
+            $stmt->bind_param('ii',$id, $tag_id);
             $stmt->execute();
             $stmt->close();
         }
@@ -69,7 +71,7 @@ class TagModel extends Model
         } else {
             $stmt = self::prepare("SELECT  id  FROM  blog_tag  WHERE blog_id = ? AND tag_id = ?");
         }
-        $stmt->bind_param('ii', $id, $tag_id);      
+        $stmt->bind_param('ii', $id, $tag_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
@@ -86,7 +88,7 @@ class TagModel extends Model
     {
         $date = date('Y-m-d H:i:s');
         $stmt = self::prepare("INSERT INTO  tag (name , created_at ) VALUES (?,?)");
-        $stmt->bind_param('ss',$tag, $date);      
+        $stmt->bind_param('ss',$tag, $date);
         $stmt->execute();
         $tag_id = $stmt->insert_id;
         $stmt->close();
