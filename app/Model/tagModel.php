@@ -19,7 +19,7 @@ class TagModel extends Model
         $stmt = self::prepare("SELECT id FROM tag WHERE name = ?");
 
         for ($i = 0; $i < sizeof($tag); $i++) {
-            if (sizeof($tag[$i]) > 30) {
+            if (sizeof($tag[$i]) > 30 || sizeof($tag[$i] =< 0)) {
                 UserError::add(Lang::FORM_TAG_EXCEED_CHAR_LIMIT);
                 Redirect::to('/'.$blogName.'/compose');
             }
@@ -42,23 +42,23 @@ class TagModel extends Model
     
     public function linkTagPost($id, $tag_id)
     {
-        if (self::uniqueLink(true, $id, $tag_id)) {
+        //if (self::uniqueLink(true, $id, $tag_id)) {
             $stmt = self::prepare("INSERT INTO  post_tag (post_id , tag_id ) VALUES (?,?)");
             $stmt->bind_param('ii',$id, $tag_id);      
             $stmt->execute();
             $stmt->close();
-        }
+        //}
 
     }
 
     public function linkTagBlog($id, $tag_id)
     {
-        if (self::uniqueLink(false, $id, $tag_id)) {
+        //if (self::uniqueLink(false, $id, $tag_id)) {
             $stmt = self::prepare("INSERT INTO  blog_tag (blog_id , tag_id ) VALUES (?,?)");
             $stmt->bind_param('ii',$id, $tag_id);      
             $stmt->execute();
             $stmt->close();
-        }
+        //}
 
     }
 
@@ -78,9 +78,6 @@ class TagModel extends Model
         } else {
             return true;
         }
-
-
-        
     }
 
     public function addTag($tag, $post)
