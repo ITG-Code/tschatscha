@@ -74,7 +74,7 @@ class Blog extends Controller
 
             var_dump($setAuthority);
         }
-
+        $this->model('tag')->generateTags(/*$blog_id*/109);
         $this->view('blog/settings',[
             'usersearch' => $search,
             'blogname' => $this->blogName,
