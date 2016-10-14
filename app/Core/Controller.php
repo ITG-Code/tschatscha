@@ -37,6 +37,9 @@ class Controller
     protected function view(string $view, array $data = [])
     {
         $data['errors'] = UserError::getArray();
+        $data['parsedown'] = New ParsedownExtra();
+        $data['parsedown']->setBreaksEnabled(true);
+        $data['parsedown']->setUrlsLinked(true);
         $data = (object)$data;
         $view = 'app/View/' . $view . '.php';
         require_once 'app/View/main.php';
