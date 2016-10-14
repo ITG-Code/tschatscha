@@ -34,22 +34,20 @@ class Blog extends Controller
             $search = $this->userModel->searchForUser($userquery);
         }
 
-        $authorityLevel = [];
+
         
         if(isset($_POST['authority']))
         {
-            $setAuthority = $_POST['authority'];
+            (int) $setAuthority = $_POST['authority'];
             $userId = $_POST['user_id'];
-            $authority = $this->model('Blog')->setAuthority($setAuthority, $this->blogName, $userId);
-            
-            // $blogname = $this->blogName;
-            // $blog_id = $this->model('blog')->getBlogId($blogname);      
-        }
+            $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority); 
+
+            var_dump($setAuthority);    
+        } 
 
         $this->view('blog/settings',[
             'usersearch' => $search,
             'blogname' => $this->blogName,
-          //'authorityLvl' => $authority,
         ]);
 
     }
