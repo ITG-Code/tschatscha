@@ -62,7 +62,7 @@ class Blog extends Controller
 
         var_dump($currentUser);
 
-        if (isset($_POST['userQuery'])) {
+        if (isset($_POST['userQuery']) && !empty($_POST['userQuery'])) {
             $userquery = $_POST['userQuery'];
             $search = $this->userModel->searchForUser($userquery, $currentUser);
         }
