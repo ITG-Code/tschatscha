@@ -84,18 +84,20 @@ class Blog extends Controller
         $currentUser_id = $this->userModel->getLoggedInUserId();
 
         if (!strlen($blogname) >= 4) {
-            UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
+          UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
         if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) && strlen($urlname <= 3)) {
-            UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+          UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
         }
         if (UserError::exists()) {
-            Redirect::to('/blog/createform');
+          Redirect::to('/blog/createform');
         }
         $blogModel = $this->model('Blog');
         $id = $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
-        $this->model('tag')->checkTag($tags,false,$id,$blogname);
-        Redirect::to('/dashboard');
+        if(strlen('tags') != 0){
+          $this->model('tag')->checkTag($tags,false,$id,$blogname);
+        }
+        Redirect::to('/'.$blogname);
     }
 
 
