@@ -26,7 +26,7 @@ Give other users authority
             <?php foreach ($data->usersearch as $value) { ?>
                 <tr>
                     <td align="left">
-                        <input type="checkbox" name="user_id" value="<?=$value->id?>"> <?= $value->first_name ?>
+                        <input type="radio" name="user_id" value="<?=$value->id?>"> <?= $value->first_name ?>
                     </td>
                     <td align="left">
                         <?= $value->alias ?>
