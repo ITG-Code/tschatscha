@@ -2,7 +2,6 @@
 <div class="wrapper">
 You are logged in
 <?php echo $data->user->alias ?>!
-<a href="blog/settings">Hantera bloggar</a><!-- vart ska den ligga? Hantera; ta bort, ändra namn etc. !-->
 
 <a href="../account/index">Kontoinställningar</a>
 <form action="/logout" method="post">
@@ -10,7 +9,6 @@ You are logged in
 </form>
 
 <h3>Dina bloggar</h3>
-
 <table class="myBlogs">
 
         <tr class="myBlogsSpace">
@@ -36,8 +34,6 @@ You are logged in
 <br/>
 
 <h4>Skapa blog</h4>
-
-
 <form id="createBlog" action="/blog/create" method="post" enctype="multipart/form-data">
    </br> Bloggnamn: </br><input type="text" name="blogname" required> </br>
     URL: </br><input type="text" name="urlname" required></br>
