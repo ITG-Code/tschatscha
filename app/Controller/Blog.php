@@ -19,6 +19,7 @@ class Blog extends Controller
         }else{
             $this->view('blog/index',[
                 'postlist' => $this->model('Post')->get($this->blogName),
+                'linked_title' =>  true,
             ]);
         }
 
@@ -33,21 +34,34 @@ class Blog extends Controller
 
             $this->view('blog/post/index', [
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
+                'linked_title' =>  false,
             ]);
         }else{
             $this->index();
         }
     }
+
+
      public function settings($args = [])
     {
-     if(!$this->userModel ->isLoggedIn())
+    
+        if(!$this->userModel ->isLoggedIn())
        {
           Redirect::to('/login');
         }
 
         $search = [];
         $currentUser = $this->userModel->getLoggedInUserId();
+        $owner = $this->userModel->checkBlogOwnership($currentUser);
+
+        if(isset($owner)){
+            echo"Hallojsan";
+
+
+        }        
+
         var_dump($currentUser);
+
         if (isset($_POST['userQuery'])) {
             $userquery = $_POST['userQuery'];
             $search = $this->userModel->searchForUser($userquery, $currentUser);
@@ -65,6 +79,7 @@ class Blog extends Controller
 
         $this->view('blog/settings',[
             'usersearch' => $search,
+            'user' => $this->userModel->get(Session::get('session_user')),
         ]);
 
     }
@@ -100,21 +115,22 @@ class Blog extends Controller
     }
 
 
-    public function compose($args = [])
+    public function compose(/*$args = []*/)
     {
       if(!$this->userModel->isLoggedIn())
       {
         Redirect::to('/login');
       }
       $user_id = $this->userModel->getLoggedInUserId();
-      $blog_id = $this->model('blog')->getBlogId($this->blogName);
+      $blogname = $this->blogName;
+      $blog_id = $this->model('blog')->getBlogId($blogname);
 
       $auth = $this->model('post')->checkAuth($blog_id, $user_id);
       if ($auth < 6) {
-          Redirect::to('/login/');
+          Redirect::to('/'.$blogname);
       }
-
 //        $args[0] == 'send';
+    // $blogname  = $this->blogName;
       $this->view('blog/post/compose', [
       ]);
     }
@@ -133,12 +149,14 @@ class Blog extends Controller
         $publishing_date = $this->fixDate($publishing_date);
         //kollar inloggade användarens id.
         $user_id = $this->userModel->getLoggedInUserId();
+        //kollar bloggens namn.
+        $blogname = $this->blogName;
         //kollar bloggens id.
-        $blog_id = $this->model('blog')->getBlogId($this->blogName);
+        $blog_id = $this->model('blog')->getBlogId($blogname);
         //Tar högsta history_id och höjer det med 1.
         $history_id = $this->model('post')->getHistoryId($url);
         //kollar så att url är korrekt angiven.
-        $url =$this->fixURL($url,$this->blogName,$blog_id);
+        $url =$this->fixURL($url,$blogname,$blog_id, $blogname);
 
 
         if (isset($_POST['Anon'])) {
@@ -151,7 +169,7 @@ class Blog extends Controller
 
         $id = $this->model('post')->createPost($title, $url, $user_id, $blog_id, $history_id, $content, $publishing_date, $anon, $auth, $time);
         //fixar taggar
-        $this->model('tag')->checkTag($tags, true, $id, $this->blogName);
+        $this->model('tag')->checkTag($tags, true, $id, $blogname);
 
         Redirect::to('/'.$blogname.'/') ;
     }
