@@ -323,13 +323,13 @@ WHERE id = ?
         $stmt->execute();
     }
 
-    public function searchForUser(string $userQuery)
+    public function searchForUser(string $userQuery, int $currentUser)
     {
-        $stmt = self::prepare("SELECT * FROM user WHERE LCASE(alias) LIKE LCASE(?) OR LCASE(email) LIKE LCASE(?) OR LCASE(first_name) LIKE LCASE(?) OR LCASE(sur_name) LIKE LCASE(?)");
+        $stmt = self::prepare("SELECT * FROM user WHERE id != ? AND (LCASE(alias) LIKE LCASE(?) OR LCASE(email) LIKE LCASE(?) OR LCASE(first_name) LIKE LCASE(?) OR LCASE(sur_name) LIKE LCASE(?))");
 
         $userQuery = "%$userQuery%";
         //var_dump($userQuery);
-        $stmt->bind_param('ssss', $userQuery, $userQuery, $userQuery, $userQuery);
+        $stmt->bind_param('issss', $currentUser, $userQuery, $userQuery, $userQuery, $userQuery);
         $stmt->execute();
         $result = $stmt->get_result();
         $returnValue = [];
