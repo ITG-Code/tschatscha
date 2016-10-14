@@ -11,24 +11,20 @@ You are logged in
 
 <h3>Dina bloggar</h3>
 
-<table align="left" cellspacing="5" cellpadding="8">
-        <tr>
-            <td align="left"><b>Bloggnamn</b></td>
-            <td align="left"><b>URL</b></td>
-            <td align="left"><b>Senast ändrad</b></td>
+<table class="myBlogs">
+
+        <tr class="myBlogsSpace">
+            <th><b>Bloggnamn</b></th>
+            <th><b>Senast ändrad</b></th>
         </tr>
         
-            <?php foreach ($data->bloglist as $value) { ?>
+            
                 <tr>
-                    <td align="left">
+                    <?php foreach ($data->bloglist as $value) { ?>
+                    <td>
+                      <a href="/<?= $value->url_name ?>"><?= $value->name ?></a>
                     </td>
-                    <td align="left">
-                        <?= $value->name ?>
-                    </td>
-                    <td align="left">
-                        <?= $value->url_name ?>
-                    </td>
-                    <td align="left">
+                    <td>
                         <?= $value->changed_at ?>
                     </td>
                 </tr>
@@ -37,7 +33,7 @@ You are logged in
         </table>
 
         </br>
-
+<br/>
 
 <h4>Skapa blog</h4>
 
