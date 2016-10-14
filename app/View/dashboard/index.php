@@ -2,7 +2,6 @@
 <div class="wrapper">
 You are logged in
 <?php echo $data->user->alias ?>!
-<a href="blog/settings">Hantera bloggar</a><!-- vart ska den ligga? Hantera; ta bort, ändra namn etc. !-->
 
 <a href="../account/index">Kontoinställningar</a>
 <form action="/logout" method="post">
@@ -10,25 +9,20 @@ You are logged in
 </form>
 
 <h3>Dina bloggar</h3>
+<table class="myBlogs">
 
-<table align="left" cellspacing="5" cellpadding="8">
-        <tr>
-            <td align="left"><b>Bloggnamn</b></td>
-            <td align="left"><b>URL</b></td>
-            <td align="left"><b>Senast ändrad</b></td>
+        <tr class="myBlogsSpace">
+            <th><b>Bloggnamn</b></th>
+            <th><b>Senast ändrad</b></th>
         </tr>
         
-            <?php foreach ($data->bloglist as $value) { ?>
+            
                 <tr>
-                    <td align="left">
+                    <?php foreach ($data->bloglist as $value) { ?>
+                    <td>
+                      <a href="/<?= $value->url_name ?>"><?= $value->name ?></a>
                     </td>
-                    <td align="left">
-                        <?= $value->name ?>
-                    </td>
-                    <td align="left">
-                        <?= $value->url_name ?>
-                    </td>
-                    <td align="left">
+                    <td>
                         <?= $value->changed_at ?>
                     </td>
                 </tr>
@@ -37,10 +31,9 @@ You are logged in
         </table>
 
         </br>
+<br/>
 
 <h4>Skapa blog</h4>
-
-
 <form id="createBlog" action="/blog/create" method="post" enctype="multipart/form-data">
    </br> Bloggnamn: </br><input type="text" name="blogname" required> </br>
     URL: </br><input type="text" name="urlname" required></br>

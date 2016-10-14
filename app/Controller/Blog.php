@@ -19,6 +19,7 @@ class Blog extends Controller
         }else{
             $this->view('blog/index',[
                 'postlist' => $this->model('Post')->get($this->blogName),
+                'linked_title' =>  true,
             ]);
         }
 
@@ -33,6 +34,7 @@ class Blog extends Controller
 
             $this->view('blog/post/index', [
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
+                'linked_title' =>  false,
             ]);
         }else{
             $this->index();
@@ -77,7 +79,6 @@ class Blog extends Controller
         $this->model('tag')->generateTags(/*$blog_id*/109);
         $this->view('blog/settings',[
             'usersearch' => $search,
-            'blogname' => $this->blogName,
             'user' => $this->userModel->get(Session::get('session_user')),
         ]);
 
@@ -131,7 +132,6 @@ class Blog extends Controller
 //        $args[0] == 'send';
     // $blogname  = $this->blogName;
       $this->view('blog/post/compose', [
-          'blogname' => $this->blogName
       ]);
     }
     public function sendPost()
@@ -208,5 +208,9 @@ class Blog extends Controller
              return date('Y-m-d H:i');
         }
 
+    }
+    protected function view(string $view, array $data = []){
+        $data['blogname'] = $this->blogName;
+        parent::view($view, $data);
     }
 }
