@@ -8,7 +8,7 @@ class BlogModel extends Model
         parent::__construct();
     }
 
-    public function create(string $blogname, string $urlname,string $tags, bool $nsfw, int $currentUser_id)
+    public function create(string $blogname, string $urlname, bool $nsfw, int $currentUser_id)
     {
         $sqlblog = "INSERT INTO blog(name, url_name) VALUES(?,?)";
         $stmt = $this->prepare($sqlblog);
