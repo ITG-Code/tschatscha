@@ -12,13 +12,31 @@ class Blog extends Controller
 
     public function index($args = [])
     {
-        $this->view('blog/index',[
+        if(isset($args[0]) && $args[0] ==  'post'){
+            unset($args[0]);
+            $args = array_values($args);
+            $this->post($args);
+        }else{
+            $this->view('blog/index',[
+                'postlist' => $this->model('Post')->get($this->blogName),
+            ]);
+        }
 
-            'postlist' => $this->model('Post')->getByName(),
-
-
-
-        ]);
+    }
+    public function post($args = [])
+    {
+        if (isset($args[0]) && $args[0] == "compose") {
+            unset($args[0]);
+            $args = $args ? array_values($args) : [];
+            $this->compose($args);
+        } elseif(isset($args[0])) {
+        
+            $this->view('blog/post/index', [
+                'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
+            ]);
+        }else{
+            $this->index();
+        }
     }
      public function settings($args = [])
     {
@@ -95,7 +113,7 @@ class Blog extends Controller
       }
 //        $args[0] == 'send';
     // $blogname  = $this->blogName;
-      $this->view('blog/post/index', [
+      $this->view('blog/post/compose', [
           'blogname' => $this->blogName
       ]);
     }
