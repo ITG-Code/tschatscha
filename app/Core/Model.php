@@ -54,4 +54,11 @@ class Model extends DatabaseConfig
     protected function toStdClass(): stdClass{
         return new stdClass();
     }
+    protected function makeValuesReferenced($arr){
+        $refs = array();
+        foreach($arr as $key => $value)
+            $refs[$key] = &$arr[$key];
+        return $refs;
+
+    }
 }
