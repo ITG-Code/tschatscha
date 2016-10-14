@@ -8,24 +8,42 @@ You are logged in
 <form action="/logout" method="post">
     <input type="submit" name="Loggout" value="logga ut">
 </form>
-<h3>Välj blogg</h3>
-<form action="/dashboard/index" method="post">
-	Bloggnamn:<select>
-		 
-		<!-- Här ska en dropdown-lista på bloggar du äger - Den fungerar inte just nu, någon får gärna ta över !-->
-		<option value='chooseBlog'><?php $blogName; ?></option>
-		
-	
-	</select>
-	
-	<input type="submit" value="Välj">
 
-</form>
+<h3>Dina bloggar</h3>
+
+<table align="left" cellspacing="5" cellpadding="8">
+        <tr>
+            <td align="left"><b>Bloggnamn</b></td>
+            <td align="left"><b>URL</b></td>
+            <td align="left"><b>Senast ändrad</b></td>
+        </tr>
+        
+            <?php foreach ($data->bloglist as $value) { ?>
+                <tr>
+                    <td align="left">
+                    </td>
+                    <td align="left">
+                        <?= $value->name ?>
+                    </td>
+                    <td align="left">
+                        <?= $value->url_name ?>
+                    </td>
+                    <td align="left">
+                        <?= $value->changed_at ?>
+                    </td>
+                </tr>
+            <?php } ?>
+       
+        </table>
+
+        </br>
 
 
 <h4>Skapa blog</h4>
+
+
 <form id="createBlog" action="/blog/create" method="post" enctype="multipart/form-data">
-    Bloggnamn: </br><input type="text" name="blogname" required> </br>
+   </br> Bloggnamn: </br><input type="text" name="blogname" required> </br>
     URL: </br><input type="text" name="urlname" required></br>
     Taggar:</br><input type="text" name="tags"></br>
     NSFW: <input type="checkbox" name="nsfw" value="1"/></br>
