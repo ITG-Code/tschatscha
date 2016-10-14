@@ -15,15 +15,17 @@ class TagModel extends Model
             UserError::add(Lang::FORM_TAGS_EXCEED_CHAR_LIMIT);
             Redirect::to('/'.$blogName.'/compose');
         }
-        $tag = explode(" ", $tags);
+        $tag = array_filter(explode(",", $tags), 'strlen');
         $stmt = self::prepare("SELECT id FROM tag WHERE name = ?");
-
         for ($i = 0; $i < sizeof($tag); $i++) {
-            if (sizeof($tag[$i]) > 30 ) {
-            $tag[$id] = str_replace(' ','', $tag[$i]);
-            if (sizeof($tag[$i]) > 30 || sizeof($tag[$i] == 0)) {
+            $tag[$i] = trim($tag[$i]);
+            if (sizeof($tag[$i]) > 30) {
                 UserError::add(Lang::FORM_TAG_EXCEED_CHAR_LIMIT);
-                Redirect::to('/'.$blogName.'/compose');
+                if ($post) {
+                    Redirect::to('/'.$blogName.'/compose');
+                } else {
+                    Redirect::to('/dashboard');
+                }
             }
             $tag[$i] = strtolower($tag[$i]);
             $stmt->bind_param('s',$tag[$i]);
@@ -34,22 +36,22 @@ class TagModel extends Model
                 if ($post) {
                     self::linkTagPost($id,$tag_id);
                 } else {
-                    self::linkTagBlog($id,$tag_id);
+                     self::linkTagBlog($id,$tag_id);
                 }
             } else {
                 self::addTag($tag[$i],$post, $id);
             }
         }
     }
-}
     public function linkTagPost($id, $tag_id)
     {
-        if (self::uniqueLink(true, $id, $tag_id)) {
+        //if (self::uniqueLink(true, $id, $tag_id)) {
+        echo "hello";
             $stmt = self::prepare("INSERT INTO  post_tag (post_id , tag_id ) VALUES (?,?)");
             $stmt->bind_param('ii',$id, $tag_id);
             $stmt->execute();
             $stmt->close();
-        }
+        //}
 
     }
 
