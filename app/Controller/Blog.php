@@ -28,18 +28,19 @@ class Blog extends Controller
         }
 
         $search = [];
-
+        $currentUser = $this->userModel->getLoggedInUserId();
+        var_dump($currentUser);
         if (isset($_POST['userQuery'])) {
             $userquery = $_POST['userQuery'];
-            $search = $this->userModel->searchForUser($userquery);
+            $search = $this->userModel->searchForUser($userquery, $currentUser);
         }
-
 
         
         if(isset($_POST['authority']))
         {
             (int) $setAuthority = $_POST['authority'];
             $userId = $_POST['user_id'];
+           
             $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority); 
 
             var_dump($setAuthority);    
