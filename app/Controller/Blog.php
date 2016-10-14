@@ -77,7 +77,13 @@ class Blog extends Controller
             Redirect::to('/blog/createform');
         }
         $blogModel = $this->model('Blog');
-        $blogModel->create($blogname, $urlname,$tags, $nsfw,$currentUser_id);
+        $id = $blogModel->create($blogname, $urlname,$tags, $nsfw,$currentUser_id);
+        echo $id;
+        if(strlen($tags) > 0)
+        {
+          $this ->model('tag')->checkTag($tags,false,$id,$blogname);
+
+        }
         // Redirect::to('/dashboard');
     }
 
