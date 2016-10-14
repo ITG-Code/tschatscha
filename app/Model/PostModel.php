@@ -21,7 +21,7 @@ class PostModel extends Model
 
     /**
      * @param $blog | if it's an int in string or int form it'll search for blog_id, else url_name
-     * @param string $postName
+     * @param string $postName | name of a post, needs
      * @param int $limit | The max amount of posts wanted, multiple posts with same id counts as 1
      * @param int $offset |
      * @param string $search | if there's anything to search for in the title or content
@@ -29,7 +29,8 @@ class PostModel extends Model
      * @return array|stdClass array
      * @Author Brolaugh
      */
-    public function get($blog, string $postName = 'bananer', int $limit = 0, int $offset = 0, string $search = '', $history = false):  array
+    //TODO: Fix limit and offset so that it corresponds to the documentation
+    public function get($blog, string $postName = '', int $limit = 0, int $offset = 0, bool $history = false, string $search = ''):  array
     {
         $params = [''];
         if (is_numeric($blog) && $blog % 1 == 0) {

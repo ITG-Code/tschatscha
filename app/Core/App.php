@@ -22,11 +22,13 @@ class App
         if (file_exists('app/Controller/' . ucfirst($url[0]) . '.php')) {
             $this->controller = $url[0];
             unset($url[0]);
+            $url = $url ? array_values($url) : [];
         }
         elseif (self::blogExists($url[0])) {
             $this->controller = "blog";
             $this->blogName = $url[0];
             unset($url[0]);
+            $url = $url ? array_values($url) : [];
         }
         // Initiates the chosen controller
         $this->controller = ucfirst($this->controller);
@@ -37,13 +39,13 @@ class App
             $this->controller = new $this->controller();
         }
         // Calls the function that is after the second slash in the url
-        if (isset($url[1])) {
-            if (method_exists($this->controller, $url[1])) {
-                $this->method = $url[1];
-                unset($url[1]);
+        if (isset($url[0])) {
+            if (method_exists($this->controller, $url[0])) {
+                $this->method = $url[0];
+                unset($url[0]);
+                $this->param = $url ? array_values($url) : [];
             }
         }
-        $this->param = $url ? array_values($url) : [];
         call_user_func([$this->controller, $this->method], $this->param);
     }
 
