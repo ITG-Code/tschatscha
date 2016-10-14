@@ -8,6 +8,20 @@ You are logged in
 <form action="/logout" method="post">
     <input type="submit" name="Loggout" value="logga ut">
 </form>
+<h3>Välj blogg</h3>
+<form action="/dashboard/index" method="post">
+	Bloggnamn:<select>
+		 
+		<!-- Här ska en dropdown-lista på bloggar du äger - Den fungerar inte just nu, någon får gärna ta över !-->
+		<option value='chooseBlog'><?php $blogName; ?></option>
+		
+	
+	</select>
+	
+	<input type="submit" value="Välj">
+
+</form>
+
 
 <h4>Skapa blog</h4>
 <form id="createBlog" action="/blog/create" method="post" enctype="multipart/form-data">

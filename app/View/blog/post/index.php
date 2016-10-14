@@ -1,8 +1,8 @@
 Skapa en post
 <div id="errors">
-<?php foreach($data->errors as $value){
-	echo $value;
-} ?>
+    <?php foreach ($data->errors as $value) {
+        echo $value;
+    } ?>
 </div>
 <form action="/<?php echo $data->blogname; ?>/sendPost" method="POST">
 	<div class="registerForm">
