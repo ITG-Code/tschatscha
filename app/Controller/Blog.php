@@ -19,6 +19,7 @@ class Blog extends Controller
         }else{
             $this->view('blog/index',[
                 'postlist' => $this->model('Post')->get($this->blogName),
+                'linked_title' =>  true,
             ]);
         }
 
@@ -33,6 +34,7 @@ class Blog extends Controller
 
             $this->view('blog/post/index', [
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
+                'linked_title' =>  false,
             ]);
         }else{
             $this->index();
