@@ -114,7 +114,7 @@ class TagModel extends Model
         }
     }
 
-    public function generateTags(int $blog_id)
+    public function changeTags(int $blog_id)
     {
         $string = "";
         $stmt = self::prepare("SELECT blog_tag.tag_id, tag.name FROM blog_tag INNER JOIN tag ON blog_tag.tag_id = tag.id WHERE blog_tag.blog_id = ?");
@@ -122,17 +122,32 @@ class TagModel extends Model
         $stmt->execute();
         $result= $stmt->get_result();
         if ($result->num_rows > 0) {
-            while ($row = $result->fetch_object()) {
+/*            while ($row = $result->fetch_object()) {
                 $string .= '<tr>
                                 <td>
-                                    <label for="tag">'.$row->name.' </label>
+                                    <label for="checkTag">'.$row->name.' </label>
                                 </td>
                                 <td>
-                                    <input type="checkbox" name="tag" id="tag" value="'.$row->tag_id.'">
+                                    <input type="checkbox" name="checkTag" id="checkTag" value="'.$row->tag_id.'">
                                 </td>
                             </tr>';
             }
         }
-        echo $string;
+        $string .= '<tr>
+                        <td>
+                            <label for="Tags">Tags: </label>
+                        </td>
+                        <td>
+                            <input type="text" name="Tags" placeholder="Ex. Party Holiday" id="Tags" required="">
+                        </td>
+                    </tr>';
+        return $string;
+*/
+        $retval = [];
+        while($row = $result->fetch_object()){
+            $retval[] = $row;
+        }
+        return $retval;
+    }
     }
 }       

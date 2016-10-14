@@ -9,17 +9,20 @@ Give other users authority
     <input type="radio" name="authority" value="<?= Authority::BLOG_MODERATE ?>"/></br>
  
     <input type="submit" value="Confirm"/>
+    <label>Tags</label>
+    <input type="checkbox" name="tags"/>
+    
 
-    <label>Sök efter alias</label>
+    <label>Search for user</label>
     <input type="text" name="userQuery"/>
     <input type="submit" value="Search"/>   
 
 <div class="searchResult">
     <table align="left" cellspacing="5" cellpadding="8">
         <tr>
-            <td align="left"><b>Förnamn</b></td>
+            <td align="left"><b>Firstname</b></td>
             <td align="left"><b>Alias</b></td>
-            <td align="left"><b>Efternamn</b></td>
+            <td align="left"><b>Surname</b></td>
             <td align="left"><b>Email</b></td>
         </tr>
         
@@ -43,5 +46,10 @@ Give other users authority
         </table>
     </div>
 </form>
-
+<div>
+<?php foreach ($data->tags as $value) { ?>
+    <?=$value->name?>
+    <?=$value->tag_id?>
+<?php } ?>
+</div>
 

@@ -63,8 +63,4 @@
         <input type="submit" name="submit" value="Register">
     </div>
 </form>
-
-<form action="/register/test" method="POST">
-	<input type="submit" name="hej">
-</form>
 <script src='https://www.google.com/recaptcha/api.js'></script>

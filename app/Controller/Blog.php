@@ -19,7 +19,7 @@ class Blog extends Controller
         }else{
             $this->view('blog/index',[
                 'postlist' => $this->model('Post')->get($this->blogName),
-                'linked_title' =>  true,
+                'linked_title' => true,
             ]);
         }
 
@@ -34,7 +34,7 @@ class Blog extends Controller
 
             $this->view('blog/post/index', [
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
-                'linked_title' =>  false,
+                'linked_title' => false,
             ]);
         }else{
             $this->index();
@@ -44,23 +44,23 @@ class Blog extends Controller
 
      public function settings($args = [])
     {
-    
+        $blogname = $this->blogName;
+        $blog_id = $this->model('blog')->getBlogId($blogname);
         if(!$this->userModel ->isLoggedIn())
        {
           Redirect::to('/login');
+        }        
+        $currentUser = $this->userModel->getLoggedInUserId();
+        $auth = $this->model('post')->checkAuth($blog_id, $currentUser);
+        if ($auth != 7) {
+          Redirect::to('/'.$blogname);
         }
 
         $search = [];
-        $currentUser = $this->userModel->getLoggedInUserId();
-        $owner = $this->userModel->checkBlogOwnership($currentUser);
-
-        if(isset($owner)){
-            echo"Hallojsan";
 
 
-        }        
-
-        var_dump($currentUser);
+        //var_dump($currentUser);
+        //var_dump($blog_id);
 
         if (isset($_POST['userQuery']) && !empty($_POST['userQuery'])) {
             $userquery = $_POST['userQuery'];
@@ -76,10 +76,15 @@ class Blog extends Controller
 
             var_dump($setAuthority);
         }
-        $this->model('tag')->generateTags(/*$blog_id*/109);
+
+
+        
         $this->view('blog/settings',[
             'usersearch' => $search,
+            'blogname' => $this->blogName,
             'user' => $this->userModel->get(Session::get('session_user')),
+            'tags' => $this->model("Tag")->changeTags($blog_id),
+            
         ]);
 
     }
@@ -132,6 +137,7 @@ class Blog extends Controller
 //        $args[0] == 'send';
     // $blogname  = $this->blogName;
       $this->view('blog/post/compose', [
+          'blogname' => $this->blogName
       ]);
     }
     public function sendPost()
@@ -209,8 +215,9 @@ class Blog extends Controller
         }
 
     }
-    protected function view(string $view, array $data = []){
+     protected function view(string $view, array $data = [])
+     {
         $data['blogname'] = $this->blogName;
         parent::view($view, $data);
-    }
+     }
 }
