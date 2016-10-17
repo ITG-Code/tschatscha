@@ -60,7 +60,7 @@ Give other users authority
                     <label for="Tags">Add tags: </label>
                 </td>
                 <td>
-                    <input type="text" name="Tags" placeholder="Ex. Party Holiday" id="Tags">
+                    <input type="text" name="Tags" placeholder="Ex. Party, Holiday" id="Tags">
                 </td>
             </tr>
         </table>
