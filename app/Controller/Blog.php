@@ -49,7 +49,7 @@ class Blog extends Controller
         if(!$this->userModel ->isLoggedIn())
        {
           Redirect::to('/login');
-        }        
+        }
         $currentUser = $this->userModel->getLoggedInUserId();
         $auth = $this->model('post')->checkAuth($blog_id, $currentUser);
         if ($auth != 7) {
@@ -66,25 +66,25 @@ class Blog extends Controller
             $userquery = $_POST['userQuery'];
             $search = $this->userModel->searchForUser($userquery, $currentUser);
         }
-        
+
         if(isset($_POST['authority']))
         {
             (int) $setAuthority = $_POST['authority'];
             $userId = $_POST['user_id'];
-           
-            $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority); 
+
+            $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority);
 
             var_dump($setAuthority);
         }
 
 
-        
+
         $this->view('blog/settings',[
             'usersearch' => $search,
             'blogname' => $this->blogName,
             'user' => $this->userModel->get(Session::get('session_user')),
             'tags' => $this->model("Tag")->changeTags($blog_id),
-            
+
         ]);
 
     }
@@ -163,11 +163,10 @@ class Blog extends Controller
         //Tar högsta history_id och höjer det med 1.
         $history_id = $this->model('post')->getHistoryId($url);
         //kollar så att url är korrekt angiven.
-        $url =$this->fixURL($url,$blogname,$blog_id, $blogname);
-
+        $url =$this->model('post')->checkURL($url,$blogname,$blog_id);
 
         if (isset($_POST['Anon'])) {
-            $anon = 1; //allow anon
+          $anon = 1; //allow anon
         } else {
             $anon = 0; //dont allow anon
         }
@@ -181,21 +180,6 @@ class Blog extends Controller
         Redirect::to('/'.$blogname.'/') ;
     }
 
-    //indata = titel url och blognamn, utdata = titel url/error, byter ut ' ' mot '-' och kolla efter icketillåtna tecken.
-    public function fixURL(string $url, string $blogname, int $blog_id)
-    {
-      $url = str_replace(' ', '-', $url);
-      $unique = $this->model('post')->checkURL($url,$blog_id);
-      if($unique == false){
-        UserError::add(Lang::FORM_POST_URL_NOT_UNIQUE);
-        Redirect::to('/'.$blogname.'/compose');
-      }
-      if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url)){
-        UserError::add(Lang::FORM_POST_URL_INVALID_CHARS);
-        Redirect::to('/'.$blogname.'/compose');
-      }
-      return $url;
-    }
 
     //indata=datum, utdata=datum -T om det finns, kollar så att datum är korrekt angivet.
     public function fixDate($publishing_date)
