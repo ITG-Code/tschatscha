@@ -20,22 +20,14 @@ Give other users authority
 <div class="searchResult">
     <table align="left" cellspacing="5" cellpadding="8">
         <tr>
-            <td align="left"><b>Firstname</b></td>
-            <td align="left"><b>Alias</b></td>
-            <td align="left"><b>Surname</b></td>
+            <td align="left"><b>Search result</b></td>
             <td align="left"><b>Email</b></td>
         </tr>
         
             <?php foreach ($data->usersearch as $value) { ?>
                 <tr>
                     <td align="left">
-                        <input type="radio" name="user_id" value="<?=$value->id?>"> <?= $value->first_name ?>
-                    </td>
-                    <td align="left">
-                        <?= $value->alias ?>
-                    </td>
-                    <td align="left">
-                        <?= $value->sur_name ?>
+                        <input type="radio" name="user_id" value="<?=$value->id?>"> <?= $value->name ?>
                     </td>
                     <td align="left">
                         <?= $value->email ?>

@@ -66,7 +66,7 @@ class Blog extends Controller
             $userquery = $_POST['userQuery'];
             $search = $this->userModel->searchForUser($userquery, $currentUser);
         }
-
+        
         if(isset($_POST['authority']))
         {
             (int) $setAuthority = $_POST['authority'];
