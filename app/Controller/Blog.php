@@ -120,7 +120,7 @@ class Blog extends Controller
     }
 
 
-    public function compose(/*$args = []*/)
+    public function compose()
     {
       if(!$this->userModel->isLoggedIn())
       {
@@ -134,8 +134,7 @@ class Blog extends Controller
       if ($auth < 6) {
           Redirect::to('/'.$blogname);
       }
-//        $args[0] == 'send';
-    // $blogname  = $this->blogName;
+
       $this->view('blog/post/compose', [
           'blogname' => $this->blogName
       ]);
@@ -219,5 +218,21 @@ class Blog extends Controller
      {
         $data['blogname'] = $this->blogName;
         parent::view($view, $data);
+     }
+
+     public function updateTags($args = [])
+     {
+        $blogname = $this->blogName;
+        $blog_id = $this->model('blog')->getBlogId($blogname);
+
+        if(!empty($_POST['tag'])) {
+            foreach($_POST['tag'] as $tag) {
+              $this->model('tag')->deleteTagBlog($blog_id,$tag);
+            }
+        }
+        if (isset($_POST['Tags'])) {
+          $this->model('tag')->checkTag($_POST['Tags'], false, $blog_id, $blogname);
+        }
+        Redirect::to('/'.$blogname.'/settings');
      }
 }

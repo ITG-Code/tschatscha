@@ -23,7 +23,6 @@ Give other users authority
             <td align="left"><b>Search result</b></td>
             <td align="left"><b>Email</b></td>
         </tr>
-        
             <?php foreach ($data->usersearch as $value) { ?>
                 <tr>
                     <td align="left">
@@ -38,10 +37,36 @@ Give other users authority
         </table>
     </div>
 </form>
+<form method="post" action="/<?= $data->blogname ?>/updateTags">
+    <div>
+        <table>
+            Remove tags
+            <?php foreach ($data->tags as $value) { ?>
+            <tr>
+                <td>
+                    <label for="tag[]"><?=$value->name?></label>
+                </td>
+                <td>
+                    <input type="checkbox" id="tag[]" name="tag[]" value="<?=$value->tag_id?>">   
+                </td>
+            </tr>            
+            <?php } ?>
+        </table>   
+    </div>
+    <div>
+        <table>
+            <tr>
+                <td>
+                    <label for="Tags">Add tags: </label>
+                </td>
+                <td>
+                    <input type="text" name="Tags" placeholder="Ex. Party Holiday" id="Tags">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <input type="submit" name="tagChange" value="Uppgdate tags">
+</form>
 <div>
-<?php foreach ($data->tags as $value) { ?>
-    <?=$value->name?>
-    <?=$value->tag_id?>
-<?php } ?>
 </div>
 
