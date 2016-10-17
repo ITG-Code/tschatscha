@@ -315,8 +315,9 @@ WHERE id = ?
     public function changeAlias(int $id, string $alias)
     {
         $stmt = self::prepare("UPDATE user SET alias = ? WHERE user.id = ?");
-        $stmt->bind_param('si', $username, $id);
+        $stmt->bind_param('si', $alias, $id);
         $stmt->execute();
+        $stmt->close();
     }
 
     public function changePassword(int $id, string $password)
