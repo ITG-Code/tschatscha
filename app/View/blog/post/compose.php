@@ -73,10 +73,10 @@ Skapa en post
 					<label for="Tags">Tags: </label>
 				</td>
 				<td>
-					<input type="text" name="Tags" placeholder="Ex. Party, Holiday" id="Tags" required>
+					<input type="text" name="Tags" placeholder="Ex. Party, Holiday" id="Tags">
 				</td>
 			</tr>
 		</table>
-		<input type="submit" name="submit" value="Register">
+		<input type="submit" name="submit" value="Submit">
 	</div>
 </form>
