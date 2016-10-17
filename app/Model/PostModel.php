@@ -140,11 +140,11 @@ class PostModel extends Model
         UserError::add(Lang::FORM_POST_URL_NOT_UNIQUE);
         Redirect::to('/'.$blogname.'/compose');
       }
-      if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url)){
+      if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url_title )){
         UserError::add(Lang::FORM_POST_URL_INVALID_CHARS);
         Redirect::to('/'.$blogname.'/compose');
       }
-      return $url;
+      return $url_title;
     }
 
 
