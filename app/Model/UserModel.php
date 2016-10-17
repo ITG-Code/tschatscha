@@ -337,7 +337,7 @@ WHERE id = ?
 
     public function searchForUser(string $userQuery, int $currentUser)
     {
-        $stmt = self::prepare("SELECT id, CONCAT(first_name,' ','\"',alias,'\"',' ',sur_name) AS name, email FROM user WHERE id != ? AND LCASE(CONCAT(first_name,' ',sur_name,' ',alias)) LIKE LCASE(?)  OR LCASE(email) LIKE LCASE(?)");
+        $stmt = self::prepare("SELECT id, CONCAT(first_name,' ','\"',alias,'\"',' ',sur_name) AS name, email FROM user WHERE id != ? AND (LCASE(CONCAT(first_name,' ',sur_name,' ',alias)) LIKE LCASE(?)  OR LCASE(email) LIKE LCASE(?))");
 
         $userQuery = "%$userQuery%";
         //var_dump($userQuery);
