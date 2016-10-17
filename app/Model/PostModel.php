@@ -80,7 +80,7 @@ class PostModel extends Model
             . $history  .
             $searchQuery .
             $postNameQuery .
-            "ORDER BY history_id, publishing_date, changed_at 
+            "ORDER BY history_id DESC, publishing_date DESC, changed_at DESC
             LIMIT ? 
             OFFSET ?");
         $ref    = new ReflectionClass('mysqli_stmt');
