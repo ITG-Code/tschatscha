@@ -30,8 +30,7 @@ Skapa en post
 					<label for="Content">Content: </label>
 				</td>
 				<td>
-					<textarea type="text" name="Content" placeholder="Content" id="Content" data-provide="markdown" rows="10" cols="40" required><?=isset($data->autoFillPost->title) ? $data->autoFillPost->title : ''?>
-                    </textarea>
+					<textarea type="text" name="Content" placeholder="Content" id="Content" data-provide="markdown" rows="10" cols="40" required><?=isset($data->autoFillPost->title) ? $data->autoFillPost->title : ''?></textarea>
 				</td>
 			</tr>
 			<tr>

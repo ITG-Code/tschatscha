@@ -144,11 +144,11 @@ class Blog extends Controller
     public function sendPost()
     {
 
-        $title = $_POST['Title'];
-        $url = $_POST['Url'];
-        $publishing_date = $_POST['Date'];
-        $content = $_POST['Content'];
-        $tags = $_POST['Tags'];
+        $title = isset($_POST['Title']) ? $_POST['Title'] : '';
+        $url = isset($_POST['Url']) ? $_POST['Url'] : '';
+        $publishing_date = isset($_POST['Date']) ? $_POST['Date'] : '';
+        $content = isset($_POST['Date']) ? $_POST['Date'] : '';
+        $tags = isset($_POST['Tags']) ? $_POST['Tags'] : '';
 
 
 
