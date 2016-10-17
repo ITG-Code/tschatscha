@@ -17,9 +17,21 @@ class Blog extends Controller
             $args = array_values($args);
             $this->post($args);
         }else{
+            $blogname = $this->blogName;
+            $blog_id = $this->model('blog')->getBlogId($blogname);
+            $auth = 0;
+            $anon = 0;
+            if ($this->userModel ->isLoggedIn()) {
+              $user_id = $this->userModel->getLoggedInUserId();
+              $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
+              $anon = 1;
+            }
+
             $this->view('blog/index',[
                 'postlist' => $this->model('Post')->get($this->blogName),
                 'linked_title' => true,
+                'auth' => $auth,
+                'anon' => $anon,
             ]);
         }
 
@@ -31,10 +43,13 @@ class Blog extends Controller
             $args = $args ? array_values($args) : [];
             $this->compose($args);
         } elseif(isset($args[0])) {
-
-            $this->view('blog/post/index', [
+                $blogname = $this->blogName;
+                $blog_id = $this->model('blog')->getBlogId($blogname);
+                $user_id = $this->userModel->getLoggedInUserId();
+                $this->view('blog/post/index', [
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
                 'linked_title' => false,
+                'auth' => $this->model('Post')->checkAuth($blog_id, $user_id),
             ]);
         }else{
             $this->index();
