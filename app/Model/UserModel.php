@@ -72,6 +72,11 @@ class UserModel extends Model
         Session::delete('session_user');
     }
 
+    /**
+     * Checks whether the client is logged in or not
+     *
+     * @return bool
+     */
     public static function isLoggedIn(): bool
     {
         if (!Session::get('session_user')) {
@@ -79,6 +84,12 @@ class UserModel extends Model
         }
         return self::exists(Session::get('session_user'));
     }
+
+    /**
+     * Returns the userID of a client if the client is logged in
+     *
+     * @return int | false
+     */
     public static function getLoggedInUserId(){
         return Session::get('session_user');
     }
