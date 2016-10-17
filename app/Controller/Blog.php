@@ -120,12 +120,13 @@ class Blog extends Controller
     }
 
 
-    public function compose()
+    public function compose($args = [])
     {
       if(!$this->userModel->isLoggedIn())
       {
         Redirect::to('/login');
       }
+      $autofillPost = (isset($args[0])) ? $this->model("Post")->get($this->blogName, $args[0])[0] : new stdClass();
       $user_id = $this->userModel->getLoggedInUserId();
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
@@ -136,6 +137,7 @@ class Blog extends Controller
       }
 
       $this->view('blog/post/compose', [
+          'autoFillPost' => $autofillPost,
           'blogname' => $this->blogName
       ]);
     }

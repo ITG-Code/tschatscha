@@ -5,6 +5,7 @@ Skapa en post
     } ?>
 </div>
 <form action="/<?php echo $data->blogname; ?>/sendPost" method="POST">
+    <input type="hidden" name="newpost" value="<?= isset($data->autoFillPost->id) ? 1: 0?>"/>
 	<div class="registerForm">
 		<table class="form">
 			<tr>
@@ -12,7 +13,7 @@ Skapa en post
 					<label for="Title">Title: </label>
 				</td>
 				<td>
-					<input type="text" name="Title" placeholder="Title" id="Title" required>
+					<input type="text" name="Title" placeholder="Title" id="Title" value="<?=isset($data->autoFillPost->title) ? $data->autoFillPost->title : ''?>" required>
 				</td>
 			</tr>
 			<tr>
@@ -20,7 +21,7 @@ Skapa en post
 					<label for="Url">Url-title: </label>
 				</td>
 				<td>
-					<input type="text" name="Url" placeholder="Url-title" id="Url"
+					<input type="text" name="Url" placeholder="Url-title" id="Url" value="<?=isset($data->autoFillPost->title) ? $data->autoFillPost->url_title : ''?>"
 					required>
 				</td>
 			</tr>
@@ -29,7 +30,8 @@ Skapa en post
 					<label for="Content">Content: </label>
 				</td>
 				<td>
-					<textarea type="text" name="Content" placeholder="Content" id="Content" data-provide="markdown" rows="10" cols="40" required></textarea>
+					<textarea type="text" name="Content" placeholder="Content" id="Content" data-provide="markdown" rows="10" cols="40" required><?=isset($data->autoFillPost->title) ? $data->autoFillPost->title : ''?>
+                    </textarea>
 				</td>
 			</tr>
 			<tr>
@@ -37,7 +39,7 @@ Skapa en post
 					<label for="Date">Publishing-day: </label>
 				</td>
 				<td>
-					<input type="datetime-local" name="Date"  value="<?php echo date('Y-m-d H:i'); ?>" placeholder="yyyy-mm-dd hh:mm" min="<?php echo date('Y-m-d H:i'); ?>" id="Date" >
+					<input type="datetime-local" name="Date"  value="<?=isset($data->autoFillPost->publishing_date) ? $data->autoFillPost->publishing_date : date('Y-m-d H:i')?>" placeholder="yyyy-mm-dd hh:mm"  id="Date" >
 				</td>
 			</tr>
 			<tr>
@@ -45,7 +47,13 @@ Skapa en post
 					<label for="Anon">Allow anonymous viewers: </label>
 				</td>
 				<td>
-					<input type="checkbox" name="Anon" id="Anon" checked>
+                    <?php if(isset($data->autoFillPost->checked) && $data->autoFillPost->checked == 1) { ?>
+					    <input type="checkbox" name="Anon" id="Anon" checked>
+                    <?php } elseif(isset($data->autoFillPost->checked) && $data->autoFillPost->checked == 0) { ?>
+                        <input type="checkbox" name="Anon" id="Anon">
+                    <?php }else{ ?>
+                        <input type="checkbox" name="Anon" id="Anon" checked>
+                    <?php } ?>
 				</td>
 			</tr>
 			<tr>
@@ -54,9 +62,9 @@ Skapa en post
 				</td>
 				<td>
 					<select name="auth" id="auth">
-						<option value="0">Public</option>
-						<option value="1">Unlisted</option>
-						<option value="3">Private</option>
+						<option value="0" <?php echo (isset($data->autoFillPost->visibility )&& $data->autoFillPost->visibility) == 0 ? "selected": '';?>>Public</option>
+						<option value="1" <?php echo (isset($data->autoFillPost->visibility )&& $data->autoFillPost->visibility) == 1 ? "selected": '';?>>Unlisted</option>
+						<option value="3 "<?php echo (isset($data->autoFillPost->visibility )&& $data->autoFillPost->visibility) == 3 ? "selected": '';?>>Private</option>
 					</select>
 				</td>
 			</tr>
