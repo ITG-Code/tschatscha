@@ -72,7 +72,7 @@ class Account extends Controller
         if ($confirmNewPassword !== $newPassword) {
             UserError::add(Lang::FORM_PASSWORD_NEW_NO_MATCH);
         }
-        if (password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId()))) {
+        if (!password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId())->password)) {
             UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
         }
         if (UserError::exists()) {
