@@ -71,7 +71,7 @@ class PostModel extends Model
         $params[] = $offset;
         $stmt = self::prepare("
             SELECT post.*, user.first_name, user.alias, user.sur_name, CONCAT_WS(', ', tag.name)
-            FROM post 
+            FROM post
             INNER JOIN blog ON post.blog_id=blog.id
             LEFT JOIN user ON post.writer=user.id
             LEFT JOIN post_tag ON post.id = post_tag.post_id
@@ -80,9 +80,8 @@ class PostModel extends Model
             . $history  .
             $searchQuery .
             $postNameQuery .
-            "
-            ORDER BY history_id DESC, publishing_date DESC, changed_at DESC
-            LIMIT ? 
+            "ORDER BY history_id DESC, publishing_date DESC, changed_at DESC
+            LIMIT ?
             OFFSET ?");
         $ref    = new ReflectionClass('mysqli_stmt');
         $method = $ref->getMethod("bind_param");
@@ -122,21 +121,33 @@ class PostModel extends Model
         }
         return $row;
     }
-    public static function checkURL(string $url, int $blog_id)
+    //In = Title,url,blogname. out= titel,url/error replaced ' ' with '-'.
+    public static function checkURL(string $url_title, string $blogname, int $blog_id)
     {
+      $url_title = str_replace(' ', '-', $url_title);
       $stmt = self::prepare("SELECT url_title FROM post WHERE blog_id = ? AND url_title = ?");
       $stmt->bind_param('is',$blog_id,$url_title);
+      // var_dump($blog_id,$url_title);
       $stmt->execute();
       $result = $stmt->get_result();
       $stmt->close();
-      if($result->num_rows > 0){
-        $unique = false;
+      $unique = false;
+      // var_dump($result->num_rows);
+      if($result->num_rows == 0){
+        $unique = true;
       }
-      else{
-         $unique = true;
+      if($unique == false){
+        UserError::add(Lang::FORM_POST_URL_NOT_UNIQUE);
+        Redirect::to('/'.$blogname.'/compose');
       }
-      return $unique;
+      if(!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url)){
+        UserError::add(Lang::FORM_POST_URL_INVALID_CHARS);
+        Redirect::to('/'.$blogname.'/compose');
+      }
+      return $url;
     }
+
+
     public function toStdClass(): stdClass
     {
         // TODO: Implement toStdClass() method.

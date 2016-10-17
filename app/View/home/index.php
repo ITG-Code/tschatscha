@@ -7,7 +7,7 @@
     foreach ($data->bloglist as $blog) {
         echo "<ul>";
 
-        echo "<a href=\"/blog/{$blog->url_name}\">{$blog->name}</a> - ";
+        echo "<a href=\"/{$blog->url_name}\">{$blog->name}</a> - ";
         if (!isset($blog->first_name))
             echo "{$blog->first_name} \"{$blog->alias}\" {$blog->sur_name}";
         else

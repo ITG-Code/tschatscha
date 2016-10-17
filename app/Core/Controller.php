@@ -43,6 +43,7 @@ class Controller
         $data = (object)$data;
         $view = 'app/View/' . $view . '.php';
         require_once 'app/View/main.php';
+        unset($data->parsedown);
         echo "<pre>";
         var_dump($data);
         echo "</pre>";
