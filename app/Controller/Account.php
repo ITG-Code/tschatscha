@@ -22,7 +22,7 @@ class Account extends Controller
         if (empty($confirmPassword)) {
             UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
         }
-        if (password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId()))) {
+        if (!password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId())->password)) {
             UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
         }
         if (UserError::exists()) {
