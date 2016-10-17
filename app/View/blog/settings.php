@@ -20,22 +20,13 @@ Give other users authority
 <div class="searchResult">
     <table align="left" cellspacing="5" cellpadding="8">
         <tr>
-            <td align="left"><b>Firstname</b></td>
-            <td align="left"><b>Alias</b></td>
-            <td align="left"><b>Surname</b></td>
+            <td align="left"><b>Search result</b></td>
             <td align="left"><b>Email</b></td>
         </tr>
-        
             <?php foreach ($data->usersearch as $value) { ?>
                 <tr>
                     <td align="left">
-                        <input type="radio" name="user_id" value="<?=$value->id?>"> <?= $value->first_name ?>
-                    </td>
-                    <td align="left">
-                        <?= $value->alias ?>
-                    </td>
-                    <td align="left">
-                        <?= $value->sur_name ?>
+                        <input type="radio" name="user_id" value="<?=$value->id?>"> <?= $value->name ?>
                     </td>
                     <td align="left">
                         <?= $value->email ?>
@@ -46,10 +37,36 @@ Give other users authority
         </table>
     </div>
 </form>
+<form method="post" action="/<?= $data->blogname ?>/updateTags">
+    <div>
+        <table>
+            Remove tags
+            <?php foreach ($data->tags as $value) { ?>
+            <tr>
+                <td>
+                    <label for="tag[]"><?=$value->name?></label>
+                </td>
+                <td>
+                    <input type="checkbox" id="tag[]" name="tag[]" value="<?=$value->tag_id?>">   
+                </td>
+            </tr>            
+            <?php } ?>
+        </table>   
+    </div>
+    <div>
+        <table>
+            <tr>
+                <td>
+                    <label for="Tags">Add tags: </label>
+                </td>
+                <td>
+                    <input type="text" name="Tags" placeholder="Ex. Party Holiday" id="Tags">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <input type="submit" name="tagChange" value="Uppgdate tags">
+</form>
 <div>
-<?php foreach ($data->tags as $value) { ?>
-    <?=$value->name?>
-    <?=$value->tag_id?>
-<?php } ?>
 </div>
 
