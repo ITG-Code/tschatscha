@@ -28,7 +28,7 @@ class Account extends Controller
         if (UserError::exists()) {
             Redirect::to('account/index');
         }
-        $this->userModel->changePassword($this->userModel->getLoggedInUserId(), $newAlias);
+        $this->userModel->changeAlias($this->userModel->getLoggedInUserId(), $newAlias);
 
         Redirect::to('/account/index');
     }
