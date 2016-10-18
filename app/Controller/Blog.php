@@ -291,8 +291,8 @@ class Blog extends Controller
               $this->model('tag')->deleteTagBlog($blog_id,$tag);
             }
         }
-        if (isset($_POST['Tags'])) {
-          $this->model('tag')->checkTag($_POST['Tags'], false, $blog_id, $blogname);
+        if (isset($_POST['tags'])) {
+          $this->model('tag')->checkTag($_POST['tags'], false, $blog_id, $blogname);
         }
         Redirect::to('/'.$blogname.'/settings');
      }
