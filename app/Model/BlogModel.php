@@ -162,7 +162,8 @@ ORDER BY name ASC
         while($row = $result->fetch_object()){
             array_push($retval, $row);
         }
-        return $retval;       
+        return $retval;
+      }       
 
     public function uniqueURLBlog(string $urlname)
     {
