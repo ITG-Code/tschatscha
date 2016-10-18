@@ -38,17 +38,23 @@ class Blog extends Controller
     }
     public function post($args = [])
     {
-       
+      $blogname = $this->blogName;
+      $blog_id = $this->model('blog')->getBlogId($blogname);
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
             $args = $args ? array_values($args) : [];
             $this->compose($args);
 
-        } 
+        } elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete'])){ 
+            $post_id = $_POST['delete'];
+            var_dump($post_id);
+            
+            $this->model('Post')->deletePost($post_id);
+           Redirect::to('/'.$blogname);
+         }
 
         elseif(isset($args[0])) {
-            $blogname = $this->blogName;
-            $blog_id = $this->model('blog')->getBlogId($blogname);
+            
             $auth = 0;
             $anon = 0;
 
@@ -64,18 +70,11 @@ class Blog extends Controller
                 'auth' => $this->model('Post')->checkAuth($blog_id, $user_id),
                 'anon' => $anon,
             ]);
-        }
 
-       elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete']))
-         { 
-            $post_id = $_POST['delete'];
-            $this->model('Post')->deletePost($post_id);
-         }
-        else{
-            $this->index();
         } 
+       
       }
- 
+
 
      public function settings($args = [])
     {

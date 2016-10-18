@@ -13,10 +13,6 @@
         <p class="">Publicerad: <?= $post->publishing_date ?>
     </p>
 
-  <form id="<?= $post->id; ?>" name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/delete" method="post">
-<?= $post->id ?>
-<input type="submit" id="<?= $post->id ?>" name="delete" value="Ta bort" />
-</form>
 
     </footer>
 </article>
