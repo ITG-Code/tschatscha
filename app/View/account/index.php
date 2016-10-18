@@ -1,33 +1,79 @@
 <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 <div class="wrapper">
-    <form action="/account/change_alias" method="POST">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title" href="#changealias" data-toggle="collapse">Byt alias</h3>
+    </div>
+    <div class="panel-body collapse" id="changealias">
+      <form class="form-horizontal" action="/account/change_alias" method="post">
         <fieldset>
+          <div class="form-group">
             <label for="alias">Alias</label>
-            <input type="text" name="alias" required><br/>
-            <label for="confirmpassword">Confirm Password</label>
-            <input type="password" name="confirmpassword" required><br/>
-            <input type="submit" name="submit" value="change">
+            <input type="text" class="form-control" id="alias" name="alias" placeholder="Alias">
+            <p class="help-block">Det alias du vill ha i framtiden</p>
+          </div>
+          <div class="form-group">
+            <label for="confirmpassword">Lösenord</label>
+            <input type="password" class="form-control" name="confirmpassword" placeholder="">
+            <p class="help-block">Verifiera med ditt lösenord</p>
+          </div>
+          <div class="form-group">
+            <input type="submit" class="form-control btn btn-primary" value="Byt alias">
+          </div>
         </fieldset>
-    </form>
-    <form action="/account/change_email" method="POST">
+      </form>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title" href="#change_email" data-toggle="collapse">Byt Email</h3>
+    </div>
+    <div class="panel-body collapse" id="change_email">
+      <form class="form-horizontal" action="/account/change_email" method="post">
         <fieldset>
-            <label for="email">Email</label>
-            <input type="text" name="email" required><br/>
-            <label for="confirmpassword">Confirm Password</label>
-            <input type="password" name="confirmpassword" required><br/>
-            <input type="submit" name="submit" value="change">
+          <div class="form-group">
+            <label for="alias">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            <p class="help-block">Det email du vill ha i framtiden</p>
+          </div>
+          <div class="form-group">
+            <label for="confirmpassword">Lösenord</label>
+            <input type="password" class="form-control" name="confirmpassword" placeholder="">
+            <p class="help-block">Verifiera med ditt lösenord</p>
+          </div>
+          <div class="form-group">
+            <input type="submit" class="form-control btn btn-primary" value="Byt alias">
+          </div>
         </fieldset>
-    </form>
-    <form action="/account/change_password" method="POST">
+      </form>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title" href="#change_password" data-toggle="collapse">Byt Lösenord</h3>
+    </div>
+    <div class="panel-body collapse" id="change_password">
+      <form class="form-horizontal" action="/account/change_password" method="post">
         <fieldset>
-            <label for="newpassword">New Password</label>
-            <input type="password" name="newpassword" required><br/>
-            <label for="confirmnewpassword">Confirm New Password</label>
-            <input type="password" name="confirmnewpassword" required><br/>
-            <label for="confirmpassword">Confirm Password</label>
-            <input type="password" name="confirmpassword" required><br/>
-            <input type="submit" name="submit" value="change">
+          <div class="form-group">
+            <label for="alias">Nytt Lösenord</label>
+            <input type="password" class="form-control" id="email" name="newpassword" placeholder="Nytt lösenord">
+            <p class="help-block">Det lösenord du vill ha i framtiden</p>
+          </div>
+          <div class="form-group">
+            <label for="alias">Bekräfta nytt Lösenord</label>
+            <input type="password" class="form-control" id="email" name="confirmnewpassword" placeholder="Bekräfta nytt lösenord">
+          </div>
+          <div class="form-group">
+            <label for="confirmpassword">Lösenord</label>
+            <input type="password" class="form-control" name="confirmpassword" placeholder="">
+            <p class="help-block">Verifiera med ditt lösenord</p>
+          </div>
+          <div class="form-group">
+            <input type="submit" class="form-control btn btn-primary" value="Byt alias">
+          </div>
         </fieldset>
-    </form>
-
+      </form>
+    </div>
+  </div>
 </div>
