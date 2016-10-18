@@ -89,7 +89,7 @@ ORDER BY name ASC
 
     public static function getBlogId(string $blogName)
     {
-        $stmt = self::prepare("SELECT id FROM `blog` WHERE url_name = ?");
+        $stmt = self::prepare("SELECT id FROM  blog  WHERE url_name = ?");
         $stmt->bind_param('s', $blogName);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -120,5 +120,75 @@ ORDER BY name ASC
         ];
         $returnValue = (object)$returnValue;
         return $returnValue;
+    }
+
+    public function follow(int $user_id, int $blog_id, string $date)
+    {
+        $val = 0;
+        $stmt = self::prepare("INSERT INTO  followship (user_id,blog_id,allowed,created_at,changed_at) VALUES (?,?,?,?,?)");
+        $stmt->bind_param('iiiss', $user_id, $blog_id,$val,$date,$date);
+        $stmt->execute();
+    }
+
+    public function getFollowers(int $user_id)
+    {
+        $stmt = self::prepare("SELECT followship.blog_id, blog.url_name, blog.name, MAX(post.changed_at) AS updated_time FROM followship INNER JOIN blog ON followship.blog_id = blog.id INNER JOIN post ON followship.blog_id = post.blog_id WHERE allowed = 1 AND followship.user_id = ? GROUP By followship.id");
+        $stmt->bind_param('i', $user_id);
+        $stmt->execute();
+        $result= $stmt->get_result();
+        if ($result->num_rows < 0) {
+            return [];
+        }
+
+        $retval = [];
+        while($row = $result->fetch_object()){
+            array_push($retval, $row);
+        }
+        return $retval;
+    }
+
+
+    public function getAcceptFollowers(int $user_id)
+    {
+        $stmt = self::prepare("SELECT user.id, blog.id AS blog_id, user.username AS name, blog.name AS blog_name FROM user_blog INNER JOIN followship ON user_blog.blog_id = followship.blog_id INNER JOIN user ON followship.user_id = user.id INNER JOIN blog ON followship.blog_id = blog.id WHERE user_blog.user_id = ? AND followship.allowed = 0");
+        $stmt->bind_param('i', $user_id);
+        $stmt->execute();
+        $result= $stmt->get_result();
+        if ($result->num_rows < 0) {
+            return [];
+        }
+
+        $retval = [];
+        while($row = $result->fetch_object()){
+            array_push($retval, $row);
+        }
+        return $retval;
+
+    }
+
+    public function acceptFollower(int $follower_id, int $blog_id)
+    {
+        echo $follower_id."<br>".$blog_id;
+        
+        $stmt = self::prepare("UPDATE followship SET allowed = 1 WHERE user_id = ? AND blog_id = ?");
+        $stmt->bind_param('ii', $follower_id, $blog_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+    
+    public function uniqueURLBlog(string $urlname)
+    {
+      $stmt = self::prepare("SELECT url_name FROM blog where url_name = ?");
+      $stmt ->bind_param('s',$urlname);
+      $stmt->execute();
+      $res = $stmt->get_result();
+      $stmt->close();
+      var_dump($res->num_rows);
+      $unique = false;
+      if($res->num_rows == 0){
+        $unique = true;
+      }
+      return $unique;
+
     }
 }

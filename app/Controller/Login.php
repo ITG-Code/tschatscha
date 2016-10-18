@@ -22,7 +22,7 @@ class Login extends Controller
             UserError::add('Captcha token'/* Add error for invalid capcha */);
         }
         if(UserError::exists()){
-            Redirect::to('/login');
+            Redirect::to('/');
         }
 
 
@@ -36,12 +36,12 @@ class Login extends Controller
             Redirect::to('/dashboard');
         } else {
             //TODO: Redirect back to login page with errors
-            Redirect::to('/login');
+            Redirect::to('/');
         }
     }
 
     public function index()
     {
-        $this->view('login/index');
+        Redirect::to('/');
     }
 }

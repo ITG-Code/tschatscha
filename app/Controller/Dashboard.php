@@ -23,10 +23,14 @@ class Dashboard extends Controller
 
         $currentUser = $this->userModel->getLoggedInUserId();
         $getBlogs = $this->userModel->getYourBlogs($currentUser);
+        $getFollowers =  $this->model('blog')->getFollowers($currentUser);
+        $getAcceptFollowers = $this->model('blog')->getAcceptFollowers($currentUser);
         $this->view(
             'dashboard/index', [
             'user' => $this->userModel->get(Session::get('session_user')),
             'bloglist' => $getBlogs,
+            'followlist' => $getFollowers,
+            'acceptFollowList' => $getAcceptFollowers,
             ]
         );
         

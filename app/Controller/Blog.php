@@ -37,16 +37,22 @@ class Blog extends Controller
 
     }
     public function post($args = [])
+
     { 
       // $post_id = $this->model('post')->getPostId($id);
       // $postTags = $this->model('tag')->getTags($post_id);
       $blogname = $this->blogName;
      
       $blog_id = $this->model('blog')->getBlogId($blogname);
+
+    {
+
+
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
             $args = $args ? array_values($args) : [];
             $this->compose($args);
+
 
         } elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete'])){ 
             $post_id = $_POST['delete'];
@@ -54,16 +60,27 @@ class Blog extends Controller
            Redirect::to('/'.$blogname);
          }
 
+        }
+
+
         elseif(isset($args[0])) {
             
             $auth = 0;
             $anon = 0;
+
 
             if ($this->userModel ->isLoggedIn()) {
               $user_id = $this->userModel->getLoggedInUserId();
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
               $anon = 1;
             }
+
+        }
+        elseif(isset($args[0])) {
+                $blogname = $this->blogName;
+                $blog_id = $this->model('blog')->getBlogId($blogname);
+                $user_id = $this->userModel->getLoggedInUserId();
+
                 $this->view('blog/post/index', [
 
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
@@ -73,10 +90,23 @@ class Blog extends Controller
                 // 'postTag' => $postTags,
             ]);
 
+
         } 
        
       }
 
+        }
+       elseif(isset($args[1]) && $args == "delete" && !empty($_POST['delete']))
+         {
+            $post_id = $_POST['delete'];
+            $this->model('Post')->deletePost($post_id);
+         }
+        else{
+            $this->index();
+        }
+
+
+    }
 
      public function settings($args = [])
     {
@@ -139,11 +169,22 @@ class Blog extends Controller
         if (!strlen($blogname) >= 4) {
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
+        $url_name = strtolower($urlname);
+        //whitelist array, enter in lowercase. Prevents user from having their blog url be something important.
+        $whitelist = array('create','dashboard','sendpost','compose','home','fixdate','fixurl','blog','account','login','logout','register','change_alias','change_email','change_password','index'
+        ,'create','settings','post','updatetags','view','model', 'search','send','activateaccount','follow');
         if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) && strlen($urlname <= 3)) {
           UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
         }
+        if (in_array($url_name, $whitelist)){
+          UserError::add(Lang::FORM_BLOGNAME_RESERVED_NAME);
+        }
+        $unique = $this->model('Blog')->uniqueURLBlog($urlname);
+        if(!$unique){
+          UserError::add(LANG::FORM_URLNAME_NOT_UNIQUE);
+        }
         if (UserError::exists()) {
-          Redirect::to('/blog/createform');
+          // Redirect::to('/dashboard');
         }
         $blogModel = $this->model('Blog');
         $id = $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
@@ -151,7 +192,7 @@ class Blog extends Controller
           $this->model('tag')->checkTag($tags,false,$id,$blogname);
         }
         Redirect::to('/'.$blogname);
-    }
+      }
 
 
     public function compose($args = [])
@@ -254,5 +295,29 @@ class Blog extends Controller
           $this->model('tag')->checkTag($_POST['Tags'], false, $blog_id, $blogname);
         }
         Redirect::to('/'.$blogname.'/settings');
+     }
+     public function follow()
+     {
+        if(!$this->userModel->isLoggedIn())
+        {
+        Redirect::to('/login');
+        }
+        $user_id = $this->userModel->getLoggedInUserId();
+        $blogname = $this->blogName;
+        $blog_id = $this->model('blog')->getBlogId($blogname);
+        $date = date('Y-m-d H:i:s');
+        $this->model('blog')->follow($user_id, $blog_id, $date);
+
+        Redirect::to('/'.$blogname);
+     }
+     public function acceptFollower()
+     {
+       if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
+         Redirect::to('/dashboard');
+       }
+       $follower_id = $_POST['id'];
+       $blog_id = $_POST['blog_id'];
+       $this->model('blog')->acceptFollower($follower_id, $blog_id);
+       Redirect::to('/dashboard');
      }
 }

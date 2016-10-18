@@ -10,4 +10,7 @@
      } ?>
 </main>
 
+<a href="/<?php echo $data->blogname; ?>/settings">Blogsettings</a>
+<a href="/<?= $data->blogname ?>/follow">follow</a>
+
 
