@@ -147,10 +147,11 @@ ORDER BY name ASC
         return $retval;
     }
 
-    public function getAcceptFollowers()
+
+    public function getAcceptFollowers($user_id)
     {
-        $stmt = self::prepare("SELECT user.id, user.username AS name FROM user_blog INNER JOIN followship ON user_blog.blog_id = followship.blog_id INNER JOIN user ON followship.user_id = user.id WHERE user_blog.user_id = 28 AND followship.allowed = 0");
-        //$stmt->bind_param('i', $blog_id);
+        $stmt = self::prepare("SELECT user.id, user.username AS name FROM user_blog INNER JOIN followship ON user_blog.blog_id = followship.blog_id INNER JOIN user ON followship.user_id = user.id WHERE user_blog.user_id = ? AND followship.allowed = 0");
+        $stmt->bind_param('i', $user_id);
         $stmt->execute();
         $result= $stmt->get_result();
         if ($result->num_rows < 0) {
@@ -162,5 +163,20 @@ ORDER BY name ASC
             array_push($retval, $row);
         }
         return $retval;       
+
+    public function uniqueURLBlog(string $urlname)
+    {
+      $stmt = self::prepare("SELECT url_name FROM blog where url_name = ?");
+      $stmt ->bind_param('s',$urlname);
+      $stmt->execute();
+      $res = $stmt->get_result();
+      $stmt->close();
+      var_dump($res->num_rows);
+      $unique = false;
+      if($res->num_rows == 0){
+        $unique = true;
+      }
+      return $unique;
+
     }
 }

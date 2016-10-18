@@ -149,8 +149,12 @@ class Blog extends Controller
         if (in_array($url_name, $whitelist)){
           UserError::add(Lang::FORM_BLOGNAME_RESERVED_NAME);
         }
+        $unique = $this->model('Blog')->uniqueURLBlog($urlname);
+        if(!$unique){
+          UserError::add(LANG::FORM_URLNAME_NOT_UNIQUE);
+        }
         if (UserError::exists()) {
-          Redirect::to('/dashboard');
+          // Redirect::to('/dashboard');
         }
         $blogModel = $this->model('Blog');
         $id = $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
@@ -273,7 +277,7 @@ class Blog extends Controller
         $blog_id = $this->model('blog')->getBlogId($blogname);
         $date = date('Y-m-d H:i:s');
         $this->model('blog')->follow($user_id, $blog_id, $date);
-        
+
         Redirect::to('/'.$blogname);
      }
 }
