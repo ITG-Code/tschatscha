@@ -38,19 +38,19 @@ class Blog extends Controller
     }
     public function post($args = [])
     {
-       
+
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
             $args = $args ? array_values($args) : [];
             $this->compose($args);
 
-        } 
+        }
 
         elseif(isset($args[0])) {
             $this->view('blog/post/index', [
               ]);
 
-        } 
+        }
         elseif(isset($args[0])) {
                 $blogname = $this->blogName;
                 $blog_id = $this->model('blog')->getBlogId($blogname);
@@ -63,17 +63,17 @@ class Blog extends Controller
             ]);
         }
        elseif(isset($args[1]) && $args == "delete" && !empty($_POST['delete']))
-         { 
+         {
             $post_id = $_POST['delete'];
             $this->model('Post')->deletePost($post_id);
          }
         else{
             $this->index();
-        } 
+        }
 
-       
+
     }
- 
+
 
 
      public function settings($args = [])
@@ -139,11 +139,18 @@ class Blog extends Controller
         if (!strlen($blogname) >= 4) {
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
+        $url_name = strtolower($urlname);
+        //whitelist array, enter in lowercase. Prevents user from having their blog url be something important.
+        $whitelist = array('create','dashboard','sendpost','compose','home','fixdate','fixurl','blog','account','login','logout','register','change_alias','change_email','change_password','index'
+        ,'create','settings','post','updatetags','view','model', 'search','send','activateaccount','follow');
         if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) && strlen($urlname <= 3)) {
           UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
         }
+        if (in_array($url_name, $whitelist)){
+          UserError::add(Lang::FORM_BLOGNAME_RESERVED_NAME);
+        }
         if (UserError::exists()) {
-          Redirect::to('/blog/createform');
+          Redirect::to('/dashboard');
         }
         $blogModel = $this->model('Blog');
         $id = $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
@@ -151,7 +158,7 @@ class Blog extends Controller
           $this->model('tag')->checkTag($tags,false,$id,$blogname);
         }
         Redirect::to('/'.$blogname);
-    }
+      }
 
 
     public function compose($args = [])

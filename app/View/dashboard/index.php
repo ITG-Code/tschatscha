@@ -15,8 +15,8 @@ You are logged in
             <th><b>Bloggnamn</b></th>
             <th><b>Senast ändrad</b></th>
         </tr>
-        
-            
+
+
                 <tr>
                     <?php foreach ($data->bloglist as $value) { ?>
                     <td>
@@ -27,13 +27,19 @@ You are logged in
                     </td>
                 </tr>
             <?php } ?>
-       
+
         </table>
 
         </br>
 <br/>
 
 <h4>Skapa blog</h4>
+<div id="errors">
+  <h5>  <?php foreach ($data->errors as $value) {
+        echo $value;
+    } ?>
+  </h5>
+</div>
 <form id="createBlog" action="/blog/create" method="post" enctype="multipart/form-data">
    </br> Bloggnamn: </br><input type="text" name="blogname" required> </br>
     URL: </br><input type="text" name="urlname" required></br>
