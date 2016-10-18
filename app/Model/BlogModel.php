@@ -163,6 +163,7 @@ ORDER BY name ASC
             array_push($retval, $row);
         }
         return $retval;
+
     }
 
     public function acceptFollower(int $follower_id, int $blog_id)
@@ -174,7 +175,7 @@ ORDER BY name ASC
         $stmt->execute();
         $stmt->close();
     }
-
+    
     public function uniqueURLBlog(string $urlname)
     {
       $stmt = self::prepare("SELECT url_name FROM blog where url_name = ?");
