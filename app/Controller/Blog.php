@@ -36,23 +36,16 @@ class Blog extends Controller
         }
 
     }
-    public function post($args = [])
-
-    { 
+    public function post($args = []){ 
       // $post_id = $this->model('post')->getPostId($id);
       // $postTags = $this->model('tag')->getTags($post_id);
       $blogname = $this->blogName;
-     
       $blog_id = $this->model('blog')->getBlogId($blogname);
-
-    {
-
 
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
             $args = $args ? array_values($args) : [];
             $this->compose($args);
-
 
         } elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete'])){ 
             $post_id = $_POST['delete'];
@@ -60,15 +53,10 @@ class Blog extends Controller
            Redirect::to('/'.$blogname);
          }
 
-        }
-
-
         elseif(isset($args[0])) {
             
             $auth = 0;
             $anon = 0;
-
-
             if ($this->userModel ->isLoggedIn()) {
               $user_id = $this->userModel->getLoggedInUserId();
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
@@ -93,9 +81,9 @@ class Blog extends Controller
 
         } 
        
-      }
+      
 
-        }
+        
        elseif(isset($args[1]) && $args == "delete" && !empty($_POST['delete']))
          {
             $post_id = $_POST['delete'];
