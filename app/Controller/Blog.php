@@ -255,4 +255,18 @@ class Blog extends Controller
         }
         Redirect::to('/'.$blogname.'/settings');
      }
+     public function follow()
+     {
+        if(!$this->userModel->isLoggedIn())
+        {
+        Redirect::to('/login');
+        }
+        $user_id = $this->userModel->getLoggedInUserId();
+        $blogname = $this->blogName;
+        $blog_id = $this->model('blog')->getBlogId($blogname);
+        $date = date('Y-m-d H:i:s');
+        $this->model('blog')->follow($user_id, $blog_id, $date);
+        
+        Redirect::to('/'.$blogname);
+     }
 }

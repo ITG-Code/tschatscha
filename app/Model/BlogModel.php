@@ -89,7 +89,7 @@ ORDER BY name ASC
 
     public static function getBlogId(string $blogName)
     {
-        $stmt = self::prepare("SELECT id FROM `blog` WHERE url_name = ?");
+        $stmt = self::prepare("SELECT id FROM  blog  WHERE url_name = ?");
         $stmt->bind_param('s', $blogName);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -120,5 +120,13 @@ ORDER BY name ASC
         ];
         $returnValue = (object)$returnValue;
         return $returnValue;
+    }
+
+    public function follow($user_id, $blog_id, $date)
+    {
+        $val = 0;
+        $stmt = self::prepare("INSERT INTO  followship (user_id,blog_id,allowed,created_at,changed_at) VALUES (?,?,?,?,?)");
+        $stmt->bind_param('iiiss', $user_id, $blog_id,$val,$date,$date);
+        $stmt->execute();
     }
 }
