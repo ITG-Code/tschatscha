@@ -47,22 +47,26 @@ class Blog extends Controller
         } 
 
         elseif(isset($args[0])) {
-            $this->view('blog/post/index', [
-              ]);
+            $blogname = $this->blogName;
+            $blog_id = $this->model('blog')->getBlogId($blogname);
+            $auth = 0;
+            $anon = 0;
 
-        } 
-        elseif(isset($args[0])) {
-                $blogname = $this->blogName;
-                $blog_id = $this->model('blog')->getBlogId($blogname);
-                $user_id = $this->userModel->getLoggedInUserId();
+            if ($this->userModel ->isLoggedIn()) {
+              $user_id = $this->userModel->getLoggedInUserId();
+              $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
+              $anon = 1;
+            }
                 $this->view('blog/post/index', [
 
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
                 'linked_title' => false,
                 'auth' => $this->model('Post')->checkAuth($blog_id, $user_id),
+                'anon' => $anon,
             ]);
         }
-       elseif(isset($args[1]) && $args == "delete" && !empty($_POST['delete']))
+
+       elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete']))
          { 
             $post_id = $_POST['delete'];
             $this->model('Post')->deletePost($post_id);
@@ -70,11 +74,8 @@ class Blog extends Controller
         else{
             $this->index();
         } 
-
-       
-    }
+      }
  
-
 
      public function settings($args = [])
     {
@@ -91,8 +92,6 @@ class Blog extends Controller
         }
 
         $search = [];
-
-
         //var_dump($currentUser);
         //var_dump($blog_id);
 

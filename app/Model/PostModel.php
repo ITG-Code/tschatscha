@@ -162,6 +162,7 @@ class PostModel extends Model
         $stmt = self::prepare("DELETE FROM post WHERE id = ?");
         $stmt->bind_param('i', $post_id);
         $stmt->execute();
+        $stmt->close();
     }
 
     // public static function getPostId()
