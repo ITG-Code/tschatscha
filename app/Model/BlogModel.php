@@ -122,13 +122,31 @@ ORDER BY name ASC
         return $returnValue;
     }
 
-    public function follow($user_id, $blog_id, $date)
+    public function follow(int $user_id, int $blog_id, string $date)
     {
         $val = 0;
         $stmt = self::prepare("INSERT INTO  followship (user_id,blog_id,allowed,created_at,changed_at) VALUES (?,?,?,?,?)");
         $stmt->bind_param('iiiss', $user_id, $blog_id,$val,$date,$date);
         $stmt->execute();
     }
+
+    public function getFollowers(int $user_id)
+    {
+        $stmt = self::prepare("SELECT followship.blog_id, blog.url_name, blog.name, MAX(post.changed_at) AS updated_time FROM followship INNER JOIN blog ON followship.blog_id = blog.id INNER JOIN post ON followship.blog_id = post.blog_id WHERE allowed = 1 AND followship.user_id = ? GROUP By followship.id");
+        $stmt->bind_param('i', $user_id);
+        $stmt->execute();
+        $result= $stmt->get_result();
+        if ($result->num_rows < 0) {
+            return [];
+        }
+
+        $retval = [];
+        while($row = $result->fetch_object()){
+            array_push($retval, $row);
+        }
+        return $retval;
+    }
+
     public function uniqueURLBlog(string $urlname)
     {
       $stmt = self::prepare("SELECT url_name FROM blog where url_name = ?");
