@@ -146,4 +146,21 @@ ORDER BY name ASC
         }
         return $retval;
     }
+
+    public function getAcceptFollowers()
+    {
+        $stmt = self::prepare("SELECT user.id, user.username AS name FROM user_blog INNER JOIN followship ON user_blog.blog_id = followship.blog_id INNER JOIN user ON followship.user_id = user.id WHERE user_blog.user_id = 28 AND followship.allowed = 0");
+        //$stmt->bind_param('i', $blog_id);
+        $stmt->execute();
+        $result= $stmt->get_result();
+        if ($result->num_rows < 0) {
+            return [];
+        }
+
+        $retval = [];
+        while($row = $result->fetch_object()){
+            array_push($retval, $row);
+        }
+        return $retval;       
+    }
 }
