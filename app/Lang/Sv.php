@@ -12,6 +12,7 @@ class Sv extends Lang
   const FORM_BLOGNAME_NEEED_4_CHAR = "Bloggnamnet måste vara minst 4 karaktärer långt";
   const FORM_BLOGNAME_INVALID_CHARS = "De tillåtna karaktärerna är a-z, A-Z, 0-9, bindestreck(-) och udnerstreck(_)";
   const FORM_BLOGNAME_RESERVED_NAME = "Den angivna URL:en är reserverad.";
+  const FORM_URLNAME_NOT_UNIQUE = "URL:en du angav används redan";
   const FORM_EMAIL_SENT_NO = "Ingen e-postadress satt";
   const FORM_POST_URL_INVALID_CHARS = "De tillåtna karaktärerna är a-z, A-Z, 0-9 och bindestreck(-)";
   const FORM_POST_DATE_INVALID = "Ogitligt datum. Var god ange ett giltigt datum";

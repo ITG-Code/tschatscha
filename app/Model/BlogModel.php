@@ -129,4 +129,18 @@ ORDER BY name ASC
         $stmt->bind_param('iiiss', $user_id, $blog_id,$val,$date,$date);
         $stmt->execute();
     }
+    public function uniqueURLBlog(string $urlname)
+    {
+      $stmt = self::prepare("SELECT url_name FROM blog where url_name = ?");
+      $stmt ->bind_param('s',$urlname);
+      $stmt->execute();
+      $res = $stmt->get_result();
+      $stmt->close();
+      var_dump($res->num_rows);
+      $unique = false;
+      if($res->num_rows == 0){
+        $unique = true;
+      }
+      return $unique;
+    }
 }
