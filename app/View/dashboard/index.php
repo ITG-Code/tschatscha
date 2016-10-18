@@ -45,11 +45,11 @@
     </table>
     <br>
     <br>
-    <h3>People who wants to follow you</h3>
+    <h3>People who wants to follow your blogs</h3>
     <table class="myBlogs">
         <tr class="myFollowSpace">
-            <th><b>Blogname</b></th>
-            <th><b>Latest change</b></th>
+            <th><b>Name</b></th>
+            <th><b>blog</b></th>
         </tr>
         <?php foreach ($data->acceptFollowList as $value) { ?>
         <tr>
@@ -57,7 +57,12 @@
                 <?= $value->name ?>
             </td>
             <td>
-                <form action="blog/submit" method="post">
+                <?= $value->blog_name ?>
+            </td>
+            <td>
+                <form action="/blog/acceptFollower" method="post">
+                    <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
+                    <input type="hidden" name="id" value="<?= $value->id ?>">
                     <input type="submit" name="accept" value="accept">
                 </form>
             </td>

@@ -280,4 +280,14 @@ class Blog extends Controller
 
         Redirect::to('/'.$blogname);
      }
+     public function acceptFollower()
+     {
+       if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
+         Redirect::to('/dashboard');
+       }
+       $follower_id = $_POST['id'];
+       $blog_id = $_POST['blog_id'];
+       $this->model('blog')->acceptFollower($follower_id, $blog_id);
+       Redirect::to('/dashboard');
+     }
 }
