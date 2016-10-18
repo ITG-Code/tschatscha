@@ -51,7 +51,7 @@
             <th><b>Blogname</b></th>
             <th><b>Latest change</b></th>
         </tr>
-        <?php foreach ($data->followlist as $value) { ?>
+        <?php foreach ($data->acceptFollowList as $value) { ?>
         <tr>
             <td>
                 <?= $value->name ?>
