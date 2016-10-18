@@ -157,11 +157,11 @@ class PostModel extends Model
         $returnValue = (object)$returnValue;
         return $returnValue;
     }
+    
     public function deletePost(int $post_id){
         $stmt = self::prepare("DELETE FROM post WHERE id = ?");
         $stmt->bind_param('i', $post_id);
         $stmt->execute();
-        $stmt->close();
     }
 
     // public static function getPostId()

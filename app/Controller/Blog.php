@@ -44,16 +44,14 @@ class Blog extends Controller
             $args = $args ? array_values($args) : [];
             $this->compose($args);
 
-        } elseif(isset($args[1]) && $args == "delete" && !empty($_POST['delete']))
-         { 
-            $post_id = $_POST['delete'];
-            $this->model('Post')->deletePost($post_id);
-         }
+        } 
 
         elseif(isset($args[0])) {
             $this->view('blog/post/index', [
+              ]);
 
-        } elseif(isset($args[0])) {
+        } 
+        elseif(isset($args[0])) {
                 $blogname = $this->blogName;
                 $blog_id = $this->model('blog')->getBlogId($blogname);
                 $user_id = $this->userModel->getLoggedInUserId();
@@ -64,7 +62,11 @@ class Blog extends Controller
                 'auth' => $this->model('Post')->checkAuth($blog_id, $user_id),
             ]);
         }
-       
+       elseif(isset($args[1]) && $args == "delete" && !empty($_POST['delete']))
+         { 
+            $post_id = $_POST['delete'];
+            $this->model('Post')->deletePost($post_id);
+         }
         else{
             $this->index();
         } 
