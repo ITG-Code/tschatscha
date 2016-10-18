@@ -26,20 +26,31 @@ class Blog extends Controller
     }
     public function post($args = [])
     {
+       
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
             $args = $args ? array_values($args) : [];
             $this->compose($args);
-        } elseif(isset($args[0])) {
+        } elseif(isset($args[1]) && $args == "delete" && !empty($_POST['delete']))
+         { 
+            $post_id = $_POST['delete'];
+            $this->model('Post')->deletePost($post_id);
+         }
 
+        elseif(isset($args[0])) {
             $this->view('blog/post/index', [
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
                 'linked_title' => false,
             ]);
-        }else{
-            $this->index();
         }
+       
+        else{
+            $this->index();
+        } 
+
+       
     }
+ 
 
 
      public function settings($args = [])

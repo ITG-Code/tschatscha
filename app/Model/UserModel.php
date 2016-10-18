@@ -370,7 +370,7 @@ LEFT JOIN
 user_blog
 ON
 blog.id = user_blog.blog_id
-WHERE user_blog.user_id = ? AND user_blog.authority = 7");
+WHERE user_blog.user_id = ? AND user_blog.authority >= 6");
         $stmt->bind_param('i', $currentUser);
         $stmt->execute();
         $result = $stmt->get_result();

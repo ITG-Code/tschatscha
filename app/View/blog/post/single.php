@@ -9,6 +9,11 @@
     <p><?= $data->parsedown->text($post->content) ?></p>
     <footer>
         <p>Skriven av: <?= $post->first_name, " \"", $post->alias, "\" ", $post->sur_name ?></p>
-        <p class="">Publicerad: <?= $post->publishing_date ?></p>
+        <p class="">Publicerad: <?= $post->publishing_date ?>
+    </p>
+    <?php
+    var_dump($post->id);
+    ?>
+        
     </footer>
 </article>
