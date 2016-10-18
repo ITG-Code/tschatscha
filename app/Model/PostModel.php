@@ -165,14 +165,12 @@ class PostModel extends Model
         $stmt->close();
     }
 
-    // public static function getPostId()
-    // {
-    //     $stmt = self::prepare("SELECT id FROM `post` WHERE id = ?");
-    //     $stmt->bind_param('i', $postId);
-    //     $stmt->execute();
-    //     $result = $stmt->get_result();
-    //     $stmt->close();
-    //     $row = $result->fetch_object()->id;
-    //     return $row;
-    // }
+    public static function getPostId(int $id)
+    {
+        $stmt = self::prepare("SELECT * FROM post WHERE id = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+    }
 }

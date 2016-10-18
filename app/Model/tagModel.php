@@ -132,4 +132,17 @@ class TagModel extends Model
         return $retval;
     
     }
+    public function getTags(int $post_id){
+        $stmt = self::prepare("SELECT * FROM tag LEFT JOIN post_tag ON tag.id = post_tag.tag_id WHERE post_tag.post_id = ?");
+        $stmt->bind_param('i', $post_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $returnValue = [];
+        while($row = $result->fetch_object())
+        {
+            $returnValue[] = $row;
+        }
+        
+            return $returnValue;
+    }
 }       
