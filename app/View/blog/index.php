@@ -2,10 +2,13 @@
 <nav> <?php if($data->auth == 7){
 				$authorityName = "ägare";
 				$data->auth = $authorityName;
+				echo '<a href="/<?php echo $data->blogname; ?>/compose">Gör ett inlägg</a>
+			 <a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a> ';
 
 				}elseif($data->auth == 6){
 					$authorityName = "medskribent";
 					$data->auth = $authorityName;
+					echo ' <a href="/<?php echo $data->blogname; ?>/compose">Gör ett inlägg</a> ';
 				}
 				elseif($data->auth == 2){
 					$authorityName = "moderator";
@@ -15,13 +18,19 @@
 					$authorityName = "besökare";
 					$data->auth = $authorityName;
 				}
-					?></p>
-            <a href="/dashboard">Kontrollpanel</a>
-            <a href="/<?= $data->blogname ?>/follow">Följ bloggen</a>
-            <a href="/logout">Logga ut</a>
-            <a href="/<?php echo $data->blogname; ?>/compose">Post</a>
-			<a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a>
+				if($this->userModel ->isLoggedIn()){
+					echo'<a href="/dashboard">Min kontrollpanel</a>
+					<a href="/logout">Logga ut</a>';
+				}?>
 			<p>Du är <?= $authorityName ?> på bloggen 
+			<?php
+				if($data->){
+			echo '<a href="/<?= $data->allowed ?>/follow">Följ bloggen</a></p>';
+			// Du ska inte kunna trycka följa om du redan är pending, du ska kunna sluta följa osv.
+            
+            }?>
+            
+			
         </nav>
 
 
