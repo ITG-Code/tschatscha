@@ -70,7 +70,7 @@ class PostModel extends Model
         $params[] = $limit;
         $params[] = $offset;
         $stmt = self::prepare("
-            SELECT post.*, user.first_name, user.alias, user.sur_name, CONCAT_WS(', ', tag.name)
+            SELECT post.*, user.first_name, user.alias, user.sur_name, CONCAT_WS(', ', tag.name) as tags
             FROM post
             INNER JOIN blog ON post.blog_id=blog.id
             LEFT JOIN user ON post.writer=user.id
