@@ -58,6 +58,14 @@
                 <input type="date" name="birthday" placeholder="yyyy-mm-dd" min="1899-11-28" max="<?php echo date('Y-m-d'); ?>" id="Date" required>
             </td>
         </tr>
+        <tr>
+            <td>
+                <a href="/register/terms">terms of agreement:</a>
+            </td>
+            <td>
+                <input type="checkbox" name="terms" id="terms">
+            </td>
+        </tr>
     </table>
         <div class="g-recaptcha" data-sitekey="6Lf6aQgUAAAAAMp-uBJa-Fg6m-tGx04qfUyTYdoN"></div>
         <input type="submit" name="submit" value="Register">
