@@ -37,7 +37,7 @@ class Blog extends Controller
         }
 
     }
-    public function post($args = []){ 
+    public function post($args = []){
       // $post_id = $this->model('post')->getPostId($id);
       // $postTags = $this->model('tag')->getTags($post_id);
       $blogname = $this->blogName;
@@ -45,14 +45,14 @@ class Blog extends Controller
       if ($this->userModel ->isLoggedIn()) {
               $user_id = $this->userModel->getLoggedInUserId();
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
-              
+
             }
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
             $args = $args ? array_values($args) : [];
             $this->compose($args);
 
-        } elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete']) && $auth>=6){ 
+        } elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete']) && $auth>=6){
             $post_id = $_POST['delete'];
             $this->model('Post')->deletePost($post_id);
            Redirect::to('/'.$blogname);
@@ -62,7 +62,7 @@ class Blog extends Controller
          }
 
         elseif(isset($args[0])) {
-            
+
             $auth = 0;
             $anon = 0;
             if ($this->userModel ->isLoggedIn()) {
@@ -70,7 +70,7 @@ class Blog extends Controller
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
               $anon = 1;
 
-            } 
+            }
             $this->view('blog/post/index', [
 
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
@@ -79,7 +79,7 @@ class Blog extends Controller
                 'anon' => $anon,
                 // 'postTag' => $postTags,
             ]);
-        }   
+        }
         else{
             $this->index();
         }
@@ -148,14 +148,15 @@ class Blog extends Controller
         if (!strlen($blogname) >= 4) {
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
-        $url_name = strtolower($urlname);
-        //whitelist array, enter in lowercase. Prevents user from having their blog url be something important.
-        $whitelist = array('create','dashboard','sendpost','compose','home','fixdate','fixurl','blog','account','login','logout','register','change_alias','change_email','change_password','index'
+        $urlname = strtolower($urlname);
+        //blacklist array, enter in lowercase. Prevents user from having their blog url be something important.
+        $blacklist = array('create','dashboard','sendpost','compose','home','fixdate','fixurl','blog','account','login','logout','register','change_alias','change_email','change_password','index'
         ,'create','settings','post','updatetags','view','model', 'search','send','activateaccount','follow');
-        if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) && strlen($urlname <= 3)) {
+        if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) || strlen($urlname <= 3)) {
           UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+          UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
-        if (in_array($url_name, $whitelist)){
+        if (in_array($url_name, $blacklist)){
           UserError::add(Lang::FORM_BLOGNAME_RESERVED_NAME);
         }
         $unique = $this->model('Blog')->uniqueURLBlog($urlname);
@@ -163,7 +164,7 @@ class Blog extends Controller
           UserError::add(LANG::FORM_URLNAME_NOT_UNIQUE);
         }
         if (UserError::exists()) {
-          // Redirect::to('/dashboard');
+          Redirect::to('/dashboard');
         }
         $blogModel = $this->model('Blog');
         $id = $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
