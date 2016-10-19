@@ -66,6 +66,13 @@
                     <input type="submit" name="accept" value="accept">
                 </form>
             </td>
+            <td>
+                <form action="/blog/deleteFollower" method="post">
+                    <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
+                    <input type="hidden" name="id" value="<?= $value->id ?>">
+                    <input type="submit" name="deny" value="deny">
+                </form>
+            </td>
         </tr>
         <?php } ?>
     </table>

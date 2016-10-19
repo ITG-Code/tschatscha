@@ -150,7 +150,7 @@ ORDER BY name ASC
 
     public function getAcceptFollowers(int $user_id)
     {
-        $stmt = self::prepare("SELECT user.id, blog.id AS blog_id, user.username AS name, blog.name AS blog_name FROM user_blog INNER JOIN followship ON user_blog.blog_id = followship.blog_id INNER JOIN user ON followship.user_id = user.id INNER JOIN blog ON followship.blog_id = blog.id WHERE user_blog.user_id = ? AND followship.allowed = 0");
+        $stmt = self::prepare("SELECT user.id, blog.id AS blog_id, user.alias AS name, blog.name AS blog_name FROM user_blog INNER JOIN followship ON user_blog.blog_id = followship.blog_id INNER JOIN user ON followship.user_id = user.id INNER JOIN blog ON followship.blog_id = blog.id WHERE user_blog.user_id = ? AND followship.allowed = 0");
         $stmt->bind_param('i', $user_id);
         $stmt->execute();
         $result= $stmt->get_result();
@@ -167,10 +167,16 @@ ORDER BY name ASC
     }
 
     public function acceptFollower(int $follower_id, int $blog_id)
-    {
-        echo $follower_id."<br>".$blog_id;
-        
+    {        
         $stmt = self::prepare("UPDATE followship SET allowed = 1 WHERE user_id = ? AND blog_id = ?");
+        $stmt->bind_param('ii', $follower_id, $blog_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function deleteFollower(int $follower_id, int $blog_id)
+    {
+        $stmt = self::prepare("DELETE FROM followship  WHERE user_id = ? AND blog_id = ?");
         $stmt->bind_param('ii', $follower_id, $blog_id);
         $stmt->execute();
         $stmt->close();
