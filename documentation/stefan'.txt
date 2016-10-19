@@ -1,0 +1,7 @@
+ANvändarvänlig inlogg
+account settings, ge hover effekt, byt titel namn så man förstår vad man ska göra
+tillbaka knapp
+kunna logga in överallt
+Bloggskapande av felaktigt namn ger endast fel men fortsätter ändå
+Bloggnamn: var inte case sensitive, gör alla urlnamn lower case
+XSS!!!!

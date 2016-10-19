@@ -75,37 +75,11 @@ class Blog extends Controller
 
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
                 'linked_title' => false,
-                'auth' => $this->model('Post')->checkAuth($blog_id, $user_id),
+                'auth' => $auth,
                 'anon' => $anon,
                 // 'postTag' => $postTags,
             ]);
-
-
-        }
-        elseif(isset($args[0])) {
-                $blogname = $this->blogName;
-                $blog_id = $this->model('blog')->getBlogId($blogname);
-                $user_id = $this->userModel->getLoggedInUserId();
-
-                $this->view('blog/post/index', [
-
-                'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
-                'linked_title' => false,
-                'auth' => $this->model('Post')->checkAuth($blog_id, $user_id),
-                'anon' => $anon,
-                // 'postTag' => $postTags,
-            ]);
-
-
-        } 
-       
-      
-        
-       elseif(isset($args[1]) && $args == "delete" && !empty($_POST['delete']))
-         {
-            $post_id = $_POST['delete'];
-            $this->model('Post')->deletePost($post_id);
-         }
+        }   
         else{
             $this->index();
         }
@@ -199,6 +173,19 @@ class Blog extends Controller
         Redirect::to('/'.$blogname);
       }
 
+    public function createComment()
+    {
+        if(!$this->userModel ->isLoggedIn())
+        {
+            Redirect::to('/login');
+        }
+
+        $session_user = $this->userModel->getLoggedInUserId();
+        $post_id = $this->model('post')->getPostId();
+        $content = (isset($_POST['content'])) ? $_POST['content'] : '';
+        $this->model('post')->create($post_id, $content, $session_user);
+
+    }
 
     public function compose($args = [])
     {
