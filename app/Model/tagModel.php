@@ -19,6 +19,8 @@ class TagModel extends Model
         $stmt = self::prepare("SELECT id FROM tag WHERE name = ?");
         for ($i = 0; $i < sizeof($tag); $i++) {
             $tag[$i] = trim($tag[$i]);
+            $testtag = str_replace(' ', '', $tag[$i]);
+            if(sizeof($testtag) >= 1){
             if (sizeof($tag[$i]) > 30) {
                 UserError::add(Lang::FORM_TAG_EXCEED_CHAR_LIMIT);
                 if ($post) {
@@ -41,6 +43,7 @@ class TagModel extends Model
             } else {
                 self::addTag($tag[$i],$post, $id);
             }
+          }
         }
     }
     public function linkTagPost($id, $tag_id)
@@ -130,7 +133,7 @@ class TagModel extends Model
             array_push($retval, $row);
         }
         return $retval;
-    
+
     }
     public function getTags(int $post_id){
         $stmt = self::prepare("SELECT * FROM tag LEFT JOIN post_tag ON tag.id = post_tag.tag_id WHERE post_tag.post_id = ?");
@@ -142,7 +145,7 @@ class TagModel extends Model
         {
             $returnValue[] = $row;
         }
-        
+
             return $returnValue;
     }
-}       
+}
