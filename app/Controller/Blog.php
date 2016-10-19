@@ -7,6 +7,7 @@ class Blog extends Controller
     public function __construct(string $blogName = null)
     {
         parent::__construct();
+        //TODO: URL parsing for /blog/blogname
         $this->blogName =  (isset($blogName)) ? $blogName :  null;
     }
 
