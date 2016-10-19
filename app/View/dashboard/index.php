@@ -15,9 +15,7 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="/dashboard">Home</a></li>
         <li><a href="#"></a></li>
-
       </ul>
-
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b class="caret"></b></a>
@@ -47,7 +45,7 @@
       <div class="panel-body">
         <table class="myBlogs">
           <tr class="myFollowSpace">
-            <th><b>Blognamn</b></th>
+            <th><b>Bloggnamn</b></th>
             <th><b>Länk</b></th>
           </tr>
           <?php foreach ($data->followlist as $value) { ?>
@@ -95,14 +93,14 @@
                       <form action="/blog/acceptFollower" method="post">
                         <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
                         <input type="hidden" name="id" value="<?= $value->id ?>">
-                        <input type="submit" name="accept" value="accept">
+                        <input type="submit" class="btn btn-success" name="accept" value="accept">
                       </form>
                     </td>
                     <td>
                       <form action="/blog/deleteFollower" method="post">
                         <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
                         <input type="hidden" name="id" value="<?= $value->id ?>">
-                        <input type="submit" name="deny" value="deny">
+                        <input type="submit" class="btn btn-danger" name="deny" value="deny">
                       </form>
                     </td>
                   </tr>
@@ -113,8 +111,6 @@
                   <?php } ?>
                 </div>
               </div>
-
-
             </div>
             <div class="col-md-12">
               <div class="panel panel-info">
