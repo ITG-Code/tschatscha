@@ -156,7 +156,7 @@ class Blog extends Controller
           UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
-        if (in_array($url_name, $blacklist)){
+        if (in_array($urlname, $blacklist)){
           UserError::add(Lang::FORM_BLOGNAME_RESERVED_NAME);
         }
         $unique = $this->model('Blog')->uniqueURLBlog($urlname);
