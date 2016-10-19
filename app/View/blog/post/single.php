@@ -22,5 +22,19 @@
     </article>
 <?php } ?>
 
+<?php
+   
+if ($data->auth >=6){
+?>
 
-foreach($data->postTag as $tags) DETTA SKA FIXAS IMORGON
+<form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/delete" method="post">
+<input type="hidden" name="delete" value="<?= $post->id ?>"/>
+<input type="submit" name="<?= $post->id ?>" value="Ta bort" />
+</form>
+<?php
+}else{
+?>
+
+<?php
+    }?>
+

@@ -1,4 +1,4 @@
-<form class="form-horizontal" action="/login/send" method="post">
+ <form class="form-horizontal" action="/login/send" method="post">
 	<div class="form-group">
 		<label for="username">Användarnamn</label>
 		<input type="text" class="form-control" id=""  name="username" placeholder="Användarnamn" required="">
