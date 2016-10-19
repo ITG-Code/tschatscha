@@ -41,16 +41,23 @@ class Blog extends Controller
       // $postTags = $this->model('tag')->getTags($post_id);
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
-
+      if ($this->userModel ->isLoggedIn()) {
+              $user_id = $this->userModel->getLoggedInUserId();
+              $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
+              
+            }
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
             $args = $args ? array_values($args) : [];
             $this->compose($args);
 
-        } elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete'])){ 
+        } elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete']) && $auth>=6){ 
             $post_id = $_POST['delete'];
             $this->model('Post')->deletePost($post_id);
            Redirect::to('/'.$blogname);
+           if($auth<6){
+            Redirect::to('/'.$blogname);
+           }
          }
 
         elseif(isset($args[0])) {
@@ -61,7 +68,17 @@ class Blog extends Controller
               $user_id = $this->userModel->getLoggedInUserId();
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
               $anon = 1;
-            }
+
+            } 
+            $this->view('blog/post/index', [
+
+                'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
+                'linked_title' => false,
+                'auth' => $this->model('Post')->checkAuth($blog_id, $user_id),
+                'anon' => $anon,
+                // 'postTag' => $postTags,
+            ]);
+
 
         }
         elseif(isset($args[0])) {
