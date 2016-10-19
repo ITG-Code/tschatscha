@@ -37,16 +37,9 @@ class Blog extends Controller
         }
 
     }
-<<<<<<< HEAD
     public function post($args = []){
-      // $post_id = $this->model('post')->getPostId($id);
-      // $postTags = $this->model('tag')->getTags($post_id);
-=======
-    public function post($args = []){ 
       $post_id = $this->model('post')->getPostId($id);
       $post_tag = $this->model('tag')->getTags($post_id);
-
->>>>>>> origin/master
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
@@ -114,7 +107,7 @@ class Blog extends Controller
         }
 
         $search = [];
-        
+
 
         if (isset($_POST['userQuery']) && !empty($_POST['userQuery'])) {
             $userquery = $_POST['userQuery'];
