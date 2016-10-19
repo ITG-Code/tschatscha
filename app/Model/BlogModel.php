@@ -124,10 +124,18 @@ ORDER BY name ASC
 
     public function follow(int $user_id, int $blog_id, string $date)
     {
-        $val = 0;
-        $stmt = self::prepare("INSERT INTO  followship (user_id,blog_id,allowed,created_at,changed_at) VALUES (?,?,?,?,?)");
-        $stmt->bind_param('iiiss', $user_id, $blog_id,$val,$date,$date);
-        $stmt->execute();
+        $stmt1 = self::prepare("SELECT id FROM followship WHERE user_id = ? AND blog_id = ?");
+        $stmt1->bind_param('ii', $user_id, $blog_id);
+        $stmt1->execute();
+        $result= $stmt1->get_result();
+        $stmt1->close();
+        if ($result->num_rows == 0) {
+            $val = 0;
+            $stmt2 = self::prepare("INSERT INTO  followship (user_id,blog_id,allowed,created_at,changed_at) VALUES (?,?,?,?,?)");
+            $stmt2->bind_param('iiiss', $user_id, $blog_id,$val,$date,$date);
+            $stmt2->execute();
+            $stmt2->execute();
+        }
     }
 
     public function getFollowers(int $user_id)
@@ -136,6 +144,7 @@ ORDER BY name ASC
         $stmt->bind_param('i', $user_id);
         $stmt->execute();
         $result= $stmt->get_result();
+        $stmt->close();
         if ($result->num_rows < 0) {
             return [];
         }
