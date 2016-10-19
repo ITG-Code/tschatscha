@@ -134,7 +134,7 @@ ORDER BY name ASC
             $stmt2 = self::prepare("INSERT INTO  followship (user_id,blog_id,allowed,created_at,changed_at) VALUES (?,?,?,?,?)");
             $stmt2->bind_param('iiiss', $user_id, $blog_id,$val,$date,$date);
             $stmt2->execute();
-            $stmt2->execute();
+            $stmt2->close();
         }
     }
 
