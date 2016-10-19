@@ -19,6 +19,22 @@ class PostModel extends Model
         return $retval;
     }
 
+    public static function createComment($post_id, $content, $session_user)
+    {
+
+        $query = self::prepare("SELECT * FROM comment LEFT JOIN post ON comment.post_id = post.id");
+        $query->execute();
+        $query->close();
+        $insert = self::prepare("INSERT INTO comment(post_id, content, session_user, created_at) VALUES (:post_id, :content, :session_user, :created_at)");
+        $insert->execute(array(
+            ':post_id' => $post_id,
+            ':content' => $content,
+            ':session_user' => $session_user,
+            ':created_at' => date('Y-m-d h:m:s')
+        ));
+        return $insert;
+    }
+
     /**
      * @param $blog | if it's an int in string or int form it'll search for blog_id, else url_name
      * @param string $postName | name of a post, needs

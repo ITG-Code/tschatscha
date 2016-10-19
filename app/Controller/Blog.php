@@ -199,6 +199,19 @@ class Blog extends Controller
         Redirect::to('/'.$blogname);
       }
 
+    public function createComment()
+    {
+        if(!$this->userModel ->isLoggedIn())
+        {
+            Redirect::to('/login');
+        }
+
+        $session_user = $this->userModel->getLoggedInUserId();
+        $post_id = $this->model('post')->getPostId();
+        $content = (isset($_POST['content'])) ? $_POST['content'] : '';
+        $this->model('post')->create($post_id, $content, $session_user);
+
+    }
 
     public function compose($args = [])
     {
