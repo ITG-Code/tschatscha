@@ -83,7 +83,6 @@
         <?php } ?>
     </table>
     <br>
-    
     <br>
     <h4>Create blog</h4>
     <div id="errors">
@@ -100,5 +99,4 @@
         NSFW: <input type="checkbox" name="nsfw" value="1"/></br>
         <input type="submit" name="submitblog" value="Create">
     </form>
-    
 </div>

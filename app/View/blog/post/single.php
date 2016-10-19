@@ -15,26 +15,13 @@
       
          <p class="">Publicerad: <?= $post->publishing_date ?>
     </p>
+
+
+
     
     </footer>
 </article>
 <?php } ?>
 
-<?php
-   
-if ($data->auth >=6){
-?>
 
-<form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/delete" method="post">
-<input type="hidden" name="delete" value="<?= $post->id ?>"/>
-<input type="submit" name="<?= $post->id ?>" value="Ta bort" />
-</form>
-<?php
-}else{
-?>
-
-<?php
-    }?>
-
-
-
+foreach($data->postTag as $tags) DETTA SKA FIXAS IMORGON

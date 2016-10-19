@@ -47,8 +47,10 @@ class PostModel extends Model
         if ($offset <= 0) {
             $offset = 0;
         }
+        $groupByColumn = 'id';
         if(!$history){
             $history = "AND post.id IN ( SELECT MAX(id) FROM post GROUP BY history_id)";
+            $groupByColumn = 'history_id';
         }else{
             $history = '';
         }
@@ -70,7 +72,7 @@ class PostModel extends Model
         $params[] = $limit;
         $params[] = $offset;
         $stmt = self::prepare("
-            SELECT post.*, user.first_name, user.alias, user.sur_name, CONCAT_WS(', ', tag.name) as tags
+            SELECT post.*, user.first_name, user.alias, user.sur_name, GROUP_CONCAT(', ', tag.name) as tags
             FROM post
             INNER JOIN blog ON post.blog_id=blog.id
             LEFT JOIN user ON post.writer=user.id
@@ -80,7 +82,7 @@ class PostModel extends Model
             . $history  .
             $searchQuery .
             $postNameQuery .
-            "ORDER BY history_id DESC, publishing_date DESC, changed_at DESC
+            "GROUP BY ".$groupByColumn." ORDER BY history_id DESC, publishing_date DESC, changed_at DESC
             LIMIT ?
             OFFSET ?");
         $ref    = new ReflectionClass('mysqli_stmt');
