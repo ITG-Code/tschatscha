@@ -82,7 +82,6 @@ class Blog extends Controller
         } 
        
       
-
         
        elseif(isset($args[1]) && $args == "delete" && !empty($_POST['delete']))
          {
