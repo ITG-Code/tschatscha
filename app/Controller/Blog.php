@@ -308,7 +308,7 @@ class Blog extends Controller
        Redirect::to('/dashboard');
      }
 
-     public function deleteFollower($value='')
+     public function deleteFollower()
      {
        if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
          Redirect::to('/dashboard');

@@ -39,7 +39,13 @@
             <td>
                 <?= $value->updated_time ?>
             </td>
-            
+            <td>
+                <form action="/blog/deleteFollower" method="post">
+                    <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
+                    <input type="hidden" name="id" value="<?= $value->id ?>">
+                    <input type="submit" name="unfollow" value="unfollow">
+                </form>
+            </td>
         </tr>
         <?php } ?>
     </table>

@@ -132,7 +132,7 @@ ORDER BY name ASC
 
     public function getFollowers(int $user_id)
     {
-        $stmt = self::prepare("SELECT followship.blog_id, blog.url_name, blog.name, MAX(post.changed_at) AS updated_time FROM followship INNER JOIN blog ON followship.blog_id = blog.id INNER JOIN post ON followship.blog_id = post.blog_id WHERE allowed = 1 AND followship.user_id = ? GROUP By followship.id");
+        $stmt = self::prepare("SELECT followship.user_id AS id, followship.blog_id, blog.url_name, blog.name, MAX(post.changed_at) AS updated_time FROM followship INNER JOIN blog ON followship.blog_id = blog.id INNER JOIN post ON followship.blog_id = post.blog_id WHERE allowed = 1 AND followship.user_id = ? GROUP By followship.id");
         $stmt->bind_param('i', $user_id);
         $stmt->execute();
         $result= $stmt->get_result();
