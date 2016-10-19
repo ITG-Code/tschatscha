@@ -209,7 +209,7 @@ class Blog extends Controller
         $title = isset($_POST['Title']) ? $_POST['Title'] : '';
         $url = isset($_POST['Url']) ? $_POST['Url'] : '';
         $publishing_date = isset($_POST['Date']) ? $_POST['Date'] : '';
-        $content = isset($_POST['Date']) ? $_POST['Date'] : '';
+        $content = isset($_POST['Content']) ? $_POST['Content'] : '';
         $tags = isset($_POST['Tags']) ? $_POST['Tags'] : '';
 
 
