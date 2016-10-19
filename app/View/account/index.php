@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 <div class="wrapper">
   <div class="panel panel-default">
     <div class="panel-heading">

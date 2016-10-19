@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 <div class="wrapper">
     You are logged in
     <?php echo $data->user->alias ?>!

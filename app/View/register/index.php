@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 <form action="/register/send" method="POST">
     <div class="registerForm">
     <table class="form">
