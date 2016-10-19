@@ -67,10 +67,19 @@
       </div>
       <div class="form-group">
         <label for="birthday"></label>
-        <input type="text" class="form-control" id="" placeholder="yyyy-mm-dd" min="1899-11-28" max="<?php echo date('Y-m-d'); ?>" id="Date" required>
+        <input type="text" class="form-control" id="birthday" name="birthday" placeholder="yyyy-mm-dd" min="1899-11-28" max="<?php echo date('Y-m-d'); ?>" id="Date" required>
         <p class="help-block">Help text here.</p>
       </div>
       <div class="g-recaptcha" data-sitekey="6Lf6aQgUAAAAAMp-uBJa-Fg6m-tGx04qfUyTYdoN"></div>
+      <div class="form-group">
+        <a href="/register/terms">terms of agreement:</a>
+        <input type="checkbox" name="terms" id="terms">
+        <p class="help-block">Help text here.</p>
+      </div>
+
+                     
+
+                
       <div class="form-group">
         <input type="submit" class="form-control btn btn-primary" id="" value="Registrera" >
       </div>
