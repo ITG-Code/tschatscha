@@ -2,9 +2,11 @@
 <nav> <?php if($data->auth == 7){
 				$authorityName = "ägare";
 				$data->auth = $authorityName;
-				echo '<a href="/<?php echo $data->blogname; ?>/compose">Gör ett inlägg</a>
-			 <a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a> ';
 
+				?>
+				<a href="/<?php echo $data->blogname; ?>/compose">Gör ett inlägg</a>
+			 <a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a> ';
+				<?php	
 				}elseif($data->auth == 6){
 					$authorityName = "medskribent";
 					$data->auth = $authorityName;
@@ -23,13 +25,7 @@
 					<a href="/logout">Logga ut</a>';
 				}?>
 			<p>Du är <?= $authorityName ?> på bloggen 
-			<?php
-				if($data->){
-			echo '<a href="/<?= $data->allowed ?>/follow">Följ bloggen</a></p>';
-			// Du ska inte kunna trycka följa om du redan är pending, du ska kunna sluta följa osv.
-            
-            }?>
-            
+			
 			
         </nav>
 
@@ -41,5 +37,11 @@
 
 
 
-
+<!--<?php
+				//if($data->){
+			//echo '<a href="/<?= $data->allowed ?>/follow">Följ bloggen</a></p>';
+			// Du ska inte kunna trycka följa om du redan är pending, du ska kunna sluta följa osv.
+            
+            }?>
+            !-->
 
