@@ -6,19 +6,38 @@ class Register extends Controller
     {
         // Where you send register form to process registration
         $username = $_POST['username'];
+        if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $username)) {
+          UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+        }
         $password = $_POST['password'];
         $email = $_POST['email'];
+        if (!preg_match("/^[a-zA-Z0-9.@]+$/", $email)) {
+          UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+        }
         $alias = $_POST['alias'];
+        if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $alias)) {
+          UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+        }
         $firstname = $_POST['firstname'];
+        if (!preg_match("/^[a-zA-Z].[a-zA-Z]+$/", $firstname)) {
+          UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+        }
         $surname = $_POST['surname'];
+        if (!preg_match("/^[a-zA-Z]+$/", $surname)) {
+          UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+        }
         $birthday = $_POST['birthday'];
+        if (!preg_match("/^[0-9-_]+$/", $birthday)) {
+          UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+        }
         $captcha = $_POST['g-recaptcha-response'];
         $url = 'https://www.google.com/recaptcha/api/siteverify';
         $privatekey = "6Lf6aQgUAAAAAFzRqiqzT9p8wGpX0GHRz4uDhMhc";
         $response = file_get_contents($url."?secret=".$privatekey."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']);
         $data = json_decode($response);
-
-        if ((!$this->model('User')->create($username, $password, $email, $alias, $firstname, $surname, $birthday))  && ($data->success==true) || (!isset($_POST['terms']))) {
+        if (UserError::exists()) {
+           Redirect::to('/register');
+        } else if ((!$this->model('User')->create($username, $password, $email, $alias, $firstname, $surname, $birthday))  && ($data->success==true) || (!isset($_POST['terms']))) {
             Redirect::to('/register');
         } else {
             Redirect::to('/login');
@@ -49,3 +68,4 @@ class Register extends Controller
         $this->view('register/terms');
     }
 }
+
