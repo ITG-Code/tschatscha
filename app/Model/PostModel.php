@@ -176,11 +176,19 @@ class PostModel extends Model
         return $returnValue;
     }
     
-    public function deletePost(int $post_id){
-        $stmt = self::prepare("DELETE FROM post WHERE id = ?");
-        $stmt->bind_param('i', $post_id);
-        $stmt->execute();
-        $stmt->close();
+    public function deletePost(int $post_id, int $user_id){
+
+        $stmt1 = self::prepare("SELECT user_blog.authority, post.id FROM user_blog INNER JOIN post ON user_blog.blog_id = post.blog_id WHERE user_blog.user_id = ? AND post.id = ?");
+        $stmt1->bind_param('ii', $user_id, $post_id);
+        $stmt1->execute();
+        $result = $stmt1->get_result();
+        $stmt1->close();
+        if ($result->num_rows > 0) {   
+            $stmt2 = self::prepare("DELETE FROM post WHERE id = ?");
+            $stmt2->bind_param('i', $post_id);
+            $stmt2->execute();
+            $stmt2->close();
+        }
     }
 
     public static function getPostId(int $id)

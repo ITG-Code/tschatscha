@@ -206,4 +206,12 @@ ORDER BY name ASC
       return $unique;
 
     }
+
+    public function deleteBlog(int $blog_id){
+        $stmt = self::prepare("DELETE FROM blog WHERE id = ?");
+        $stmt ->bind_param('i',$blog_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
 }

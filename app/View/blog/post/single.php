@@ -2,7 +2,7 @@
     <article class="well well-sm">
         <header>
             <?php
-            var_dump($post->id);
+           
             if ($data->linked_title) { ?>
                 <h2><a href="/<?= $data->blogname ?>/post/<?= $post->url_title ?>"><?= $post->title ?></a></h2>
             <?php } else { ?>
@@ -16,6 +16,7 @@
             <p class="">Publicerad: <?= $post->publishing_date ?></p>
             <div>
                 Taggar: <?=$post->tags?>
+              
             </div>
 
         </footer>
@@ -33,8 +34,10 @@ if ($data->auth >=6){
 </form>
 <?php
 }else{
-?>
 
-<?php
+
+
+//<?php foreach($data->postTags as $tags){echo"<a href=''>
     }?>
+
 
