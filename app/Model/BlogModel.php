@@ -140,7 +140,7 @@ ORDER BY name ASC
     //get people who follow you
     public function getFollowers(int $user_id)
     {
-        $stmt = self::prepare("SELECT user.id, blog.id AS blog_id, user.alias AS name, blog.name AS blog_name FROM user_blog INNER JOIN followship ON user_blog.blog_id = followship.blog_id INNER JOIN user ON followship.user_id = user.id INNER JOIN blog ON followship.blog_id = blog.id WHERE user_blog.user_id = ? AND followship.allowed = 1");
+        $stmt = self::prepare("SELECT user.id, blog.id AS blog_id, blog.url_name AS url_name, user.alias AS name, blog.name AS blog_name FROM user_blog INNER JOIN followship ON user_blog.blog_id = followship.blog_id INNER JOIN user ON followship.user_id = user.id INNER JOIN blog ON followship.blog_id = blog.id WHERE user_blog.user_id = ? AND followship.allowed = 1");
         $stmt->bind_param('i', $user_id);
         $stmt->execute();
         $result= $stmt->get_result();

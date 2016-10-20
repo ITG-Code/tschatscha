@@ -15,7 +15,7 @@
 	        	 	<?= $value->name ?>
 	        	</td>
 		        <td>
-		         	<?= $value->blog_name ?>
+		         	<a href="/<?= $value->url_name ?>"><?= $value->blog_name ?></a>
 		        </td>
 		        <td>
 			         <form action="/blog/deleteFollower" method="post">
@@ -38,23 +38,41 @@
 <div class="col-md-6 col-xs-12">
 	<div class="panel panel-primary">
 		<div class="panel-heading">
- 		 <h3 class="panel-title">Följningsförfrågningar</h3>
+ 		 <h3 class="panel-title">Bloggar du kontrollerar</h3>
 		</div>
 		<div class="panel-body">
 	  	<table class="myBlogs">
 	    	<tr class="myFollowSpace">
-	      		<th><b>Namn</b></th>
-	      		<th><b>blogg</b></th>
-	   		</tr>
-	    	<?php foreach ($data->acceptlist as $value) { ?>
+	      		<th><b>Blogg</b></th>
+	      		<th><b>Rank</b></th>
+	   		</tr><?php foreach ($data->blogs as $value) { ?>
 	      	<tr>
+
+	   		<?php if($value->authority == 7){
+				$authorityName = "Ägare";
+				$value->authority = $authorityName;
+
+				}elseif($value->authority == 6){
+					$authorityName = "Medskribent";
+					$value->authority = $authorityName;
+				}
+				elseif($value->authority == 2){
+					$authorityName = "Moderator";
+					$value->authority = $authorityName;
+				}
+				elseif($value->authority == 0){
+					$authorityName = "Besökare";
+					$value->authority = $authorityName;
+				}
+					?>
+	    	
 	        	<td>
-	        	 	<?= $value->name ?>
+	        	 	<a href="/<?= $value->url_name ?>"><?= $value->name ?></a>
 	        	</td>
 		        <td>
-		         	<?= $value->blog_name ?>
+		         	<?= $authorityName ?>
 		        </td>
-		        <td>
+		        <!-- <td>
 		        	<form action="/blog/acceptFollower" method="post">
 		            	<input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
 		            	<input type="hidden" name="id" value="<?= $value->id ?>">
@@ -69,7 +87,7 @@
 			            <input type="hidden" name="redict" value="0">
 			            <input type="submit" class="btn btn-danger" name="deny" value="Ta bort">
 			         </form>
-		        </td>
+		        </td> -->
 	      	</tr>
 	      	<?php } ?>
 	    </table>

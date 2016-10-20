@@ -365,12 +365,12 @@ WHERE id = ?
 
     public function getYourBlogs(int $currentUser)
     {
-        $stmt = self::prepare("SELECT blog.*, user_blog.user_id, user_blog.blog_id, user_blog.authority, user_blog.id FROM blog
+        $stmt = self::prepare("SELECT blog.*, user_blog.user_id, user_blog.blog_id, user_blog.authority AS authority, blog.url_name AS url_name, user_blog.id FROM blog
 LEFT JOIN
 user_blog
 ON
 blog.id = user_blog.blog_id
-WHERE user_blog.user_id = ? AND user_blog.authority >= 6");
+WHERE user_blog.user_id = ? AND user_blog.authority >= 2");
         $stmt->bind_param('i', $currentUser);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -400,4 +400,5 @@ WHERE user_blog.user_id = ? AND user_blog.authority >= 6");
         $returnValue = (object)$returnValue;
         return $returnValue;
     }
+
 }

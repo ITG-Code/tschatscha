@@ -351,14 +351,20 @@ class Blog extends Controller
 
      public function allFollowers()
      {
-        $user_id = $this->userModel->getLoggedInUserId();
-        $list = $this->model('blog')->getFollowers($user_id);
-        $acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
-
-        $this->view('/dashboard/bigList', [
-            'list' => $list,
-            'acceptlist' => $acceptlist,
-            
-        ]);
+      if ($this->userModel ->isLoggedIn()) {
+              $user_id = $this->userModel->getLoggedInUserId();
+              $list = $this->model('blog')->getFollowers($user_id);
+              $getBlogs = $this->userModel->getYourBlogs($user_id);
+              //$acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
+              $this->view('/dashboard/bigList', [
+                        'list' => $list,
+                        // 'acceptlist' => $acceptlist,
+                        //'auth' => $authority,
+                        'blogs' => $getBlogs,
+                        
+                    ]);
+            }
+       
+       
      }
 }

@@ -20,9 +20,9 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <?php foreach ($data->bloglist as $value) { ?>
+            <?php  foreach ($data->bloglist as $value) {if ($value->authority >= 6) { ?>
               <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
-              <?php } ?>
+              <?php }} ?>
               <li class="divider"></li>
             </ul>
           </li>
@@ -150,6 +150,8 @@
                 </div>
               </div>
             </div>
+            
+
             <div id="errors">
               <h5>
                 <?php foreach ($data->errors as $value) {
