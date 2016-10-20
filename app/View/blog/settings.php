@@ -74,13 +74,36 @@
           </form>
         </div>
       </div>
-      <div class="remove" style="font-size: 30px;">
-      <form action="/<?= $data->blogname ?>/settings" method="post" style="font-size: 15px;"><label style="font-size: 26px;">Ta bort blogg</label>
+      <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title" href="#deleteblog" data-toggle="collapse">Ta bort bloggen</h3>
+    </div>
+    <div class="panel-body collapse" id="deleteblog">
+      <form class="form-horizontal" action="/<?= $data->blogname ?>/settings" method="post">
+        <fieldset>
+          <div class="form-group">
+            <label for="blog">Ta bort blog</label>
+             <input type="hidden" name="delete" value="<?= $data->blogid ?>">
+        <!-- <input type="submit" name="<?= $data->blogid ?>" value="Ta bort"/> -->
+          </div>
+          <div class="form-group">
+            <label for="confirmpassword">Lösenord</label>
+            <input type="password" class="form-control" name="confirmpassword" placeholder="">
+            <p class="help-block">Verifiera med ditt lösenord</p>
+          </div>
+          <div class="form-group">
+            <input type="submit" class="form-control btn btn-primary" value="Ta bort">
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+     <!--  <form action="/<?= $data->blogname ?>/settings" method="post" style="font-size: 15px;"><label style="font-size: 26px;">Ta bort blogg</label>
         <input type="hidden" name="delete" value="<?= $data->blogid ?>">
         <input type="submit" name="<?= $data->blogid ?>" value="Ta bort"/>
       </form>
       
-      </div>
+       -->
       
       <div class="left" style="float:left; width:300px;">
 
