@@ -11,11 +11,11 @@
         </header>
         <p><?= $data->parsedown->text($post->content) ?></p>
         <footer>
-            <p>Skriven av: <?= $post->first_name, " \"", $post->alias, "\" ", $post->sur_name ?></p>
+            <p style="font-size:10px;">Skriven av: <?= $post->first_name, " \"", $post->alias, "\" ", $post->sur_name ?> | Publicerad: <?= $post->publishing_date ?></p>
 
-            <p class="">Publicerad: <?= $post->publishing_date ?></p>
+           
             <div>
-                Taggar: <?=$post->tags?>
+                <p style="font-size:10px;">Taggar: <?=$post->tags?></p>
               
             </div>
 
