@@ -112,6 +112,7 @@
                 </div>
               </div>
             </div>
+            <a href="/blog/allFollowers">Visa alla följare</a>
             <div class="col-md-12">
               <div class="panel panel-info">
                 <div class="panel-heading">

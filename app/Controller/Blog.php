@@ -339,4 +339,17 @@ class Blog extends Controller
        $this->model('blog')->deleteFollower($follower_id, $blog_id);
        Redirect::to('/dashboard');
      }
+
+     public function allFollowers()
+     {
+        $user_id = $this->userModel->getLoggedInUserId();
+        $list = $this->model('blog')->getFollowers($user_id);
+        $acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
+
+        $this->view('/dashboard/bigList', [
+            'list' => $list,
+            'acceptlist' => $acceptlist,
+            
+        ]);
+     }
 }
