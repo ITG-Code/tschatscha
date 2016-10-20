@@ -36,8 +36,8 @@ class PostModel extends Model
     }
 
     /**
-     * @param $blog | if it's an int in string or int form it'll search for blog_id, else url_name
-     * @param string $postName | name of a post, needs
+     * @param string | int  $blog | if it's an int in string or int form it'll search for blog_id, else url_name
+     * @param string | int  $post | if it's an int in string or int form it'll search for post_id, else url_title
      * @param int $limit | The max amount of posts wanted, multiple posts with same id counts as 1
      * @param int $offset |
      * @param string $search | if there's anything to search for in the title or content
@@ -46,7 +46,7 @@ class PostModel extends Model
      * @Author Brolaugh
      */
     //TODO: Fix limit and offset so that it corresponds to the documentation
-    public function get($blog, string $postName = '', int $limit = 0, int $offset = 0, bool $history = false, string $search = ''):  array
+    public function get($blog,  $post = '', int $limit = 0, int $offset = 0, bool $history = false, string $search = ''):  array
     {
         $params = [''];
         if (is_numeric($blog) && $blog % 1 == 0) {
@@ -79,10 +79,14 @@ class PostModel extends Model
             $params[] = $search;
         }
         $postNameQuery = '';
-        if(!empty($postName)){
+        if(!empty($post) && is_string($post)){
             $postNameQuery =  'AND url_title = ? ';
             $params[0].= 's';
-            $params[] = $postName;
+            $params[] = $post;
+        }elseif(!empty($post) && is_numeric($post)){
+            $postNameQuery =  'AND post.id = ? ';
+            $params[0].= 'i';
+            $params[] = $post;
         }
         $params[0].='ii';
         $params[] = $limit;
