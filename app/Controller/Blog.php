@@ -64,9 +64,12 @@ class Blog extends Controller
             Redirect::to('/'.$blogname);
            }
          } elseif(isset($args[1]) && $args[1] == "edit" && $auth >=6){
-           $post_id = $this->model('Post')->;
-           $posturl =
-           $postContent = $this->model('Post')->currentPost($post_id);
+           $posturl = $args[0];
+           $post_id = $this->model('Post')->get($blogname,$posturl);
+           echo "<pre>";
+           var_dump($post_id[0]->id);
+
+           $postContent = $this->model('Post')->currentPost($post_id[0]->id);
            $this->view('/blog/post/edit', [
              'postContent' => $postContent,
            ]);
