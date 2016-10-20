@@ -13,7 +13,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/dashboard">Home</a></li>
+        <li class="active"><a href="/dashboard">Hem</a></li>
         <li><a href="#"></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -56,7 +56,7 @@
                   <form action="/blog/deleteFollower" method="post">
                     <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
                     <input type="hidden" name="id" value="<?= $value->id ?>">
-                    <input type="submit" name="unfollow" value="unfollow">
+                    <input type="submit" name="unfollow" value="Sluta följa">
                   </form>
                 </td>
               </tr>
@@ -78,8 +78,8 @@
             <div class="panel-body">
               <table class="myBlogs">
                 <tr class="myFollowSpace">
-                  <th><b>Name</b></th>
-                  <th><b>blog</b></th>
+                  <th><b>Alias</b></th>
+                  <th><b>Blogg</b></th>
                 </tr>
                 <?php foreach ($data->acceptFollowList as $value) { ?>
                   <tr>
@@ -93,14 +93,16 @@
                       <form action="/blog/acceptFollower" method="post">
                         <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
                         <input type="hidden" name="id" value="<?= $value->id ?>">
-                        <input type="submit" class="btn btn-success" name="accept" value="accept">
+                        <input type="hidden" name="redict" value="1">
+                        <input type="submit" class="btn btn-success" name="accept" value="Acceptera">
                       </form>
                     </td>
                     <td>
                       <form action="/blog/deleteFollower" method="post">
                         <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
                         <input type="hidden" name="id" value="<?= $value->id ?>">
-                        <input type="submit" class="btn btn-danger" name="deny" value="deny">
+                        <input type="hidden" name="redict" value="1">
+                        <input type="submit" class="btn btn-danger" name="deny" value="Neka">
                       </form>
                     </td>
                   </tr>
@@ -112,6 +114,7 @@
                 </div>
               </div>
             </div>
+            <a href="/blog/allFollowers">Visa alla följare</a>
             <div class="col-md-12">
               <div class="panel panel-info">
                 <div class="panel-heading">
@@ -132,7 +135,7 @@
                       <div class="form-group">
                         <label for="tags">Taggar</label>
                         <input type="text" name="tags" class="form-control" id="" placeholder="Taggar">
-                        <p class="help-block">T.ex. kläder, datorer</p>
+                        <p class="help-block">T.ex. kläder, datorer, separeras med komma (,)</p>
                       </div>
                       <div class="form-group">
                         <div class="checkbox">

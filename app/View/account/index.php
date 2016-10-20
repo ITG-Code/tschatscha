@@ -33,7 +33,7 @@
           <div class="form-group">
             <label for="alias">Email</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-            <p class="help-block">Det email du vill ha i framtiden</p>
+            <p class="help-block">Din nya email</p>
           </div>
           <div class="form-group">
             <label for="confirmpassword">Lösenord</label>

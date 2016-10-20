@@ -137,8 +137,26 @@ ORDER BY name ASC
             $stmt2->close();
         }
     }
-
+    //get people who follow you
     public function getFollowers(int $user_id)
+    {
+        $stmt = self::prepare("SELECT user.id, blog.id AS blog_id, user.alias AS name, blog.name AS blog_name FROM user_blog INNER JOIN followship ON user_blog.blog_id = followship.blog_id INNER JOIN user ON followship.user_id = user.id INNER JOIN blog ON followship.blog_id = blog.id WHERE user_blog.user_id = ? AND followship.allowed = 1");
+        $stmt->bind_param('i', $user_id);
+        $stmt->execute();
+        $result= $stmt->get_result();
+        if ($result->num_rows < 0) {
+            return [];
+        }
+
+        $retval = [];
+        while($row = $result->fetch_object()){
+            array_push($retval, $row);
+        }
+        return $retval;
+    }
+
+    //gets bloggs who you follow
+    public function getFollows(int $user_id)
     {
         $stmt = self::prepare("SELECT followship.user_id AS id, followship.blog_id, blog.url_name, blog.name, MAX(post.changed_at) AS updated_time FROM followship INNER JOIN blog ON followship.blog_id = blog.id INNER JOIN post ON followship.blog_id = post.blog_id WHERE allowed = 1 AND followship.user_id = ? GROUP By followship.id");
         $stmt->bind_param('i', $user_id);
@@ -172,7 +190,6 @@ ORDER BY name ASC
             array_push($retval, $row);
         }
         return $retval;
-
     }
 
     public function acceptFollower(int $follower_id, int $blog_id)

@@ -16,7 +16,7 @@
 					$data->auth = $authorityName;
 				}
 					?></p>
-            <a href="/dashboard">Kontrollpanel</a>
+            <a href="/dashboard">Hem</a>
             <a href="/<?= $data->blogname ?>/follow">Följ bloggen</a>
             <a href="/logout">Logga ut</a>
             <a href="/<?php echo $data->blogname; ?>/compose">Post</a>

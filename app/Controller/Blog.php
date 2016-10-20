@@ -100,7 +100,8 @@ class Blog extends Controller
     }
 
      public function settings($args = [])
-    {
+    {   
+        $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         $blogname = $this->blogName;
         $blog_id = $this->model('blog')->getBlogId($blogname);
         if(!$this->userModel ->isLoggedIn())
@@ -112,11 +113,17 @@ class Blog extends Controller
         if ($auth != 7) {
           Redirect::to('/'.$blogname);
         }
-        if(isset($_POST['delete'])){
+        if (empty($confirmPassword)) {
+            UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
+        } 
+        if (!password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId())->password)) {
+            UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
+        }
+        if(isset($_POST['delete']) && !empty($confirmPassword) && password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId())->password) == true){
           $blog_id = $_POST['delete'];
           $bloggen = $this->model('Blog')->deleteBlog($blog_id);
           Redirect::to('/dashboard');
-        }
+        } 
 
         $search = [];
 
@@ -321,23 +328,45 @@ class Blog extends Controller
      }
      public function acceptFollower()
      {
-       if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
-         Redirect::to('/dashboard');
-       }
-       $follower_id = $_POST['id'];
-       $blog_id = $_POST['blog_id'];
-       $this->model('blog')->acceptFollower($follower_id, $blog_id);
-       Redirect::to('/dashboard');
+        $redict = '/blog/allFollowers';
+        if ($_POST['redict'] == 1) {
+          $redict = '/dashboard';
+        }
+        if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
+          Redirect::to($redict);
+        }
+        $follower_id = $_POST['id'];
+        $blog_id = $_POST['blog_id'];
+        $this->model('blog')->acceptFollower($follower_id, $blog_id);
+        Redirect::to($redict);
      }
 
      public function deleteFollower()
      {
-       if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
-         Redirect::to('/dashboard');
-       }
-       $follower_id = $_POST['id'];
-       $blog_id = $_POST['blog_id'];
-       $this->model('blog')->deleteFollower($follower_id, $blog_id);
-       Redirect::to('/dashboard');
+
+        $redict = '/blog/allFollowers';
+        if ($_POST['redict'] == 1) {
+          $redict = '/dashboard';
+        }
+        if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
+          Redirect::to($redict);
+        }
+        $follower_id = $_POST['id'];
+        $blog_id = $_POST['blog_id'];
+        $this->model('blog')->deleteFollower($follower_id, $blog_id);
+        Redirect::to($redict);
+     }
+
+     public function allFollowers()
+     {
+        $user_id = $this->userModel->getLoggedInUserId();
+        $list = $this->model('blog')->getFollowers($user_id);
+        $acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
+
+        $this->view('/dashboard/bigList', [
+            'list' => $list,
+            'acceptlist' => $acceptlist,
+            
+        ]);
      }
 }
