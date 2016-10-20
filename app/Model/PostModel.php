@@ -196,7 +196,7 @@ class PostModel extends Model
     }
     public function currentPost(int $post_id)
     {
-      $stmt = self::prepare("SELECT history_id, title, content, anonymous_allowance, visibility, writer FROM post WHERE id=?");
+      $stmt = self::prepare("SELECT history_id title, content, anonymous_allowance, visibility, writer FROM post WHERE id=?");
       $stmt->bind_param('i',$post_id);
       $stmt->execute();
       $result = $stmt->get_result();

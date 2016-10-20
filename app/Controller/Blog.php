@@ -69,11 +69,11 @@ class Blog extends Controller
            $posturl = $args[0];
            $post_id = $this->model('Post')->get($blogname,$posturl);
            echo "<pre>";
-           var_dump($post_id[0]->id);
-
-           $postContent = $this->model('Post')->currentPost($post_id[0]->id);
+          //  var_dump($post_id[0]->id);
+          //  $postContent = $this->model('Post')->currentPost($post_id[0]);
+          //  var_dump($postContent);
            $this->view('/blog/post/edit', [
-             'postContent' => $postContent,
+             'autoFillPost' => $post_id[0],
            ]);
            if($auth<6){
              Redirect::to('/'.$blogname.'/post/'.$post_url);
