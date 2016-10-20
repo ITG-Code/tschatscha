@@ -2,7 +2,7 @@
     <article class="well well-sm">
         <header>
             <?php
-           
+
             if ($data->linked_title) { ?>
                 <h2><a href="/<?= $data->blogname ?>/post/<?= $post->url_title ?>"><?= $post->title ?></a></h2>
             <?php } else { ?>
@@ -16,7 +16,7 @@
             <p class="">Publicerad: <?= $post->publishing_date ?></p>
             <div>
                 Taggar: <?=$post->tags?>
-              
+
             </div>
 
         </footer>
@@ -24,14 +24,25 @@
 <?php } ?>
 
 <?php
-   
+
 if ($data->auth >=6){
 ?>
-
+<table> <tr>
+  <td>
 <form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/delete" method="post">
 <input type="hidden" name="delete" value="<?= $post->id ?>"/>
 <input type="submit" name="<?= $post->id ?>" value="Ta bort" />
 </form>
+</td>
+<td>
+<form name="edit" action"/<?= $data->blogname ?>/post/<?= $post->url_title ?>/edit" method="post">
+  <input type="hidden" name="edit" value="<?= $post->id ?>" />
+  <input type="hidden" name="editurl" value="<?= $post->url_title ?>" />
+  <input type="submit" name="<?= $post->id ?>" value="redigera" />
+</form>
+</td>
+</tr>
+</table>
 <?php
 }else{
 
@@ -39,5 +50,3 @@ if ($data->auth >=6){
 
 //<?php foreach($data->postTags as $tags){echo"<a href=''>
     }?>
-
-

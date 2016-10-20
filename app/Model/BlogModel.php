@@ -176,7 +176,7 @@ ORDER BY name ASC
     }
 
     public function acceptFollower(int $follower_id, int $blog_id)
-    {        
+    {
         $stmt = self::prepare("UPDATE followship SET allowed = 1 WHERE user_id = ? AND blog_id = ?");
         $stmt->bind_param('ii', $follower_id, $blog_id);
         $stmt->execute();
@@ -190,7 +190,7 @@ ORDER BY name ASC
         $stmt->execute();
         $stmt->close();
     }
-    
+
     public function uniqueURLBlog(string $urlname)
     {
       $stmt = self::prepare("SELECT url_name FROM blog where url_name = ?");

@@ -63,9 +63,17 @@ class Blog extends Controller
            if($auth<6){
             Redirect::to('/'.$blogname);
            }
+         } elseif(isset($args[1]) && $args[1] == "edit" && !empty($_POST['edit'] && $auth >=6)){
+           $post_id = $_POST['edit'];
+           $posturl = $_POST['editurl'];
+           $this->view('/',$blogname,'/post/'.$posturl.'/edit', [
+             'postContent' => $this->model('Post')->currentPost($post_id),
+           ]);
+           if($aut<6){
+             Redirect::to('/'.$blogname.'/post/'.$post_url);
+           }
          }
-
-        elseif(isset($args[0])) {
+         elseif(isset($args[0])) {
 
             $auth = 0;
             $anon = 0;
@@ -179,7 +187,7 @@ class Blog extends Controller
         if(strlen('tags') != 0){
           $this->model('tag')->checkTag($tags,false,$id,$blogname);
         }
-        Redirect::to('/'.$blogname);
+        Redirect::to('/'.$urlname);
       }
 
     public function createComment()
