@@ -40,9 +40,7 @@ if ($data->auth >=6){
 </form>
 </td>
 <td>
-<form name="edit" action"/<?= $data->blogname ?>/post/<?= $post->url_title ?>/edit" method="post">
-  <input type="hidden" name="edit" value="<?= $post->id ?>" />
-  <input type="hidden" name="editurl" value="<?= $post->url_title ?>" />
+<form name="edit" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/edit" method="post">
   <input type="submit" name="<?= $post->id ?>" value="redigera" />
 </form>
 </td>

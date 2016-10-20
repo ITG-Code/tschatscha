@@ -63,13 +63,14 @@ class Blog extends Controller
            if($auth<6){
             Redirect::to('/'.$blogname);
            }
-         } elseif(isset($args[1]) && $args[1] == "edit" && !empty($_POST['edit'] && $auth >=6)){
-           $post_id = $_POST['edit'];
-           $posturl = $_POST['editurl'];
-           $this->view('/',$blogname,'/post/'.$posturl.'/edit', [
-             'postContent' => $this->model('Post')->currentPost($post_id),
+         } elseif(isset($args[1]) && $args[1] == "edit" && $auth >=6){
+           $post_id = $this->model('Post')->;
+           $posturl =
+           $postContent = $this->model('Post')->currentPost($post_id);
+           $this->view('/blog/post/edit', [
+             'postContent' => $postContent,
            ]);
-           if($aut<6){
+           if($auth<6){
              Redirect::to('/'.$blogname.'/post/'.$post_url);
            }
          }
@@ -100,7 +101,7 @@ class Blog extends Controller
     }
 
      public function settings($args = [])
-    {   
+    {
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         $blogname = $this->blogName;
         $blog_id = $this->model('blog')->getBlogId($blogname);
@@ -115,7 +116,7 @@ class Blog extends Controller
         }
         if (empty($confirmPassword)) {
             UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
-        } 
+        }
         if (!password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId())->password)) {
             UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
         }
@@ -123,7 +124,7 @@ class Blog extends Controller
           $blog_id = $_POST['delete'];
           $bloggen = $this->model('Blog')->deleteBlog($blog_id);
           Redirect::to('/dashboard');
-        } 
+        }
 
         $search = [];
 
@@ -366,7 +367,7 @@ class Blog extends Controller
         $this->view('/dashboard/bigList', [
             'list' => $list,
             'acceptlist' => $acceptlist,
-            
+
         ]);
      }
 }
