@@ -40,8 +40,8 @@ class Blog extends Controller
 
 
     public function post($args = []){ 
-      $post_id = $this->model('post')->getPostId($id);
-      $post_tag = $this->model('tag')->getTags($post_id);
+      // $post_id = $this->model('post')->getPostId($id);
+      // $post_tag = $this->model('tag')->getTags($post_id);
 
 
       $blogname = $this->blogName;
@@ -81,7 +81,7 @@ class Blog extends Controller
                 'linked_title' => false,
                 'auth' => $auth,
                 'anon' => $anon,
-                'postTag' => $post_tag,
+                // 'postTag' => $post_tag,
             ]);
         }
         else{
