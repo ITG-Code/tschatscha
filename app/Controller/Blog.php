@@ -320,24 +320,33 @@ class Blog extends Controller
      }
      public function acceptFollower()
      {
-       if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
-         Redirect::to('/dashboard');
-       }
-       $follower_id = $_POST['id'];
-       $blog_id = $_POST['blog_id'];
-       $this->model('blog')->acceptFollower($follower_id, $blog_id);
-       Redirect::to('/dashboard');
+        $redict = '/blog/allFollowers';
+        if ($_POST['redict'] == 1) {
+          $redict = '/dashboard';
+        }
+        if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
+          Redirect::to($redict);
+        }
+        $follower_id = $_POST['id'];
+        $blog_id = $_POST['blog_id'];
+        $this->model('blog')->acceptFollower($follower_id, $blog_id);
+        Redirect::to($redict);
      }
 
      public function deleteFollower()
      {
-       if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
-         Redirect::to('/dashboard');
-       }
-       $follower_id = $_POST['id'];
-       $blog_id = $_POST['blog_id'];
-       $this->model('blog')->deleteFollower($follower_id, $blog_id);
-       Redirect::to('/dashboard');
+
+        $redict = '/blog/allFollowers';
+        if ($_POST['redict'] == 1) {
+          $redict = '/dashboard';
+        }
+        if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
+          Redirect::to($redict);
+        }
+        $follower_id = $_POST['id'];
+        $blog_id = $_POST['blog_id'];
+        $this->model('blog')->deleteFollower($follower_id, $blog_id);
+        Redirect::to($redict);
      }
 
      public function allFollowers()

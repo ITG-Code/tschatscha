@@ -93,6 +93,7 @@
                       <form action="/blog/acceptFollower" method="post">
                         <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
                         <input type="hidden" name="id" value="<?= $value->id ?>">
+                        <input type="hidden" name="redict" value="1">
                         <input type="submit" class="btn btn-success" name="accept" value="accept">
                       </form>
                     </td>
@@ -100,6 +101,7 @@
                       <form action="/blog/deleteFollower" method="post">
                         <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
                         <input type="hidden" name="id" value="<?= $value->id ?>">
+                        <input type="hidden" name="redict" value="1">
                         <input type="submit" class="btn btn-danger" name="deny" value="deny">
                       </form>
                     </td>
