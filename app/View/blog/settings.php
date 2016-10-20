@@ -92,7 +92,7 @@
             <p class="help-block">Verifiera med ditt lösenord</p>
           </div>
           <div class="form-group">
-            <input type="submit" name="<?= $data->blogid ?>" class="form-control btn btn-primary" value="Ta bort">
+            <input type="submit" name="<?= $data->blogid ?>" class="form-control btn btn-primary" value="Ta bort" onClick='return executeOnSubmit();'>
           </div>
         </fieldset>
       </form>
