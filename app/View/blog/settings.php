@@ -84,7 +84,7 @@
           <div class="form-group">
             <label for="blog">Ta bort blog</label>
              <input type="hidden" name="delete" value="<?= $data->blogid ?>">
-        <!-- <input type="submit" name="<?= $data->blogid ?>" value="Ta bort"/> -->
+        <input type="hidden" name="<?= $data->blogid ?>" value="delete"/>
           </div>
           <div class="form-group">
             <label for="confirmpassword">Lösenord</label>
@@ -92,7 +92,7 @@
             <p class="help-block">Verifiera med ditt lösenord</p>
           </div>
           <div class="form-group">
-            <input type="submit" class="form-control btn btn-primary" value="Ta bort">
+            <input type="submit" name="<?= $data->blogid ?>" class="form-control btn btn-primary" value="Ta bort">
           </div>
         </fieldset>
       </form>
