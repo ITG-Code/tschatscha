@@ -149,9 +149,37 @@
                   </form>
                 </div>
               </div>
-            </div>
-            
+  
 
+  
+            <div class="col-md-12 col-xs-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Alla bloggar</h3>
+      </div>
+      <div class="panel-body">
+        <table class="myBlogs">
+          <tr class="myFollowSpace">
+            <th><b>Blogg</b></th>
+            <th><b>Alias</b></th>
+          </tr>
+          <?php
+            foreach ($data->allbloglist as $blog) {?>
+            <tr>
+              <td><a href="/<?= $blog->url_name ?>"><?= $blog->name ?></a></td>
+              <td><?= $blog->alias ?></td>
+                
+              </tr>
+              <?php } ?>
+
+            </table>
+            <?php if(empty($data->followlist)) {?>
+              <p class="text-muted">Du följer inga bloggar</p>
+              <?php } ?>
+            </div>
+          </div>
+
+        </div>
             <div id="errors">
               <h5>
                 <?php foreach ($data->errors as $value) {
