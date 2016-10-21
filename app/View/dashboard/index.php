@@ -173,8 +173,8 @@
               <?php } ?>
 
             </table>
-            <?php if(empty($data->followlist)) {?>
-              <p class="text-muted">Du följer inga bloggar</p>
+            <?php if(empty($data->allbloglist)) {?>
+              <p class="text-muted">Det finns inga bloggar</p>
               <?php } ?>
             </div>
           </div>
