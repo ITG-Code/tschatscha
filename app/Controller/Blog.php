@@ -110,7 +110,7 @@ class Blog extends Controller
 
     }
      public function settings($args = [])
-    {   
+    {
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         $blogname = $this->blogName;
         $blog_id = $this->model('blog')->getBlogId($blogname);
@@ -125,7 +125,7 @@ class Blog extends Controller
         }
         if (empty($confirmPassword)) {
             UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
-        } 
+        }
         if (!password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId())->password)) {
             UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
         }
@@ -133,7 +133,7 @@ class Blog extends Controller
           $blog_id = $_POST['delete'];
           $bloggen = $this->model('Blog')->deleteBlog($blog_id);
           Redirect::to('/dashboard');
-        } 
+        }
 
         $search = [];
 
@@ -268,6 +268,45 @@ class Blog extends Controller
         Redirect::to('/'.$blogname.'/') ;
     }
 
+    public function editPost()
+    {
+      $blogname = $this->blogName;
+      $current_post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
+      $history_id = isset($_POST['history_id']) ? $_POST['history_id'] : '';
+
+      $blog_id = $this->model('blog')->getBlogId($blogname);
+      $user_id = $this->model('user')->getLoggedInUserId();
+      $auth = $this->model('post')->checkAuth($blog_id, $user_id);
+      //returns 1 if blog and post link
+      $verified = $this->model('post')->verifyPost($blog_id,$current_post_id,$history_id,$blogname);
+      if($verified == 0){
+        UserError::add(Lang::BLOG_POST_CONNECTION_MISSING);
+        Redirect::to('/'.$blogname);
+      }
+
+      if(!$this->userModel ->isLoggedIn())
+      {
+          Redirect::to('/'.$blogname);
+      }
+      if ($auth < 6) {
+          Redirect::to('/'.$blogname);
+      }
+      $title = isset($_POST['Title']) ? $_POST['Title'] : '';
+      $content = isset($_POST['Content']) ? $_POST['Content'] : '';
+      $anon = isset($_POST['anon']) ? $_POST['anon'] : '0';
+      $visibility = isset($_POST['auth']) ? $_POST['auth'] : '0';
+
+      $url_title = isset($_POST['url_title']) ? $_POST['url_title'] : '';
+      $publishing_date = isset($_POST['publishing_date']) ? $_POST['publishing_date'] : '';
+      $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : '';
+      $new_post_id = $this->model('post')->editPost($blog_id,$history_id,$title,$url_title,$content,$anon,$visibility,$publishing_date,$created_at,$user_id);
+      echo "<p>";
+      echo "blogid: ",$blog_id," historyid: ",$history_id," titel: ",$title," url: ",$url_title," kontent: ",$content," anonym: ".$anon," visibility: ",$visibility," datum1: ",$publishing_date," skapad: ",$created_at," användare: ",$user_id;
+      echo "</p>";
+      echo "ny print</br>";
+      echo $blogname," blogid:",$blog_id," userid:",$user_id," nytt post id: ",$new_post_id," Gammalt post id:",$current_post_id," auth",$auth," ",$title,"visibility:",$visibility," anon",$anon;
+    }
+
 
     //indata=datum, utdata=datum -T om det finns, kollar så att datum är korrekt angivet.
     public function fixDate($publishing_date)
@@ -366,11 +405,11 @@ class Blog extends Controller
                         // 'acceptlist' => $acceptlist,
                         //'auth' => $authority,
                         'blogs' => $getBlogs,
-                        
+
                     ]);
             }
-            
-       
-       
+
+
+
      }
 }

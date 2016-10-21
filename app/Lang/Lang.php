@@ -35,4 +35,5 @@ class Lang
     const EMAIL_VERIFIED_NO = "Your email has not been verified, please check your email";
     const FORM_BLOGNAME_RESERVED_NAME = "Url is already reserved";
     const FORM_URLNAME_NOT_UNIQUE = "The URL you entered is already in use";
+    const BLOG_POST_CONNECTION_MISSING = "No connection between blog and post was found";
 }
