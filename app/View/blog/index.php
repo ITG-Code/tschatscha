@@ -10,7 +10,8 @@
 				elseif($data->auth == 0){
 					$authorityName = "besökare";
 				}
-					?></p>
+					?>
+			</p>
             <a href="/dashboard">Hem</a>
             <a href="/<?= $data->blogname ?>/follow">Följ bloggen</a>
             <a href="/logout">Logga ut</a>

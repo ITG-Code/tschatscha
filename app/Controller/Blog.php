@@ -259,7 +259,6 @@ class Blog extends Controller
         $id = $this->model('post')->createPost($title, $url, $user_id, $blog_id, $history_id, $content, $publishing_date, $anon, $auth, $time);
         //fixar taggar
         $this->model('tag')->checkTag($tags, true, $id, $blogname);
-
         Redirect::to('/'.$blogname.'/') ;
     }
 
