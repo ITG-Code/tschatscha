@@ -36,14 +36,11 @@ class PostModel extends Model
         return $insert;
     }
 
-    public static function getSession($session_value, $ipv4)
+    public static function getSession($session_value, $ip, $created_at)
     {
-        $insert = self::prepare("INSERT INTO session(session_value, ip, created_at) VALUES (:session_value, :ipv4, :created_at)");
-        $insert->execute(array(
-           ':session_value' => $session_value,
-           ':ipv4' => $ipv4,
-           ':created_at' => date('Y-m-d h:m:s')
-        ));
+        $insert = self::prepare("INSERT INTO session(session_value, ip, created_at) VALUES (?, ?, ?)");
+        $insert->bind_param('sss', $session_value, $ip, $created_at);
+        $insert->execute();
         $insert->close();
         return $insert;
     }

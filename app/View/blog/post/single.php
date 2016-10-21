@@ -30,7 +30,7 @@
     <article class="well well-sm">
         <header>
             <label for="content">Kommentera:</label>
-            <form method="post" action="/createComment">
+            <form method="post" action="/<?= $data->blogname ?>/createComment">
             <textarea class="form-control" name="content" id="content" rows="3" pattern="^[A-Za-z]{1,}$" value="content" required></textarea>
                 <input type="submit" name="submit" value="Submit">
             </form>

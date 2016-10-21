@@ -30,7 +30,7 @@ class Register extends Controller
         if (!preg_match("/^[0-9-_]+$/", $birthday)) {
           UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
         }
-        $captcha = $_POST['g-recaptcha-response'];
+        $captcha = (isset($_POST['g-recaptcha-response'])) ? $_POST['g-recaptcha-response'] : '';
         $url = 'https://www.google.com/recaptcha/api/siteverify';
         $privatekey = "6Lf6aQgUAAAAAFzRqiqzT9p8wGpX0GHRz4uDhMhc";
         $response = file_get_contents($url."?secret=".$privatekey."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']);
