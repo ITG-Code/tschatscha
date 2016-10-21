@@ -20,7 +20,7 @@
 
         <a href="/dashboard">Hem</a>
 
-        
+
         <?php
         if($data->auth >=6){?>
         <a href="/<?php echo $data->blogname; ?>/compose">Post</a>
@@ -35,7 +35,7 @@
         <a href="/login">Logga in</a>
         <?php }?>
         <p>Du är <?= $authorityName ?> på bloggen. <?php
-        foreach ($data->followstatus as $value) {     
+        foreach ($data->followstatus as $value) {
         	if($value->allowed == 1){?>
         		Du följer den här bloggen
         <?php } ?>
@@ -60,10 +60,3 @@
         require 'app/View/blog/post/single.php';
     } ?>
 </main>
-
-
-
-
-
-
-

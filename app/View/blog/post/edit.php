@@ -13,7 +13,7 @@ Redigera ett inlägg!
 					<label for="Title">Title: </label>
 				</td>
 				<td>
-					<input type="text" name="Title" placeholder="Title" id="Title" value="<?= isset($data->autoFillPost->title) ? $data->autoFillPost->title :'' ?>" required>
+					<input type="text" name="Title" placeholder="Title" id="Title" value="<?= isset($data->autoFillPost->title) ? htmlentities($data->autoFillPost->title) :'' ?>" required>
 				</td>
 			</tr>
 			<tr>
@@ -23,7 +23,7 @@ Redigera ett inlägg!
 					<label for="Content">Content: </label>
 				</td>
 				<td>
-					<textarea type="text" name="Content" placeholder="Content" id="Content" data-provide="markdown" rows="10" cols="40" required><?=isset($data->autoFillPost->content) ? $data->autoFillPost->content : ''?></textarea>
+					<textarea type="text" name="Content" placeholder="Content" id="Content" data-provide="markdown" rows="10" cols="40" required><?=isset($data->autoFillPost->content) ? htmlentities($data->autoFillPost->content) : ''?></textarea>
 				</td>
 			</tr>
 			<tr>
