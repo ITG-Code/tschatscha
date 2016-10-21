@@ -1,19 +1,14 @@
 <main>
 <nav> <?php if($data->auth == 7){
 				$authorityName = "ägare";
-				$data->auth = $authorityName;
-
 				}elseif($data->auth == 6){
 					$authorityName = "medskribent";
-					$data->auth = $authorityName;
 				}
 				elseif($data->auth == 2){
 					$authorityName = "moderator";
-					$data->auth = $authorityName;
 				}
 				elseif($data->auth == 0){
 					$authorityName = "besökare";
-					$data->auth = $authorityName;
 				}
 					?></p>
             <a href="/dashboard">Hem</a>

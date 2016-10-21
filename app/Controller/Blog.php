@@ -48,7 +48,6 @@ class Blog extends Controller
       $user_id = $this->userModel->getLoggedInUserId();
       if ($this->userModel ->isLoggedIn()) {
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
-
             }
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
@@ -105,7 +104,6 @@ class Blog extends Controller
 
 
     }
-
      public function settings($args = [])
     {   
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';

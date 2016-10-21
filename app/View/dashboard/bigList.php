@@ -50,19 +50,14 @@
 
 	   		<?php if($value->authority == 7){
 				$authorityName = "Ägare";
-				$value->authority = $authorityName;
-
 				}elseif($value->authority == 6){
 					$authorityName = "Medskribent";
-					$value->authority = $authorityName;
 				}
 				elseif($value->authority == 2){
 					$authorityName = "Moderator";
-					$value->authority = $authorityName;
 				}
 				elseif($value->authority == 0){
 					$authorityName = "Besökare";
-					$value->authority = $authorityName;
 				}
 					?>
 	    	
