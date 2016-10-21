@@ -47,3 +47,6 @@
 	cursor: pointer;
 	background-color: #EDEDED !important;
 }
+.form-group{
+	padding:10px;
+}

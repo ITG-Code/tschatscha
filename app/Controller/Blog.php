@@ -18,6 +18,7 @@ class Blog extends Controller
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
       $followstatus = $this->model('blog')->getFollowStatus($user_id,$blog_id);
+      $getBlogs = $this->userModel->getYourBlogs($currentUser);
         
         if(isset($args[0]) && $args[0] ==  'post'){
             unset($args[0]);
@@ -38,6 +39,7 @@ class Blog extends Controller
                 'anon' => $anon,
                 'loggedin' => $currentUser,
                 'followstatus' => $followstatus,
+                'bloglist' => $getBlogs,
             ]);
         }
 
@@ -113,12 +115,16 @@ class Blog extends Controller
     {   
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         $blogname = $this->blogName;
+        $currentUser = $this->userModel->getLoggedInUserId();
         $blog_id = $this->model('blog')->getBlogId($blogname);
+        $getBlogs = $this->userModel->getYourBlogs($currentUser);
+        
+
         if(!$this->userModel ->isLoggedIn())
        {
           Redirect::to('/login');
         }
-        $currentUser = $this->userModel->getLoggedInUserId();
+        
         $auth = $this->model('post')->checkAuth($blog_id, $currentUser);
         if ($auth != 7) {
           Redirect::to('/'.$blogname);
@@ -160,6 +166,7 @@ class Blog extends Controller
             'blogid' => $blog_id,
             'user' => $this->userModel->get(Session::get('session_user')),
             'tags' => $this->model("Tag")->changeTags($blog_id),
+            'bloglist' => $getBlogs,
 
         ]);
 
@@ -340,7 +347,7 @@ class Blog extends Controller
 
      public function deleteFollower()
      {
-
+        
         $redict = '/blog/allFollowers';
         if ($_POST['redict'] == 1) {
           $redict = '/dashboard';
@@ -356,8 +363,10 @@ class Blog extends Controller
 
      public function allFollowers()
      {
+
       if ($this->userModel ->isLoggedIn()) {
               $user_id = $this->userModel->getLoggedInUserId();
+              $getBlogs = $this->userModel->getYourBlogs($user_id);
               $list = $this->model('blog')->getFollowers($user_id);
               $getBlogs = $this->userModel->getYourBlogs($user_id);
               //$acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
@@ -366,6 +375,7 @@ class Blog extends Controller
                         // 'acceptlist' => $acceptlist,
                         //'auth' => $authority,
                         'blogs' => $getBlogs,
+                        'bloglist' => $getBlogs,
                         
                     ]);
             }
