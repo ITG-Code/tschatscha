@@ -159,7 +159,9 @@ class TagModel extends Model
       $stmtU->bind_param('ii',$new_post_id,$current_post_id);
       while($row = $res->fetch_object())
       {
-
+        $stmtU->execute();
       }
+      $stmtS->close();
+      $stmtU->close();
     }
 }
