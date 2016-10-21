@@ -175,6 +175,21 @@ ORDER BY name ASC
         }
         return $retval;
     }
+    public function getFollowStatus(int $user_id, int $blog_id){
+        $stmt = self::prepare("SELECT allowed FROM followship WHERE user_id = ? AND blog_id = ?");
+        $stmt->bind_param('ii', $user_id, $blog_id);
+        $stmt->execute();
+        $result= $stmt->get_result();
+        if ($result->num_rows < 0) {
+            return [];
+        }
+
+        $retval = [];
+        while($row = $result->fetch_object()){
+            array_push($retval, $row);
+        }
+        return $retval;
+    }
 
 
     public function getAcceptFollowers(int $user_id)

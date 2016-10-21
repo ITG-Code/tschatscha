@@ -13,17 +13,20 @@ class Blog extends Controller
 
     public function index($args = [])
     {
+      $blogname = $this->blogName;
+      $currentUser = $this->userModel->getLoggedInUserId();
+      $blog_id = $this->model('blog')->getBlogId($blogname);
+      $user_id = $this->userModel->getLoggedInUserId();
+      $followstatus = $this->model('blog')->getFollowStatus($user_id,$blog_id);
+        
         if(isset($args[0]) && $args[0] ==  'post'){
             unset($args[0]);
             $args = array_values($args);
             $this->post($args);
         }else{
-            $blogname = $this->blogName;
-            $blog_id = $this->model('blog')->getBlogId($blogname);
             $auth = 0;
             $anon = 0;
             if ($this->userModel ->isLoggedIn()) {
-              $user_id = $this->userModel->getLoggedInUserId();
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
               $anon = 1;
             }
@@ -33,6 +36,8 @@ class Blog extends Controller
                 'linked_title' => true,
                 'auth' => $auth,
                 'anon' => $anon,
+                'loggedin' => $currentUser,
+                'followstatus' => $followstatus,
             ]);
         }
 

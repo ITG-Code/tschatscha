@@ -46,12 +46,11 @@
         <table class="myBlogs">
           <tr class="myFollowSpace">
             <th><b>Bloggnamn</b></th>
-            <th><b>Länk</b></th>
           </tr>
           <?php foreach ($data->followlist as $value) { ?>
             <tr>
-              <td><?= $value->name ?></td>
-              <td><a href="/<?= $value->url_name ?>"></td>
+              <td><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></td>
+             
                 <td>
                   <form action="/blog/deleteFollower" method="post">
                     <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
