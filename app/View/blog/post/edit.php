@@ -1,10 +1,10 @@
-Skapa en post
+Redigera ett inlägg!
 <div id="errors">
     <?php foreach ($data->errors as $value) {
         echo $value;
     } ?>
 </div>
-<form action="/<?php echo $data->blogname; ?>/sendPost" method="POST">
+<form action="/<?php echo $data->blogname; ?>/editPost" method="POST">
     <input type="hidden" name="newpost" value="<?= isset($data->autoFillPost->id) ? 1: 0?>"/>
 	<div class="registerForm">
 		<table class="form">
@@ -13,17 +13,10 @@ Skapa en post
 					<label for="Title">Title: </label>
 				</td>
 				<td>
-					<input type="text" name="Title" placeholder="Title" id="Title" value="<?=isset$data-> ? $data->autoFillPost->title : ''?>" required>
+					<input type="text" name="Title" placeholder="Title" id="Title" value="<?= isset($data->autoFillPost->title) ? $data->autoFillPost->title :'' ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<label for="Url">Url-title: </label>
-				</td>
-				<td>
-					<input type="text" name="Url" placeholder="Url-title" id="Url" value="<?=isset($data->autoFillPost->title) ? $data->autoFillPost->url_title : ''?>"
-					required>
-				</td>
 			</tr>
 			<tr>
 				<td>
@@ -34,12 +27,6 @@ Skapa en post
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<label for="Date">Publishing-day: </label>
-				</td>
-				<td>
-					<input type="datetime-local" name="Date"  value="<?=isset($data->autoFillPost->publishing_date) ? $data->autoFillPost->publishing_date : date('Y-m-d H:i')?>" placeholder="yyyy-mm-dd hh:mm"  id="Date" >
-				</td>
 			</tr>
 			<tr>
 				<td>
@@ -68,12 +55,6 @@ Skapa en post
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<label for="Tags">Tags: </label>
-				</td>
-				<td>
-					<input type="text" name="Tags" placeholder="Ex. Party, Holiday" id="Tags">
-				</td>
 			</tr>
 		</table>
 		<input type="submit" name="submit" value="Submit">

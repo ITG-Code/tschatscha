@@ -37,32 +37,52 @@ class Blog extends Controller
         }
 
     }
-    public function post($args = []){ 
+
+
+
+    public function post($args = []){
       // $post_id = $this->model('post')->getPostId($id);
-      // $postTags = $this->model('tag')->getTags($post_id);
+      // $post_tag = $this->model('tag')->getTags($post_id);
+
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
+      $user_id = $this->userModel->getLoggedInUserId();
       if ($this->userModel ->isLoggedIn()) {
-              $user_id = $this->userModel->getLoggedInUserId();
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
-              
+
             }
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
             $args = $args ? array_values($args) : [];
             $this->compose($args);
 
-        } elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete']) && $auth>=6){ 
+        } elseif(isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete']) && $auth>=6){
             $post_id = $_POST['delete'];
-            $this->model('Post')->deletePost($post_id);
+            $this->model('Post')->deletePost($post_id, $user_id);
            Redirect::to('/'.$blogname);
            if($auth<6){
             Redirect::to('/'.$blogname);
            }
+
+
+         } elseif(isset($args[1]) && $args[1] == "edit" && $auth >=6){
+           $posturl = $args[0];
+           $post_id = $this->model('Post')->get($blogname,$posturl);
+           echo "<pre>";
+          //  var_dump($post_id[0]->id);
+          //  $postContent = $this->model('Post')->currentPost($post_id[0]);
+          //  var_dump($postContent);
+           $this->view('/blog/post/edit', [
+             'autoFillPost' => $post_id[0],
+           ]);
+           if($auth<6){
+             Redirect::to('/'.$blogname.'/post/'.$post_url);
+           }
+
          }
 
         elseif(isset($args[0])) {
-            
+
             $auth = 0;
             $anon = 0;
             if ($this->userModel ->isLoggedIn()) {
@@ -70,16 +90,16 @@ class Blog extends Controller
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
               $anon = 1;
 
-            } 
+            }
             $this->view('blog/post/index', [
 
                 'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
                 'linked_title' => false,
                 'auth' => $auth,
                 'anon' => $anon,
-                // 'postTag' => $postTags,
+                // 'postTag' => $post_tag,
             ]);
-        }   
+        }
         else{
             $this->index();
         }
@@ -88,7 +108,8 @@ class Blog extends Controller
     }
 
      public function settings($args = [])
-    {
+    {   
+        $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         $blogname = $this->blogName;
         $blog_id = $this->model('blog')->getBlogId($blogname);
         if(!$this->userModel ->isLoggedIn())
@@ -100,10 +121,20 @@ class Blog extends Controller
         if ($auth != 7) {
           Redirect::to('/'.$blogname);
         }
+        if (empty($confirmPassword)) {
+            UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
+        } 
+        if (!password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId())->password)) {
+            UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
+        }
+        if(isset($_POST['delete']) && !empty($confirmPassword) && password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId())->password) == true){
+          $blog_id = $_POST['delete'];
+          $bloggen = $this->model('Blog')->deleteBlog($blog_id);
+          Redirect::to('/dashboard');
+        } 
 
         $search = [];
-        //var_dump($currentUser);
-        //var_dump($blog_id);
+
 
         if (isset($_POST['userQuery']) && !empty($_POST['userQuery'])) {
             $userquery = $_POST['userQuery'];
@@ -116,15 +147,15 @@ class Blog extends Controller
             $userId = $_POST['user_id'];
 
             $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority);
-
-            var_dump($setAuthority);
         }
+
 
 
 
         $this->view('blog/settings',[
             'usersearch' => $search,
             'blogname' => $this->blogName,
+            'blogid' => $blog_id,
             'user' => $this->userModel->get(Session::get('session_user')),
             'tags' => $this->model("Tag")->changeTags($blog_id),
 
@@ -148,14 +179,15 @@ class Blog extends Controller
         if (!strlen($blogname) >= 4) {
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
-        $url_name = strtolower($urlname);
-        //whitelist array, enter in lowercase. Prevents user from having their blog url be something important.
-        $whitelist = array('create','dashboard','sendpost','compose','home','fixdate','fixurl','blog','account','login','logout','register','change_alias','change_email','change_password','index'
+        $urlname = strtolower($urlname);
+        //blacklist array, enter in lowercase. Prevents user from having their blog url be something important.
+        $blacklist = array('create','dashboard','sendpost','compose','home','fixdate','fixurl','blog','account','login','logout','register','change_alias','change_email','change_password','index'
         ,'create','settings','post','updatetags','view','model', 'search','send','activateaccount','follow');
         if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) && strlen($urlname <= 3)) {
           UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+          UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
-        if (in_array($url_name, $whitelist)){
+        if (in_array($urlname, $blacklist)){
           UserError::add(Lang::FORM_BLOGNAME_RESERVED_NAME);
         }
         $unique = $this->model('Blog')->uniqueURLBlog($urlname);
@@ -163,7 +195,7 @@ class Blog extends Controller
           UserError::add(LANG::FORM_URLNAME_NOT_UNIQUE);
         }
         if (UserError::exists()) {
-          // Redirect::to('/dashboard');
+          Redirect::to('/dashboard');
         }
         $blogModel = $this->model('Blog');
         $id = $blogModel->create($blogname, $urlname, $nsfw,$currentUser_id);
@@ -308,23 +340,52 @@ class Blog extends Controller
      }
      public function acceptFollower()
      {
-       if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
-         Redirect::to('/dashboard');
-       }
-       $follower_id = $_POST['id'];
-       $blog_id = $_POST['blog_id'];
-       $this->model('blog')->acceptFollower($follower_id, $blog_id);
-       Redirect::to('/dashboard');
+        $redict = '/blog/allFollowers';
+        if ($_POST['redict'] == 1) {
+          $redict = '/dashboard';
+        }
+        if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
+          Redirect::to($redict);
+        }
+        $follower_id = $_POST['id'];
+        $blog_id = $_POST['blog_id'];
+        $this->model('blog')->acceptFollower($follower_id, $blog_id);
+        Redirect::to($redict);
      }
 
      public function deleteFollower()
      {
-       if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
-         Redirect::to('/dashboard');
-       }
-       $follower_id = $_POST['id'];
-       $blog_id = $_POST['blog_id'];
-       $this->model('blog')->deleteFollower($follower_id, $blog_id);
-       Redirect::to('/dashboard');
+
+        $redict = '/blog/allFollowers';
+        if ($_POST['redict'] == 1) {
+          $redict = '/dashboard';
+        }
+        if (!isset($_POST['id']) && !isset($_POST['blog_id'])) {
+          Redirect::to($redict);
+        }
+        $follower_id = $_POST['id'];
+        $blog_id = $_POST['blog_id'];
+        $this->model('blog')->deleteFollower($follower_id, $blog_id);
+        Redirect::to($redict);
+     }
+
+     public function allFollowers()
+     {
+      if ($this->userModel ->isLoggedIn()) {
+              $user_id = $this->userModel->getLoggedInUserId();
+              $list = $this->model('blog')->getFollowers($user_id);
+              $getBlogs = $this->userModel->getYourBlogs($user_id);
+              //$acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
+              $this->view('/dashboard/bigList', [
+                        'list' => $list,
+                        // 'acceptlist' => $acceptlist,
+                        //'auth' => $authority,
+                        'blogs' => $getBlogs,
+                        
+                    ]);
+            }
+            
+       
+       
      }
 }

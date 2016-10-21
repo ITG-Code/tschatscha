@@ -124,18 +124,45 @@ ORDER BY name ASC
 
     public function follow(int $user_id, int $blog_id, string $date)
     {
-        $val = 0;
-        $stmt = self::prepare("INSERT INTO  followship (user_id,blog_id,allowed,created_at,changed_at) VALUES (?,?,?,?,?)");
-        $stmt->bind_param('iiiss', $user_id, $blog_id,$val,$date,$date);
+        $stmt1 = self::prepare("SELECT id FROM followship WHERE user_id = ? AND blog_id = ?");
+        $stmt1->bind_param('ii', $user_id, $blog_id);
+        $stmt1->execute();
+        $result= $stmt1->get_result();
+        $stmt1->close();
+        if ($result->num_rows == 0) {
+            $val = 0;
+            $stmt2 = self::prepare("INSERT INTO  followship (user_id,blog_id,allowed,created_at,changed_at) VALUES (?,?,?,?,?)");
+            $stmt2->bind_param('iiiss', $user_id, $blog_id,$val,$date,$date);
+            $stmt2->execute();
+            $stmt2->close();
+        }
+    }
+    //get people who follow you
+    public function getFollowers(int $user_id)
+    {
+        $stmt = self::prepare("SELECT user.id, blog.id AS blog_id, blog.url_name AS url_name, user.alias AS name, blog.name AS blog_name FROM user_blog INNER JOIN followship ON user_blog.blog_id = followship.blog_id INNER JOIN user ON followship.user_id = user.id INNER JOIN blog ON followship.blog_id = blog.id WHERE user_blog.user_id = ? AND followship.allowed = 1");
+        $stmt->bind_param('i', $user_id);
         $stmt->execute();
+        $result= $stmt->get_result();
+        if ($result->num_rows < 0) {
+            return [];
+        }
+
+        $retval = [];
+        while($row = $result->fetch_object()){
+            array_push($retval, $row);
+        }
+        return $retval;
     }
 
-    public function getFollowers(int $user_id)
+    //gets bloggs who you follow
+    public function getFollows(int $user_id)
     {
         $stmt = self::prepare("SELECT followship.user_id AS id, followship.blog_id, blog.url_name, blog.name, MAX(post.changed_at) AS updated_time FROM followship INNER JOIN blog ON followship.blog_id = blog.id INNER JOIN post ON followship.blog_id = post.blog_id WHERE allowed = 1 AND followship.user_id = ? GROUP By followship.id");
         $stmt->bind_param('i', $user_id);
         $stmt->execute();
         $result= $stmt->get_result();
+        $stmt->close();
         if ($result->num_rows < 0) {
             return [];
         }
@@ -163,11 +190,10 @@ ORDER BY name ASC
             array_push($retval, $row);
         }
         return $retval;
-
     }
 
     public function acceptFollower(int $follower_id, int $blog_id)
-    {        
+    {
         $stmt = self::prepare("UPDATE followship SET allowed = 1 WHERE user_id = ? AND blog_id = ?");
         $stmt->bind_param('ii', $follower_id, $blog_id);
         $stmt->execute();
@@ -181,7 +207,7 @@ ORDER BY name ASC
         $stmt->execute();
         $stmt->close();
     }
-    
+
     public function uniqueURLBlog(string $urlname)
     {
       $stmt = self::prepare("SELECT url_name FROM blog where url_name = ?");
@@ -197,4 +223,12 @@ ORDER BY name ASC
       return $unique;
 
     }
+
+    public function deleteBlog(int $blog_id){
+        $stmt = self::prepare("DELETE FROM blog WHERE id = ?");
+        $stmt ->bind_param('i',$blog_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
 }

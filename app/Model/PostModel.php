@@ -49,8 +49,8 @@ class PostModel extends Model
     }
 
     /**
-     * @param $blog | if it's an int in string or int form it'll search for blog_id, else url_name
-     * @param string $postName | name of a post, needs
+     * @param string | int  $blog | if it's an int in string or int form it'll search for blog_id, else url_name
+     * @param string | int  $post | if it's an int in string or int form it'll search for post_id, else url_title
      * @param int $limit | The max amount of posts wanted, multiple posts with same id counts as 1
      * @param int $offset |
      * @param string $search | if there's anything to search for in the title or content
@@ -59,7 +59,7 @@ class PostModel extends Model
      * @Author Brolaugh
      */
     //TODO: Fix limit and offset so that it corresponds to the documentation
-    public function get($blog, string $postName = '', int $limit = 0, int $offset = 0, bool $history = false, string $search = ''):  array
+    public function get($blog,  $post = '', int $limit = 0, int $offset = 0, bool $history = false, string $search = ''):  array
     {
         $params = [''];
         if (is_numeric($blog) && $blog % 1 == 0) {
@@ -92,10 +92,14 @@ class PostModel extends Model
             $params[] = $search;
         }
         $postNameQuery = '';
-        if(!empty($postName)){
+        if(!empty($post) && is_string($post)){
             $postNameQuery =  'AND url_title = ? ';
             $params[0].= 's';
-            $params[] = $postName;
+            $params[] = $post;
+        }elseif(!empty($post) && is_numeric($post)){
+            $postNameQuery =  'AND post.id = ? ';
+            $params[0].= 'i';
+            $params[] = $post;
         }
         $params[0].='ii';
         $params[] = $limit;
@@ -188,12 +192,37 @@ class PostModel extends Model
         $returnValue = (object)$returnValue;
         return $returnValue;
     }
-    
-    public function deletePost(int $post_id){
-        $stmt = self::prepare("DELETE FROM post WHERE id = ?");
-        $stmt->bind_param('i', $post_id);
-        $stmt->execute();
-        $stmt->close();
+
+    public function deletePost(int $post_id, int $user_id){
+
+        $stmt1 = self::prepare("SELECT user_blog.authority, post.id FROM user_blog INNER JOIN post ON user_blog.blog_id = post.blog_id WHERE user_blog.user_id = ? AND post.id = ?");
+        $stmt1->bind_param('ii', $user_id, $post_id);
+        $stmt1->execute();
+        $result = $stmt1->get_result();
+        $stmt1->close();
+        if ($result->num_rows > 0) {
+            $stmt2 = self::prepare("DELETE FROM post WHERE id = ?");
+            $stmt2->bind_param('i', $post_id);
+            $stmt2->execute();
+            $stmt2->close();
+        }
+    }
+    public function currentPost(int $post_id)
+    {
+      $stmt = self::prepare("SELECT history_id title, content, anonymous_allowance, visibility, writer FROM post WHERE id=?");
+      $stmt->bind_param('i',$post_id);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      if ($result->num_rows < 0) {
+          return [];
+      }
+
+      $retval = [];
+      while($row = $result->fetch_object()){
+          array_push($retval, $row);
+      }
+      $stmt->close();
+      return $retval;
     }
 
     public static function getPostId(int $id)

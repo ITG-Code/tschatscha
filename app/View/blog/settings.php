@@ -1,5 +1,5 @@
-Give other users authority
-<div class="col-md-12">
+
+<div class="col-md-12">Ge användare rättigheter till blogg: <?= $data->blogname ?> <a href="/<?= $data->blogname ?>">Tillbaka till <?= $data->blogname ?></a> 
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">Ge rättigheter</h3>
@@ -74,27 +74,46 @@ Give other users authority
           </form>
         </div>
       </div>
+      <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title" href="#deleteblog" data-toggle="collapse">Ta bort bloggen</h3>
     </div>
+    <div class="panel-body collapse" id="deleteblog">
+      <form class="form-horizontal" action="/<?= $data->blogname ?>/settings" method="post">
+        <fieldset>
+          <div class="form-group">
+            <label for="blog">Ta bort blog</label>
+             <input type="hidden" name="delete" value="<?= $data->blogid ?>">
+        <input type="hidden" name="<?= $data->blogid ?>" value="delete"/>
+          </div>
+          <div class="form-group">
+            <label for="confirmpassword">Lösenord</label>
+            <input type="password" class="form-control" name="confirmpassword" placeholder="">
+            <p class="help-block">Verifiera med ditt lösenord</p>
+          </div>
+          <div class="form-group">
+            <input type="submit" name="<?= $data->blogid ?>" class="form-control btn btn-primary" value="Ta bort" onClick='return executeOnSubmit();'>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+     <!--  <form action="/<?= $data->blogname ?>/settings" method="post" style="font-size: 15px;"><label style="font-size: 26px;">Ta bort blogg</label>
+        <input type="hidden" name="delete" value="<?= $data->blogid ?>">
+        <input type="submit" name="<?= $data->blogid ?>" value="Ta bort"/>
+      </form>
+      
+       -->
+      
+      <div class="left" style="float:left; width:300px;">
 
-
-
-
-
-    <form method="post" action="/<?= $data->blogname ?>/settings">
-      <label> Co-writer</label>
-      <input type="radio" name="authority" value="<?= Authority::BLOG_CO_WRITER ?>"/></br>
-      <label> Private view </label>
-      <input type="radio" name="authority" value="<?= Authority::POST_PRIVATE_VIEW ?>"/></br>
-      <label> Moderate </label>
-      <input type="radio" name="authority" value="<?= Authority::BLOG_MODERATE ?>"/></br>
-
-      <input type="submit" value="Confirm"/>
-
-      <label>Search for user</label>
-      <input type="text" name="userQuery"/>
-      <input type="submit" value="Search"/>
+    <form method="post" action="/<?= $data->blogname ?>/settings" style="font-size:20px;">
+     <label style="font-size:16px;">Sök efter användare</label>
+      <input type="text" name="userQuery" placeholder="alias/namn/email" style="font-size:16px;"/>
+      <input type="submit" value="Search" style="font-size:16px;"/>
 
       <div class="searchResult">
+      <br/>
         <table align="left" cellspacing="5" cellpadding="8">
           <tr>
             <td align="left"><b>Search result</b></td>
@@ -113,5 +132,23 @@ Give other users authority
 
           </table>
         </div>
+        </div>
+      <div class="right" style="float:right; width:300px;">
+      <label> Co-writer</label>
+      <input type="radio" name="authority" value="<?= Authority::BLOG_CO_WRITER ?>"/></br>
+      <label> Private view </label>
+      <input type="radio" name="authority" value="<?= Authority::POST_PRIVATE_VIEW ?>"/></br>
+      <label> Moderate </label>
+      <input type="radio" name="authority" value="<?= Authority::BLOG_MODERATE ?>"/></br>
+      <input type="submit" value="Confirm" style="font-size:14px;"/>
+      </div>
       </form>
-      <br/>
+      
+     
+
+    
+
+
+
+
+    
