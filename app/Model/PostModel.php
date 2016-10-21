@@ -19,7 +19,7 @@ class PostModel extends Model
         return $retval;
     }
 
-    public static function createComment($post_id, $content, $session_user)
+    public static function createComment($post_id, string $content, $session_user)
     {
 
         $query = self::prepare("SELECT * FROM comment LEFT JOIN post ON comment.post_id = post.id");
@@ -32,6 +32,19 @@ class PostModel extends Model
             ':session_user' => $session_user,
             ':created_at' => date('Y-m-d h:m:s')
         ));
+        $insert->close();
+        return $insert;
+    }
+
+    public static function getSession($session_value, $ipv4)
+    {
+        $insert = self::prepare("INSERT INTO session(session_value, ipv4, created_at) VALUES (:session_value, :ipv4, :created_at)");
+        $insert->execute(array(
+           ':session_value' => $session_value,
+           ':ipv4' => $ipv4,
+           ':created_at' => date('Y-m-d h:m:s')
+        ));
+        $insert->close();
         return $insert;
     }
 

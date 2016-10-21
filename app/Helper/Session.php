@@ -31,7 +31,7 @@ class Session
     {
         session_destroy();
     }
-
+    
     public static function id(): string
     {
         return session_id();
