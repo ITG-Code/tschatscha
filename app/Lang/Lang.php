@@ -13,7 +13,8 @@ class Lang
     const FORM_PASSWORD_NEW_NO_MATCH = "New Password and Password confirmation didn't match";
     const FORM_ALIAS_SENT_NO = "You need to send an alias";
     const FORM_BLOGNAME_NEEED_4_CHAR = "The blogname needs to be atleast 4 characters long";
-    const FORM_BLOGNAME_INVALID_CHARS = "Allowed characters are a-z, A-Z, 0-9, hyphen(-) and underline(_)";
+    const FORM_BLOGNAME_INVALID_CHARS = "Allowed characters are a-ö, A-Ö, 0-9, hyphen(-) and underline(_)";
+    const FORM_BLOGURL_INVALID_CHARS = "Allowed characters are a-z, A-Z, 0-9, hyphen(-) and underline(_)";
     const FORM_EMAIL_SENT_NO = "No email set";
     const FORM_POST_URL_INVALID_CHARS = "Allowed characters are a-z, A-Z, 0-9 and hyphen(-)";
     const FORM_POST_DATE_INVALID = "Invalid date. Please insert a valid date";
