@@ -18,7 +18,7 @@ class Blog extends Controller
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
       $followstatus = $this->model('blog')->getFollowStatus($user_id,$blog_id);
-        
+
         if(isset($args[0]) && $args[0] ==  'post'){
             unset($args[0]);
             $args = array_values($args);
@@ -206,7 +206,7 @@ class Blog extends Controller
         }
         Redirect::to('/'.$blogname);
       }
-    
+
 
     public function compose($args = [])
     {
@@ -300,11 +300,8 @@ class Blog extends Controller
       $publishing_date = isset($_POST['publishing_date']) ? $_POST['publishing_date'] : '';
       $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : '';
       $new_post_id = $this->model('post')->editPost($blog_id,$history_id,$title,$url_title,$content,$anon,$visibility,$publishing_date,$created_at,$user_id);
-      echo "<p>";
-      echo "blogid: ",$blog_id," historyid: ",$history_id," titel: ",$title," url: ",$url_title," kontent: ",$content," anonym: ".$anon," visibility: ",$visibility," datum1: ",$publishing_date," skapad: ",$created_at," användare: ",$user_id;
-      echo "</p>";
-      echo "ny print</br>";
-      echo $blogname," blogid:",$blog_id," userid:",$user_id," nytt post id: ",$new_post_id," Gammalt post id:",$current_post_id," auth",$auth," ",$title,"visibility:",$visibility," anon",$anon;
+      $this->model('tag')->relocateTags($current_post_id,$new_post_id);
+      Redirect::to('/'.$blogname.'/post/'.$url_title);
     }
 
 

@@ -148,4 +148,8 @@ class TagModel extends Model
 
             return $returnValue;
     }
+    public function relocateTags(int $current_post_id, int $new_post_id)
+    {
+      
+    }
 }
