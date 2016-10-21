@@ -23,6 +23,7 @@ class Dashboard extends Controller
 
         $currentUser = $this->userModel->getLoggedInUserId();
         $getBlogs = $this->userModel->getYourBlogs($currentUser);
+        $getAllBlogs = $this->model('blog')->list();
         $getFollows =  $this->model('blog')->getFollows($currentUser);
         $getAcceptFollowers = $this->model('blog')->getAcceptFollowers($currentUser);
         $this->view(
@@ -31,6 +32,7 @@ class Dashboard extends Controller
             'bloglist' => $getBlogs,
             'followlist' => $getFollows,
             'acceptFollowList' => $getAcceptFollowers,
+            'allbloglist' => $getAllBlogs,
             ]
         );
         

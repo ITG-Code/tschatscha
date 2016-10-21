@@ -63,18 +63,25 @@ class Blog extends Controller
            if($auth<6){
             Redirect::to('/'.$blogname);
            }
+
+
          } elseif(isset($args[1]) && $args[1] == "edit" && $auth >=6){
-           $post_id = $this->model('Post')->;
-           $posturl =
-           $postContent = $this->model('Post')->currentPost($post_id);
+           $posturl = $args[0];
+           $post_id = $this->model('Post')->get($blogname,$posturl);
+           echo "<pre>";
+          //  var_dump($post_id[0]->id);
+          //  $postContent = $this->model('Post')->currentPost($post_id[0]);
+          //  var_dump($postContent);
            $this->view('/blog/post/edit', [
-             'postContent' => $postContent,
+             'autoFillPost' => $post_id[0],
            ]);
            if($auth<6){
              Redirect::to('/'.$blogname.'/post/'.$post_url);
            }
+
          }
-         elseif(isset($args[0])) {
+
+        elseif(isset($args[0])) {
 
             $auth = 0;
             $anon = 0;
@@ -101,7 +108,7 @@ class Blog extends Controller
     }
 
      public function settings($args = [])
-    {
+    {   
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         $blogname = $this->blogName;
         $blog_id = $this->model('blog')->getBlogId($blogname);
@@ -116,7 +123,7 @@ class Blog extends Controller
         }
         if (empty($confirmPassword)) {
             UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
-        }
+        } 
         if (!password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId())->password)) {
             UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
         }
@@ -124,7 +131,7 @@ class Blog extends Controller
           $blog_id = $_POST['delete'];
           $bloggen = $this->model('Blog')->deleteBlog($blog_id);
           Redirect::to('/dashboard');
-        }
+        } 
 
         $search = [];
 
@@ -195,7 +202,7 @@ class Blog extends Controller
         if(strlen('tags') != 0){
           $this->model('tag')->checkTag($tags,false,$id,$blogname);
         }
-        Redirect::to('/'.$urlname);
+        Redirect::to('/'.$blogname);
       }
 
     public function createComment()
@@ -360,14 +367,21 @@ class Blog extends Controller
 
      public function allFollowers()
      {
-        $user_id = $this->userModel->getLoggedInUserId();
-        $list = $this->model('blog')->getFollowers($user_id);
-        $acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
-
-        $this->view('/dashboard/bigList', [
-            'list' => $list,
-            'acceptlist' => $acceptlist,
-
-        ]);
+      if ($this->userModel ->isLoggedIn()) {
+              $user_id = $this->userModel->getLoggedInUserId();
+              $list = $this->model('blog')->getFollowers($user_id);
+              $getBlogs = $this->userModel->getYourBlogs($user_id);
+              //$acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
+              $this->view('/dashboard/bigList', [
+                        'list' => $list,
+                        // 'acceptlist' => $acceptlist,
+                        //'auth' => $authority,
+                        'blogs' => $getBlogs,
+                        
+                    ]);
+            }
+            
+       
+       
      }
 }
