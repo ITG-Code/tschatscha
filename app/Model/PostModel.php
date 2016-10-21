@@ -19,7 +19,7 @@ class PostModel extends Model
         return $retval;
     }
 
-    public static function createComment($post_id, $content, $session_user)
+    public static function createComment($post_id, string $content, $session_user)
     {
 
         $query = self::prepare("SELECT * FROM comment LEFT JOIN post ON comment.post_id = post.id");
@@ -32,6 +32,16 @@ class PostModel extends Model
             ':session_user' => $session_user,
             ':created_at' => date('Y-m-d h:m:s')
         ));
+        $insert->close();
+        return $insert;
+    }
+
+    public static function getSession($session_value, $ip, $created_at)
+    {
+        $insert = self::prepare("INSERT INTO session(session_value, ip, created_at) VALUES (?, ?, ?)");
+        $insert->bind_param('sss', $session_value, $ip, $created_at);
+        $insert->execute();
+        $insert->close();
         return $insert;
     }
 
@@ -196,7 +206,7 @@ class PostModel extends Model
     }
     public function currentPost(int $post_id)
     {
-      $stmt = self::prepare("SELECT history_id, title, content, anonymous_allowance, visibility, writer FROM post WHERE id=?");
+      $stmt = self::prepare("SELECT history_id title, content, anonymous_allowance, visibility, writer FROM post WHERE id=?");
       $stmt->bind_param('i',$post_id);
       $stmt->execute();
       $result = $stmt->get_result();

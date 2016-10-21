@@ -21,7 +21,7 @@ Skapa en post
 					<label for="Url">Url-title: </label>
 				</td>
 				<td>
-					<input type="text" name="Url" placeholder="Url-title" id="Url" value="<?=isset($data->autoFillPost->title) ? $data->autoFillPost->url_title : ''?>"
+					<input type="text" name="Url" placeholder="Url-title" id="Url" value="<?=isset($data->autoFillPost->url_title) ? $data->autoFillPost->url_title : ''?>"
 					required>
 				</td>
 			</tr>
@@ -30,7 +30,7 @@ Skapa en post
 					<label for="Content">Content: </label>
 				</td>
 				<td>
-					<textarea type="text" name="Content" placeholder="Content" id="Content" data-provide="markdown" rows="10" cols="40" required><?=isset($data->autoFillPost->title) ? $data->autoFillPost->title : ''?></textarea>
+					<textarea type="text" name="Content" placeholder="Content" id="Content" data-provide="markdown" rows="10" cols="40" required><?=isset($data->autoFillPost->content) ? $data->autoFillPost->content : ''?></textarea>
 				</td>
 			</tr>
 			<tr>

@@ -43,13 +43,11 @@ class Blog extends Controller
     public function post($args = []){
       // $post_id = $this->model('post')->getPostId($id);
       // $post_tag = $this->model('tag')->getTags($post_id);
-
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
       if ($this->userModel ->isLoggedIn()) {
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
-
             }
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
@@ -69,11 +67,11 @@ class Blog extends Controller
            $posturl = $args[0];
            $post_id = $this->model('Post')->get($blogname,$posturl);
            echo "<pre>";
-           var_dump($post_id[0]->id);
-
-           $postContent = $this->model('Post')->currentPost($post_id[0]->id);
+          //  var_dump($post_id[0]->id);
+          //  $postContent = $this->model('Post')->currentPost($post_id[0]);
+          //  var_dump($postContent);
            $this->view('/blog/post/edit', [
-             'postContent' => $postContent,
+             'autoFillPost' => $post_id[0],
            ]);
            if($auth<6){
              Redirect::to('/'.$blogname.'/post/'.$post_url);
@@ -106,7 +104,6 @@ class Blog extends Controller
 
 
     }
-
      public function settings($args = [])
     {   
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
@@ -204,20 +201,7 @@ class Blog extends Controller
         }
         Redirect::to('/'.$blogname);
       }
-
-    public function createComment()
-    {
-        if(!$this->userModel ->isLoggedIn())
-        {
-            Redirect::to('/login');
-        }
-
-        $session_user = $this->userModel->getLoggedInUserId();
-        $post_id = $this->model('post')->getPostId();
-        $content = (isset($_POST['content'])) ? $_POST['content'] : '';
-        $this->model('post')->create($post_id, $content, $session_user);
-
-    }
+    
 
     public function compose($args = [])
     {
