@@ -13,7 +13,7 @@ Skapa en post
 					<label for="Title">Title: </label>
 				</td>
 				<td>
-					<input type="text" name="Title" placeholder="Title" id="Title" value="<?=isset$data-> ? $data->autoFillPost->title : ''?>" required>
+					<input type="text" name="Title" placeholder="Title" id="Title" value="<?=isset($data->autoFillPost->title) ? $data->autoFillPost->title : ''?>" required>
 				</td>
 			</tr>
 			<tr>
@@ -21,7 +21,7 @@ Skapa en post
 					<label for="Url">Url-title: </label>
 				</td>
 				<td>
-					<input type="text" name="Url" placeholder="Url-title" id="Url" value="<?=isset($data->autoFillPost->title) ? $data->autoFillPost->url_title : ''?>"
+					<input type="text" name="Url" placeholder="Url-title" id="Url" value="<?=isset($data->autoFillPost->url_title) ? $data->autoFillPost->url_title : ''?>"
 					required>
 				</td>
 			</tr>

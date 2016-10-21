@@ -38,7 +38,7 @@ class PostModel extends Model
 
     public static function getSession($session_value, $ipv4)
     {
-        $insert = self::prepare("INSERT INTO session(session_value, ipv4, created_at) VALUES (:session_value, :ipv4, :created_at)");
+        $insert = self::prepare("INSERT INTO session(session_value, ip, created_at) VALUES (:session_value, :ipv4, :created_at)");
         $insert->execute(array(
            ':session_value' => $session_value,
            ':ipv4' => $ipv4,

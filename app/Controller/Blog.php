@@ -43,7 +43,6 @@ class Blog extends Controller
     public function post($args = []){
       // $post_id = $this->model('post')->getPostId($id);
       // $post_tag = $this->model('tag')->getTags($post_id);
-
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
@@ -211,16 +210,18 @@ class Blog extends Controller
         {
             Redirect::to('/login');
         }
-        //$ipaddress = $_SERVER['REMOTE_ADDR'];
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
         //$length = 10;
-        session_id();
+        $session_value = session_id();
         //$session_value = substr(str_shuffle(md5(time())),0,$length);
         $session_user = $this->userModel->getLoggedInUserId();
         $post_id = $this->model('post')->getPostId();
         $content = (isset($_POST['content'])) ? $_POST['content'] : '';
-        //$this->model('post')->getSession($session_value, $ipaddress);
+        $this->model('post')->getSession($session_value, $ipaddress);
         $this->model('post')->createComment($post_id, $content, $session_user);
-
+        echo $content;
+        echo "hej";
+        exit();
     }
 
     public function compose($args = [])
