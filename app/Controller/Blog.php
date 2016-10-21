@@ -143,9 +143,9 @@ class Blog extends Controller
             $search = $this->userModel->searchForUser($userquery, $currentUser);
         }
 
-        if(isset($_POST['authority']))
+        if(isset($_POST['authority']) && Authority::isValidAuthority($_POST['authority']))
         {
-            (int) $setAuthority = $_POST['authority'];
+            $setAuthority =  (int)$_POST['authority'];
             $userId = $_POST['user_id'];
 
             $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority);
