@@ -45,7 +45,7 @@ FROM blog
 INNER JOIN user_blog ON blog.id = user_blog.blog_id
 INNER JOIN user ON user_blog.user_id = user.id
 WHERE user_blog.authority = 7
-GROUP BY blog.name
+GROUP BY blog.url_name
 "
         );
         $returnValue = [];

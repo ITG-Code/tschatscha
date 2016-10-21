@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation">
+﻿<nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -164,13 +164,16 @@
             <th><b>Alias</b></th>
           </tr>
           <?php
-            foreach ($data->allbloglist as $blog) {?>
+          //if($data->authority == 7){
+            foreach ($data->allbloglist as $blog) {
+              ?>
             <tr>
               <td><a href="/<?= $blog->url_name ?>"><?= $blog->name ?></a></td>
               <td><?= $blog->alias ?></td>
                 
               </tr>
-              <?php } ?>
+              <?php //}
+              } ?>
 
             </table>
             <?php if(empty($data->allbloglist)) {?>

@@ -22,7 +22,6 @@
         <p>Du är <?= $authorityName ?> på bloggen
     </nav>
 
-
     <?php foreach ($data->postlist as $post) {
         require 'app/View/blog/post/single.php';
     } ?>

@@ -26,6 +26,7 @@ class Dashboard extends Controller
         $getAllBlogs = $this->model('blog')->list();
         $getFollows =  $this->model('blog')->getFollows($currentUser);
         $getAcceptFollowers = $this->model('blog')->getAcceptFollowers($currentUser);
+        // $getAuth = $this->model('Post')->checkAuth($user_id,$blog_id);
         $this->view(
             'dashboard/index', [
             'user' => $this->userModel->get(Session::get('session_user')),
@@ -33,6 +34,7 @@ class Dashboard extends Controller
             'followlist' => $getFollows,
             'acceptFollowList' => $getAcceptFollowers,
             'allbloglist' => $getAllBlogs,
+            // 'authority' => $getAuth,
             ]
         );
         
