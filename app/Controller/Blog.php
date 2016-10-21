@@ -226,6 +226,7 @@ class Blog extends Controller
     }
     public function sendPost()
     {
+        // Jakob was not here :)
 
         $title = isset($_POST['Title']) ? $_POST['Title'] : '';
         $url = isset($_POST['Url']) ? $_POST['Url'] : '';
