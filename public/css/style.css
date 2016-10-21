@@ -43,3 +43,7 @@
 .spacer{
 	margin-top:3px;
 }
+.panel-heading:hover{
+	cursor: pointer;
+	background-color: #EDEDED !important;
+}
