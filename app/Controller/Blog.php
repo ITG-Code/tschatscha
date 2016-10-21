@@ -19,7 +19,7 @@ class Blog extends Controller
       $user_id = $this->userModel->getLoggedInUserId();
       $followstatus = $this->model('blog')->getFollowStatus($user_id,$blog_id);
       $getBlogs = $this->userModel->getYourBlogs($currentUser);
-        
+
         if(isset($args[0]) && $args[0] ==  'post'){
             unset($args[0]);
             $args = array_values($args);
@@ -112,26 +112,26 @@ class Blog extends Controller
 
     }
      public function settings($args = [])
-    {   
+    {
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         $blogname = $this->blogName;
         $currentUser = $this->userModel->getLoggedInUserId();
         $blog_id = $this->model('blog')->getBlogId($blogname);
         $getBlogs = $this->userModel->getYourBlogs($currentUser);
-        
+
 
         if(!$this->userModel ->isLoggedIn())
        {
           Redirect::to('/login');
         }
-        
+
         $auth = $this->model('post')->checkAuth($blog_id, $currentUser);
         if ($auth != 7) {
           Redirect::to('/'.$blogname);
         }
         if (empty($confirmPassword)) {
             UserError::add(Lang::FORM_CONFIRMATION_PASSWORD_SENT_NO);
-        } 
+        }
         if (!password_verify($confirmPassword, $this->userModel->get($this->userModel->getLoggedInUserId())->password)) {
             UserError::add(Lang::FORM_PASSWORD_ORIGINAL_INVALID);
         }
@@ -139,7 +139,7 @@ class Blog extends Controller
           $blog_id = $_POST['delete'];
           $bloggen = $this->model('Blog')->deleteBlog($blog_id);
           Redirect::to('/dashboard');
-        } 
+        }
 
         $search = [];
 
@@ -216,7 +216,7 @@ class Blog extends Controller
         }
         Redirect::to('/'.$blogname);
       }
-    
+
 
     public function compose($args = [])
     {
@@ -277,6 +277,41 @@ class Blog extends Controller
         $this->model('tag')->checkTag($tags, true, $id, $blogname);
         Redirect::to('/'.$blogname.'/') ;
     }
+    public function editPost()
+      {
+        $blogname = $this->blogName;
+        $current_post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
+        $history_id = isset($_POST['history_id']) ? $_POST['history_id'] : '';
+
+        $blog_id = $this->model('blog')->getBlogId($blogname);
+        $user_id = $this->model('user')->getLoggedInUserId();
+        $auth = $this->model('post')->checkAuth($blog_id, $user_id);
+        //returns 1 if blog and post link
+        $verified = $this->model('post')->verifyPost($blog_id,$current_post_id,$history_id,$blogname);
+        if($verified == 0){
+          UserError::add(Lang::BLOG_POST_CONNECTION_MISSING);
+          Redirect::to('/'.$blogname);
+        }
+
+        if(!$this->userModel ->isLoggedIn())
+        {
+            Redirect::to('/'.$blogname);
+        }
+        if ($auth < 6) {
+            Redirect::to('/'.$blogname);
+        }
+        $title = isset($_POST['Title']) ? $_POST['Title'] : '';
+        $content = isset($_POST['Content']) ? $_POST['Content'] : '';
+        $anon = isset($_POST['anon']) ? $_POST['anon'] : '0';
+        $visibility = isset($_POST['auth']) ? $_POST['auth'] : '0';
+
+        $url_title = isset($_POST['url_title']) ? $_POST['url_title'] : '';
+        $publishing_date = isset($_POST['publishing_date']) ? $_POST['publishing_date'] : '';
+        $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : '';
+        $new_post_id = $this->model('post')->editPost($blog_id,$history_id,$title,$url_title,$content,$anon,$visibility,$publishing_date,$created_at,$user_id);
+        $this->model('tag')->relocateTags($current_post_id,$new_post_id);
+        Redirect::to('/'.$blogname.'/post/'.$url_title);
+      }
 
 
     //indata=datum, utdata=datum -T om det finns, kollar så att datum är korrekt angivet.
@@ -350,7 +385,7 @@ class Blog extends Controller
 
      public function deleteFollower()
      {
-        
+
         $redict = '/blog/allFollowers';
         if ($_POST['redict'] == 1) {
           $redict = '/dashboard';
@@ -379,11 +414,11 @@ class Blog extends Controller
                         //'auth' => $authority,
                         'blogs' => $getBlogs,
                         'bloglist' => $getBlogs,
-                        
+
                     ]);
             }
-            
-       
-       
+
+
+
      }
 }
