@@ -8,11 +8,38 @@
 {
 	text-align: left;
 	padding:5px;
-	width:400px;
+	width:100%;
 }
 .myBlogsSpace{
 	padding-left:5px;
 }
 .removeblog{
 	font-size: 30px;
+}
+.searchresult{
+	max-height: 500px;
+	overflow-y:auto;
+	
+}
+.left{
+	padding-left: 20px;
+	float: left;
+}
+.right{
+	width:25%;
+	float: right;
+	
+}
+.form-horizontall{
+	display: inline-block;
+}
+.searchname{
+	margin-right: 10px;
+	width: 340px;
+}
+.searchemail{
+	margin-left: 5px;
+}
+.spacer{
+	margin-top:3px;
 }
