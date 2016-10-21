@@ -204,30 +204,46 @@ class PostModel extends Model
             $stmt2->close();
         }
     }
-    public function currentPost(int $post_id)
+    /*skapar en ny post med samma history_id som den posten man uppdaterar
+    * Tar in, alla kolumner som tillhör post utom changed at
+    * Retunerar id på det nya inlägget
+    */
+    public function editPost(
+      int $blog_id,
+      int $history_id,
+      string $title,
+      string $url_title,
+      string $content,
+      int $anon,
+      int $visibility,
+      string $publishing_date,
+      string $created_at,
+      int $user_id)
     {
-      $stmt = self::prepare("SELECT history_id title, content, anonymous_allowance, visibility, writer FROM post WHERE id=?");
-      $stmt->bind_param('i',$post_id);
+      $stmt = self::prepare("INSERT INTO post(blog_id, history_id, title, url_title, content, anonymous_allowance, visibility, publishing_date, created_at, writer) VALUES (?,?,?,?,?,?,?,?,?,?)");
+      $stmt->bind_param('iisssiissi', $blog_id, $history_id, $title, $url_title, $content, $anon, $visibility, $publishing_date,$created_at, $user_id);
       $stmt->execute();
-      $result = $stmt->get_result();
-      if ($result->num_rows < 0) {
-          return [];
-      }
-
-      $retval = [];
-      while($row = $result->fetch_object()){
-          array_push($retval, $row);
-      }
+      $retval = $stmt->insert_id;
       $stmt->close();
       return $retval;
     }
 
-    public static function getPostId(int $id)
+    public function verifyPost(int $blog_id, int $current_post_id,int $history_id, string $blogname)
     {
-        $stmt = self::prepare("SELECT * FROM post WHERE id = ?");
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
+      $stmt = self::prepare("SELECT id,history_id,blog_id FROM post WHERE id=? AND history_id=? AND blog_id=?");
+      $stmt->bind_param('iii',$current_post_id,$history_id,$blog_id);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $stmt->close();
+      $retval;
+      if($result->num_rows > 0)
+      {
+         $retval = 1;
+      }
+      else
+      {
+        $retval = 0;
+      }
+      return $retval;
     }
 }
