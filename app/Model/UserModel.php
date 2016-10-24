@@ -365,12 +365,11 @@ WHERE id = ?
 
     public function getYourBlogs(int $currentUser)
     {
-        $stmt = self::prepare("SELECT blog.*, user_blog.user_id, user_blog.blog_id, user_blog.authority AS authority, blog.url_name AS url_name, user_blog.id FROM blog
-LEFT JOIN
-user_blog
-ON
-blog.id = user_blog.blog_id
-WHERE user_blog.user_id = ? AND user_blog.authority >= 2");
+        $stmt = self::prepare("SELECT blog.name, blog.url_name AS url_name, user_blog.authority AS authority, COUNT(followship.blog_id) AS followers FROM blog
+INNER JOIN user_blog ON blog.id = user_blog.blog_id
+INNER JOIN followship ON blog.id = followship.blog_id
+WHERE user_blog.user_id = 2 AND user_blog.authority >= 2 AND followship.allowed = 1
+GROUP BY followship.blog_id");
         $stmt->bind_param('i', $currentUser);
         $stmt->execute();
         $result = $stmt->get_result();
