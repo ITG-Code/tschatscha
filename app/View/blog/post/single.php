@@ -20,7 +20,6 @@
                     av: <?= htmlentities($post->first_name), " \"", htmlentities($post->alias), "\" ", htmlentities($post->sur_name) ?>
                     | Publicerad: <?= $post->publishing_date ?></p>
                 <div>
-                    Taggar: <?= htmlentities($post->tags) ?>
                     <p style="font-size:10px;">Taggar: <?= htmlentities($post->tags) ?></p>
                 </div>
             </footer>

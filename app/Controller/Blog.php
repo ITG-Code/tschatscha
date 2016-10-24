@@ -17,8 +17,8 @@ class Blog extends Controller
       $currentUser = $this->userModel->getLoggedInUserId();
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
-      $followstatus = $this->model('blog')->getFollowStatus($user_id,$blog_id);
-      $getBlogs = $this->userModel->getYourBlogs($currentUser);
+      $postlist = $this->model('Post')->get($this->blogName);
+
 
         if(isset($args[0]) && $args[0] ==  'post'){
             unset($args[0]);
@@ -27,13 +27,17 @@ class Blog extends Controller
         }else{
             $auth = 0;
             $anon = 0;
+            $followstatus = array();
+            $getBlogs = array();
             if ($this->userModel ->isLoggedIn()) {
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
               $anon = 1;
+              $followstatus = $this->model('blog')->getFollowStatus($user_id,$blog_id);
+              $getBlogs = $this->userModel->getYourBlogs($currentUser);
             }
 
             $this->view('blog/index',[
-                'postlist' => $this->model('Post')->get($this->blogName),
+                'postlist' => $postlist,
                 'linked_title' => true,
                 'auth' => $auth,
                 'anon' => $anon,

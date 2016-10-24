@@ -1,8 +1,8 @@
 <main>
 <br/>
 <?php
-		if($data->loggedin){?>
-		<nav class="navbar navbar-default" role="navigation">
+        if($data->loggedin){?>
+        <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -78,8 +78,8 @@
         ?>
 
         <?php
-        	if($data->loggedin){
-        		//var_dump($data->followstatus->allowed); ?>
+            if($data->loggedin){
+                //var_dump($data->followstatus->allowed); ?>
 
         <a href="/dashboard">Hem</a>
 
@@ -102,30 +102,23 @@
 
         <p>Du är <?= $authorityName ?> på bloggen. <?php
         foreach ($data->followstatus as $value) {
-        	if($value->allowed == 1){?>
-        		Du följer den här bloggen.
+            if($value->allowed == 1){?>
+                Du följer den här bloggen.
         <?php } ?>
          <?php
-        	if($value->allowed == 0){?>
-        		Följfråga skickad.
+            if($value->allowed == 0){?>
+                Följfråga skickad.
         <?php }
         }?>
 
 
        <?php if (empty($data->followstatus)) {?>
-        	<a href="/<?= $data->blogname ?>/follow" class="btn btn-success">Följ bloggen</a>
+            <a href="/<?= $data->blogname ?>/follow" class="btn btn-success">Följ bloggen</a>
 
-        <?php }
-        if(!$data->loggedin){
-        	echo "finemang va? :)";
-        }
-        ?>
-
-
+        <?php }} ?>
     </nav>
-
-
     <?php foreach ($data->postlist as $post) {
-        require 'app/View/blog/post/single.php';
-    } }?>
+    		require 'app/View/blog/post/single.php';
+    		}
+    		?>
 </main>
