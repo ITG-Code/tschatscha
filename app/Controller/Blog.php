@@ -229,9 +229,10 @@ class Blog extends Controller
         $user_id = $this->userModel->getLoggedInUserId();
         $content = (isset($_POST['content'])) ? $_POST['content'] : '';
         $post_id = (isset($_POST['id'])) ? $_POST['id'] : '';
+        $history_id = $this->model('post')->getHistoryPost($post_id);
         $this->model('post')->getSession($session_value, $user_id, $ip, $created_at);
-        $this->model('post')->createComment($post_id, $content, $user_id, $created_at);
-        echo $post_id, $content, $user_id, $created_at;
+        $this->model('post')->createComment($history_id, $content, $user_id, $created_at);
+        echo $history_id, $content, $user_id, $created_at;
     }
 
 
