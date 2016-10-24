@@ -98,14 +98,18 @@ class Blog extends Controller
               $user_id = $this->userModel->getLoggedInUserId();
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
               $anon = 1;
-
             }
+            $post = $this->model('Post')->get($this->blogName, $args[0]);
+            $postid = $post[0]->id;
+            $history_id = $this->model('post')->getHistoryPost($postid);
+            $comments = $this->model('Post')->getComments($history_id);
             $this->view('blog/post/index', [
 
-                'post' => $this->model('Post')->get($this->blogName, $args[0], 0, 0, false),
+                'post' => $post,
                 'linked_title' => false,
                 'auth' => $auth,
                 'anon' => $anon,
+                'comments' => $comments,
                 // 'postTag' => $post_tag,
             ]);
         }
@@ -234,15 +238,17 @@ class Blog extends Controller
         $ip = $_SERVER['REMOTE_ADDR'];
         $created_at = date('Y-m-d h:m:s');
         $session_value = session_id();
+        $blogname = $this->blogName;
         $user_id = $this->userModel->getLoggedInUserId();
         $content = (isset($_POST['content'])) ? $_POST['content'] : '';
         $post_id = (isset($_POST['id'])) ? $_POST['id'] : '';
+        $url_title = (isset($_POST['url_title'])) ? $_POST['url_title'] : '';
         $history_id = $this->model('post')->getHistoryPost($post_id);
         $this->model('post')->getSession($session_value, $user_id, $ip, $created_at);
         $this->model('post')->createComment($history_id, $content, $user_id, $created_at);
-        echo $history_id, $content, $user_id, $created_at;
+        //echo $history_id, $content, $user_id, $created_at;
+        Redirect::to('/'.$blogname.'/post/'.$url_title);
     }
-
 
     public function compose($args = [])
     {

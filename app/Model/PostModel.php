@@ -28,6 +28,14 @@ class PostModel extends Model
         return $insert;
     }
 
+    public static function getComments($post_id)
+    {
+        $stmt = self::prepare("SELECT * FROM `comment` WHERE post_id = ?");
+        $stmt->bind_param('i', $post_id);
+        $stmt->execute();
+        return $stmt;
+    }
+
     public static function getSession($session_value, $user_id, $ip, $created_at)
     {
         $insert = self::prepare("INSERT INTO session(session_value, user_id, ip, created_at) VALUES (?, ?, ?, ?)");
