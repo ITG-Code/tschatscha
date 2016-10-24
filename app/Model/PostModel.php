@@ -251,7 +251,7 @@ class PostModel extends Model
         $result = $stmt->get_result();
         $stmt->close();
     }
-    public function verifyPost(int $blog_id, int $current_post_id,int $history_id, string $blogname)
+    public function verifyPostBlogLink(int $blog_id, int $current_post_id,int $history_id, string $blogname)
     {
       $stmt = self::prepare("SELECT id,history_id,blog_id FROM post WHERE id=? AND history_id=? AND blog_id=?");
       $stmt->bind_param('iii',$current_post_id,$history_id,$blog_id);
@@ -264,6 +264,22 @@ class PostModel extends Model
          $retval = 1;
       }
       return $retval;
-
     }
-}
+    public function verifyPost($current_post_id,$history_id,$url_title,$publishing_date,$created_at)
+    {
+      $retval = 1;
+      $stmt = self::prepare("SELECT id,history_id,url_title,publishing_date,created_at FROM post WHERE id=?");
+      $stmt->bind_param('i',$current_post_id);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $row = $result->fetch_object();
+      if($current_post_id != $row->id || $history_id != $row->history_id || $url_title != $row->url_title || $publishing_date != $row->publishing_date || $created_at != $row->created_at){
+        $retval = 0;
+      }
+      // $dump = array($current_post_id, $row->id, $history_id, $row->history_id, $url_title, $row->url_title,$publishing_date,$row->publishing_date,$created_at,$row->created_at);
+      // echo "<pre>";
+      // var_dump($dump);
+      // echo "</pre>";
+      return $retval;
+    }
+  }
