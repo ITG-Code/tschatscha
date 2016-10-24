@@ -1,6 +1,20 @@
 <main>
 <br/>
 <?php
+        switch ($data->auth) {
+            case Authority::BLOG_OWNER:
+                $authorityName = "ägare";
+                break;
+            case Authority::BLOG_CO_WRITER:
+                $authorityName = "medskribent";
+                break;
+            case Authority::BLOG_MODERATE:
+                $authorityName = "moderator";
+                break;
+            default:
+                $authorityName = "besökare";
+        }
+      
         if($data->loggedin){?>
         <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
@@ -61,44 +75,9 @@
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
-    <nav> <?php
-        switch ($data->auth) {
-            case Authority::BLOG_OWNER:
-                $authorityName = "ägare";
-                break;
-            case Authority::BLOG_CO_WRITER:
-                $authorityName = "medskribent";
-                break;
-            case Authority::BLOG_MODERATE:
-                $authorityName = "moderator";
-                break;
-            default:
-                $authorityName = "besökare";
-        }
-        ?>
+    <nav> 
 
-        <?php
-            if($data->loggedin){
-                //var_dump($data->followstatus->allowed); ?>
-
-        <a href="/dashboard">Hem</a>
-
-
-        <?php
-        if($data->auth >=6){?>
-        <a href="/<?php echo $data->blogname; ?>/compose">Post</a>
-        <?php } ?>
-        <?php
-        if($data->auth ==7){?>
-        <a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a>
-        <?php } ?>
-        <a href="/logout">Logga ut</a>
-
-        <?php }else{?>
-        <a href="/dashboard">Hem</a>
-        <a href="/login">Logga in</a>
-        <?php }?>
-
+       
 
         <p>Du är <?= $authorityName ?> på bloggen. <?php
         foreach ($data->followstatus as $value) {
@@ -116,7 +95,16 @@
             <a href="/<?= $data->blogname ?>/follow" class="btn btn-success">Följ bloggen</a>
 
         <?php }} ?>
-    </nav>
+        <?php if(!$data->loggedin){?>
+        <a href="/dashboard">Hem</a>
+        <a href="/login">Logga in</a>
+        <p>Du är <?= $authorityName ?> på bloggen.
+        <?php 
+        }?>
+   
+    </nav> 
+     
+
     <?php foreach ($data->postlist as $post) {
     		require 'app/View/blog/post/single.php';
     		}
