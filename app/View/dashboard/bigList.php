@@ -23,7 +23,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <?php  foreach ($data->bloglist as $value) {if ($value->authority >= 6) { ?>
-              <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
+              <li><a href="/<?= htmlentities($value->url_name) ?>"><?= $value->name ?></a></li>
               <?php }} ?>
               <li class="divider"></li>
             </ul>
@@ -53,10 +53,10 @@
             <?php foreach ($data->list as $value) { ?>
               <tr>
                 <td>
-                     <?= $value->name ?>
+                     <?= htmlentities($value->name) ?>
                 </td>
                 <td>
-                     <a href="/<?= $value->url_name ?>"><?= $value->blog_name ?></a>
+                     <a href="/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->blog_name) ?></a>
                 </td>
                 <td>
                      <form action="/blog/deleteFollower" method="post">
@@ -101,9 +101,9 @@
                     $authorityName = "Besökare";
                 }
                     ?>
-            
+
                 <td>
-                     <a href="/<?= $value->url_name ?>"><?= $value->name ?></a>
+                     <a href="/<?= $value->url_name ?>"><?= htmlentities($value->name) ?></a>
                 </td>
                 <td>
                      <?= $authorityName ?>

@@ -22,7 +22,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <?php  foreach ($data->bloglist as $value) {if ($value->authority >= 6) { ?>
-              <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
+              <li><a href="/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->name) ?></a></li>
               <?php }} ?>
               <li class="divider"></li>
             </ul>
@@ -51,8 +51,8 @@
           </tr>
           <?php foreach ($data->followlist as $value) { ?>
             <tr>
-              <td><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></td>
-             
+              <td><a href="/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->name) ?></a></td>
+
                 <td>
                   <form action="/blog/deleteFollower" method="post">
                     <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
@@ -86,10 +86,10 @@
                 <?php foreach ($data->acceptFollowList as $value) { ?>
                   <tr>
                     <td>
-                      <?= $value->name ?>
+                      <?= htmlentities($value->name) ?>
                     </td>
                     <td>
-                      <?= $value->blog_name ?>
+                      <?= htmlentities($value->blog_name) ?>
                     </td>
                     <td>
                       <form action="/blog/acceptFollower" method="post">
@@ -116,7 +116,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="col-md-12">
               <div class="panel panel-info">
                 <div class="panel-heading">
@@ -151,9 +151,9 @@
                   </form>
                 </div>
               </div>
-  
 
-  
+
+
             <div class="col-md-12 col-xs-12">
     <div class="panel panel-primary">
       <div class="panel-heading">
@@ -171,10 +171,10 @@
             foreach ($data->allbloglist as $blog) {
               ?>
             <tr>
-              <td><a href="/<?= $blog->url_name ?>"><?= $blog->name ?></a></td>
-              <td><a href="/<?= $blog->url_name ?>">urbanblogg.se/<?= $blog->url_name ?></a></td>
+              <td><a href="/<?= htmlentities($blog->url_name) ?>"><?= htmlentities($blog->name) ?></a></td>
+              <td><a href="/<?= htmlentities($blog->url_name) ?>">urbanblogg.se/<?= htmlentities($blog->url_name) ?></a></td>
               <td><?= $blog->alias ?></td>
-                
+
               </tr>
               <?php //}
               } ?>
@@ -190,7 +190,7 @@
             <div id="errors">
               <h5>
                 <?php foreach ($data->errors as $value) {
-                  echo $value;
+                  echo htmlentities($value);
                   } ?>
                 </h5>
               </div>
