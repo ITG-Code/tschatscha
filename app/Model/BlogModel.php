@@ -247,5 +247,12 @@ ORDER BY name ASC
         $stmt->execute();
         $stmt->close();
     }
+    public function removeUserRight(int $user_id, int $blog_id)
+    {
+        $stmt = self::prepare("DELETE FROM user_blog WHERE user_id = ? AND blog_id = ?");
+        $stmt ->bind_param('ii', $user_id, $blog_id);
+        $stmt->execute();
+        $stmt->close();
+    }
 
 }

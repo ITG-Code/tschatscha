@@ -108,9 +108,61 @@
           <input type="submit" class="form-control btn btn-primary" value="Bekräfta">
         </div>
       </form>
-   
+  
   </div>
 </div>
+
+          
+         
+<div class="panel panel-primary">
+        <div class="panel-heading" href="#removerights" data-toggle="collapse">
+          <h3 class="panel-title">Ta bort rättigheter från användare</h3>
+        </div>
+        <div class="panel-body collapse" id="removerights">
+          <form method="post" action="/<?= $data->blogname ?>/settings">
+            <fieldset>
+              <div class="form-group">
+              <div class="left">
+                <label for="user">Användare</label><br/>
+                <?php 
+                    foreach($data->userID as $value){?>
+                      <input type="radio" name="removerights" value="<?= $value->user_id ?>"/>
+                      <?= $value->alias ?><br/>
+                      <?php } 
+                      ?>
+                      </div>
+                      <div class="right">
+                        <label for="right">Rank</label><br/>
+                              <?php 
+                    foreach($data->userID as $value){?>
+               <?php
+                      switch ($value->authority) {
+                          case Authority::BLOG_OWNER:
+                              $authorityName = "Ägare";
+                              break;
+                          case Authority::BLOG_CO_WRITER:
+                              $authorityName = "Delägare";
+                              break;
+                          case Authority::BLOG_MODERATE:
+                              $authorityName = "Moderator";
+                              break;
+                          default:
+                              $authorityName = "Privata poster";
+                      }
+                      ?>
+                      <?= $authorityName ?><br/>
+                      
+                   <?php } 
+                    ?>
+                    </div>
+
+        </div><br/>
+   <input type="submit" class="form-control btn btn-primary" value="Bekräfta">
+   
+            </fieldset>
+          </form>
+        </div>
+      </div>
 
     <div class="panel panel-primary">
       <div class="panel-heading" href="#removetags" data-toggle="collapse">

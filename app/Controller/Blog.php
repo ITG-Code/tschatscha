@@ -122,6 +122,7 @@ class Blog extends Controller
         $currentUser = $this->userModel->getLoggedInUserId();
         $blog_id = $this->model('blog')->getBlogId($blogname);
         $getBlogs = $this->userModel->getYourBlogs($currentUser);
+        $user_id = $this->userModel->getUserId($blog_id);
 
 
         if(!$this->userModel ->isLoggedIn())
@@ -157,9 +158,15 @@ class Blog extends Controller
         {
             (int) $setAuthority = $_POST['authority'];
             $userId = $_POST['user_id'];
-
             $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority);
+            Redirect::to('/'.$blogname.'/settings');
         }
+        if(isset($_POST['removerights'])){
+          $user_id = $_POST['removerights'];
+          $userAuth = $this->model('blog')->removeUserRight($user_id,$blog_id);
+          Redirect::to('/'.$blogname.'/settings');
+        }
+
 
 
 
@@ -171,6 +178,7 @@ class Blog extends Controller
             'user' => $this->userModel->get(Session::get('session_user')),
             'tags' => $this->model("Tag")->changeTags($blog_id),
             'bloglist' => $getBlogs,
+            'userID' => $user_id,
 
         ]);
 

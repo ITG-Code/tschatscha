@@ -400,5 +400,21 @@ WHERE user_blog.user_id = ? AND user_blog.authority >= 2");
         $returnValue = (object)$returnValue;
         return $returnValue;
     }
+   
+    public function getUserId(int $blog_id)
+    {
+        $stmt = self::prepare("SELECT user_blog.user_id, user_blog.authority AS authority, user.alias AS alias FROM user_blog INNER JOIN user ON user_blog.user_id = user.id WHERE blog_id = ? AND authority < 7 GROUP BY user_id ORDER BY authority");
+          $stmt->bind_param('i', $blog_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $returnValue = [];
+
+        while($row = $result->fetch_object())
+        {
+            $returnValue[] = $row;
+        }
+
+        return $returnValue;
+    }
 
 }

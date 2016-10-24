@@ -92,7 +92,7 @@
                <?php if($value->authority == 7){
                 $authorityName = "Ägare";
                 }elseif($value->authority == 6){
-                    $authorityName = "Medskribent";
+                    $authorityName = "Delägare";
                 }
                 elseif($value->authority == 2){
                     $authorityName = "Moderator";
