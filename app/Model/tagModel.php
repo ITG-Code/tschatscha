@@ -148,4 +148,11 @@ class TagModel extends Model
 
             return $returnValue;
     }
+    public function relocateTags(int $current_post_id, int $new_post_id)
+    {
+      $stmtU = self::prepare("UPDATE post_tag SET post_id=? WHERE post_id=?");
+      $stmtU->bind_param('ii',$new_post_id,$current_post_id);
+      $stmtU->execute();
+      $stmtU->close();
+    }
 }

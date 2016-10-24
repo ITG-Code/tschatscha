@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation">
+﻿<nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -7,14 +7,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"></a>
+      <!-- <a class="navbar-brand" href="#"></a> -->
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
+
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/dashboard">Hem</a></li>
-        <li><a href="#"></a></li>
+        <!-- <li><a href="#"></a></li> -->
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -30,6 +31,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annat <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="/account/settings">Kontoinställningar</a></li>
+              <li><a href="/blog/allFollowers">Visa alla följare</a></li>
               <li><a href="/logout">Logga ut</a></li>
             </ul>
           </li>
@@ -46,16 +48,16 @@
         <table class="myBlogs">
           <tr class="myFollowSpace">
             <th><b>Bloggnamn</b></th>
-            <th><b>Länk</b></th>
           </tr>
           <?php foreach ($data->followlist as $value) { ?>
             <tr>
-              <td><?= $value->name ?></td>
-              <td><a href="/<?= $value->url_name ?>"></td>
+              <td><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></td>
+             
                 <td>
                   <form action="/blog/deleteFollower" method="post">
                     <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
                     <input type="hidden" name="id" value="<?= $value->id ?>">
+                    <input type="hidden" name="redict" value="1">
                     <input type="submit" name="unfollow" value="Sluta följa">
                   </form>
                 </td>
@@ -114,7 +116,7 @@
                 </div>
               </div>
             </div>
-            <a href="/blog/allFollowers">Visa alla följare</a>
+            
             <div class="col-md-12">
               <div class="panel panel-info">
                 <div class="panel-heading">
@@ -161,16 +163,21 @@
         <table class="myBlogs">
           <tr class="myFollowSpace">
             <th><b>Blogg</b></th>
+            <th><b>URL</b></th>
             <th><b>Alias</b></th>
           </tr>
           <?php
-            foreach ($data->allbloglist as $blog) {?>
+          //if($data->authority == 7){
+            foreach ($data->allbloglist as $blog) {
+              ?>
             <tr>
               <td><a href="/<?= $blog->url_name ?>"><?= $blog->name ?></a></td>
+              <td><a href="/<?= $blog->url_name ?>">urbanblogg.se/<?= $blog->url_name ?></a></td>
               <td><?= $blog->alias ?></td>
                 
               </tr>
-              <?php } ?>
+              <?php //}
+              } ?>
 
             </table>
             <?php if(empty($data->allbloglist)) {?>
