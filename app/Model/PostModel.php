@@ -198,11 +198,26 @@ class PostModel extends Model
         $result = $stmt1->get_result();
         $stmt1->close();
         if ($result->num_rows > 0) {
-            $stmt2 = self::prepare("DELETE FROM post WHERE id = ?");
-            $stmt2->bind_param('i', $post_id);
+            $history_id = self::getHistoryPost($post_id);
+            $stmt2 = self::prepare("DELETE FROM post WHERE history_id = ?");
+            $stmt2->bind_param('i', $history_id);
             $stmt2->execute();
             $stmt2->close();
         }
+    }
+    /*
+    * In post_id ut history_id på den posten.
+    * Till skillnad från getHistoryId() så hämtas history id in från en specifik post
+    * istället för det högsta history_id + 1 som hämtas i getHistoryId()
+    */
+    public function getHistoryPost(int $post_id){
+      $stmt = self::prepare("SELECT history_id FROM post WHERE id=?");
+      $stmt->bind_param('i',$post_id);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $stmt->close();
+      $retval = $result->fetch_object()->history_id;
+      return $retval;
     }
     /*skapar en ny post med samma history_id som den posten man uppdaterar
     * Tar in, alla kolumner som tillhör post utom changed at
