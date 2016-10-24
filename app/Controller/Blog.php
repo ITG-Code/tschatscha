@@ -203,7 +203,22 @@ class Blog extends Controller
         }
         Redirect::to('/'.$blogname);
       }
-    
+
+    public function createComment()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $created_at = date('Y-m-d h:m:s');
+        $session_value = session_id();
+        $session_user = $this->userModel->getLoggedInUserId();
+        $content = (isset($_POST['content'])) ? $_POST['content'] : '';
+        $post_id = $this->userModel->getPostId($url_title);
+        $this->model('post')->getSession($session_value, $ip, $created_at);
+        $this->model('post')->createComment($post_id, $content, $session_user);
+        echo $content, $session_user, $post_id;
+
+        var_dump($post_id[0]->id);
+        exit();
+    }
 
     public function compose($args = [])
     {

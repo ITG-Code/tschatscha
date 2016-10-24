@@ -222,10 +222,10 @@ class PostModel extends Model
       return $retval;
     }
 
-    public static function getPostId(int $id)
+    public static function getPostId($url_title)
     {
-        $stmt = self::prepare("SELECT * FROM post WHERE id = ?");
-        $stmt->bind_param('i', $id);
+        $stmt = self::prepare("SELECT * FROM post WHERE url_title = ?");
+        $stmt->bind_param('s', $url_title);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

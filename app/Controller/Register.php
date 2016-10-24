@@ -37,7 +37,7 @@ class Register extends Controller
         $data = json_decode($response);
         if (UserError::exists()) {
            Redirect::to('/register');
-        } else if ((!$this->model('User')->create($username, $password, $email, $alias, $firstname, $surname, $birthday))  && ($data->success==true) || (!isset($_POST['terms']))) {
+        } else if ((!$this->model('User')->create($username, $password, $email, $alias, $firstname, $surname, $birthday) || $data->success==false || (!isset($_POST['terms'])))) {
             Redirect::to('/register');
         } else {
             Redirect::to('/login');
