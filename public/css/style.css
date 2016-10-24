@@ -43,7 +43,9 @@
 .spacer{
 	margin-top:3px;
 }
-.panel-heading:hover{
+#panel-heading:hover{
 	cursor: pointer;
 	background-color: #EDEDED !important;
+}.form-group{
+	padding:10px;
 }

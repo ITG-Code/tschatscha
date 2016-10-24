@@ -18,6 +18,7 @@ class Blog extends Controller
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
       $followstatus = $this->model('blog')->getFollowStatus($user_id,$blog_id);
+      $getBlogs = $this->userModel->getYourBlogs($currentUser);
 
         if(isset($args[0]) && $args[0] ==  'post'){
             unset($args[0]);
@@ -38,6 +39,7 @@ class Blog extends Controller
                 'anon' => $anon,
                 'loggedin' => $currentUser,
                 'followstatus' => $followstatus,
+                'bloglist' => $getBlogs,
             ]);
         }
 
@@ -113,12 +115,16 @@ class Blog extends Controller
     {
         $confirmPassword = (isset($_POST['confirmpassword'])) ? trim($_POST['confirmpassword']) : '';
         $blogname = $this->blogName;
+        $currentUser = $this->userModel->getLoggedInUserId();
         $blog_id = $this->model('blog')->getBlogId($blogname);
+        $getBlogs = $this->userModel->getYourBlogs($currentUser);
+
+
         if(!$this->userModel ->isLoggedIn())
        {
           Redirect::to('/login');
         }
-        $currentUser = $this->userModel->getLoggedInUserId();
+
         $auth = $this->model('post')->checkAuth($blog_id, $currentUser);
         if ($auth != 7) {
           Redirect::to('/'.$blogname);
@@ -143,9 +149,9 @@ class Blog extends Controller
             $search = $this->userModel->searchForUser($userquery, $currentUser);
         }
 
-        if(isset($_POST['authority']) && Authority::isValidAuthority($_POST['authority']))
+        if(isset($_POST['authority']))
         {
-            $setAuthority =  (int)$_POST['authority'];
+            (int) $setAuthority = $_POST['authority'];
             $userId = $_POST['user_id'];
 
             $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority);
@@ -160,6 +166,7 @@ class Blog extends Controller
             'blogid' => $blog_id,
             'user' => $this->userModel->get(Session::get('session_user')),
             'tags' => $this->model("Tag")->changeTags($blog_id),
+            'bloglist' => $getBlogs,
 
         ]);
 
@@ -181,12 +188,15 @@ class Blog extends Controller
         if (!strlen($blogname) >= 4) {
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
+        if(!preg_match("/^^[a-öA-Ö0-9].[a-öA-Ö0-9-_\s]+$/")){
+          UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+        }
         $urlname = strtolower($urlname);
         //blacklist array, enter in lowercase. Prevents user from having their blog url be something important.
         $blacklist = array('create','dashboard','sendpost','compose','home','fixdate','fixurl','blog','account','login','logout','register','change_alias','change_email','change_password','index'
         ,'create','settings','post','updatetags','view','model', 'search','send','activateaccount','follow');
         if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) && strlen($urlname <= 3)) {
-          UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
+          UserError::add(Lang::FORM_BLOGURL_INVALID_CHARS);
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
         if (in_array($urlname, $blacklist)){
@@ -206,6 +216,19 @@ class Blog extends Controller
         }
         Redirect::to('/'.$blogname);
       }
+
+    public function createComment()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $created_at = date('Y-m-d h:m:s');
+        $session_value = session_id();
+        $session_user = $this->userModel->getLoggedInUserId();
+        $content = (isset($_POST['content'])) ? $_POST['content'] : '';
+        $post_id = $this->userModel->getPostId($url_title);
+        $this->model('post')->getSession($session_value, $ip, $created_at);
+        $this->model('post')->createComment($post_id, $content, $session_user);
+        echo $content, $session_user, $post_id;
+    }
 
 
     public function compose($args = [])
@@ -267,42 +290,41 @@ class Blog extends Controller
         $this->model('tag')->checkTag($tags, true, $id, $blogname);
         Redirect::to('/'.$blogname.'/') ;
     }
-
     public function editPost()
-    {
-      $blogname = $this->blogName;
-      $current_post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
-      $history_id = isset($_POST['history_id']) ? $_POST['history_id'] : '';
-
-      $blog_id = $this->model('blog')->getBlogId($blogname);
-      $user_id = $this->model('user')->getLoggedInUserId();
-      $auth = $this->model('post')->checkAuth($blog_id, $user_id);
-      //returns 1 if blog and post link
-      $verified = $this->model('post')->verifyPost($blog_id,$current_post_id,$history_id,$blogname);
-      if($verified == 0){
-        UserError::add(Lang::BLOG_POST_CONNECTION_MISSING);
-        Redirect::to('/'.$blogname);
-      }
-
-      if(!$this->userModel ->isLoggedIn())
       {
-          Redirect::to('/'.$blogname);
-      }
-      if ($auth < 6) {
-          Redirect::to('/'.$blogname);
-      }
-      $title = isset($_POST['Title']) ? $_POST['Title'] : '';
-      $content = isset($_POST['Content']) ? $_POST['Content'] : '';
-      $anon = isset($_POST['anon']) ? $_POST['anon'] : '0';
-      $visibility = isset($_POST['auth']) ? $_POST['auth'] : '0';
+        $blogname = $this->blogName;
+        $current_post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
+        $history_id = isset($_POST['history_id']) ? $_POST['history_id'] : '';
 
-      $url_title = isset($_POST['url_title']) ? $_POST['url_title'] : '';
-      $publishing_date = isset($_POST['publishing_date']) ? $_POST['publishing_date'] : '';
-      $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : '';
-      $new_post_id = $this->model('post')->editPost($blog_id,$history_id,$title,$url_title,$content,$anon,$visibility,$publishing_date,$created_at,$user_id);
-      $this->model('tag')->relocateTags($current_post_id,$new_post_id);
-      Redirect::to('/'.$blogname.'/post/'.$url_title);
-    }
+        $blog_id = $this->model('blog')->getBlogId($blogname);
+        $user_id = $this->model('user')->getLoggedInUserId();
+        $auth = $this->model('post')->checkAuth($blog_id, $user_id);
+        //returns 1 if blog and post link
+        $verified = $this->model('post')->verifyPost($blog_id,$current_post_id,$history_id,$blogname);
+        if($verified == 0){
+          UserError::add(Lang::BLOG_POST_CONNECTION_MISSING);
+          Redirect::to('/'.$blogname);
+        }
+
+        if(!$this->userModel ->isLoggedIn())
+        {
+            Redirect::to('/'.$blogname);
+        }
+        if ($auth < 6) {
+            Redirect::to('/'.$blogname);
+        }
+        $title = isset($_POST['Title']) ? $_POST['Title'] : '';
+        $content = isset($_POST['Content']) ? $_POST['Content'] : '';
+        $anon = isset($_POST['anon']) ? $_POST['anon'] : '0';
+        $visibility = isset($_POST['auth']) ? $_POST['auth'] : '0';
+
+        $url_title = isset($_POST['url_title']) ? $_POST['url_title'] : '';
+        $publishing_date = isset($_POST['publishing_date']) ? $_POST['publishing_date'] : '';
+        $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : '';
+        $new_post_id = $this->model('post')->editPost($blog_id,$history_id,$title,$url_title,$content,$anon,$visibility,$publishing_date,$created_at,$user_id);
+        $this->model('tag')->relocateTags($current_post_id,$new_post_id);
+        Redirect::to('/'.$blogname.'/post/'.$url_title);
+      }
 
 
     //indata=datum, utdata=datum -T om det finns, kollar så att datum är korrekt angivet.
@@ -392,8 +414,10 @@ class Blog extends Controller
 
      public function allFollowers()
      {
+
       if ($this->userModel ->isLoggedIn()) {
               $user_id = $this->userModel->getLoggedInUserId();
+              $getBlogs = $this->userModel->getYourBlogs($user_id);
               $list = $this->model('blog')->getFollowers($user_id);
               $getBlogs = $this->userModel->getYourBlogs($user_id);
               //$acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
@@ -402,6 +426,7 @@ class Blog extends Controller
                         // 'acceptlist' => $acceptlist,
                         //'auth' => $authority,
                         'blogs' => $getBlogs,
+                        'bloglist' => $getBlogs,
 
                     ]);
             }

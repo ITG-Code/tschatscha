@@ -2,8 +2,8 @@
     <div class="col-md-12">
         <article class="well well-sm">
             <header>
-                <?php if ($data->linked_title) { ?>
-                    <h2><a href="/<?= $data->blogname ?>/post/<?= $post->url_title ?>"><?= $post->title ?></a></h2>
+                <?php if (htmlentities($data->linked_title)) { ?>
+                    <h2><a href="/<?= htmlentities($data->blogname) ?>/post/<?= htmlentities($post->url_title) ?>"><?= htmlentities($post->title) ?></a></h2>
                 <?php } else { ?>
                     <h2><?= $post->title ?></h2>
                 <?php } ?>
@@ -17,11 +17,11 @@
             </p>
             <footer>
                 <p style="font-size:10px;">Skriven
-                    av: <?= $post->first_name, " \"", $post->alias, "\" ", $post->sur_name ?>
+                    av: <?= htmlentities($post->first_name), " \"", htmlentities($post->alias), "\" ", htmlentities($post->sur_name) ?>
                     | Publicerad: <?= $post->publishing_date ?></p>
                 <div>
-                    Taggar: <?= $post->tags ?>
-                    <p style="font-size:10px;">Taggar: <?= $post->tags ?></p>
+                    Taggar: <?= htmlentities($post->tags) ?>
+                    <p style="font-size:10px;">Taggar: <?= htmlentities($post->tags) ?></p>
                 </div>
             </footer>
 

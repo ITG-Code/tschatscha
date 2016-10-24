@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-heading" id="panel-heading">
       <h3 class="panel-title" href="#changealias" data-toggle="collapse">Byt alias</h3>
     </div>
     <div class="panel-body collapse" id="changealias">
@@ -24,7 +24,7 @@
     </div>
   </div>
   <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-heading" id="panel-heading">
       <h3 class="panel-title" href="#change_email" data-toggle="collapse">Byt Email</h3>
     </div>
     <div class="panel-body collapse" id="change_email">
@@ -48,7 +48,7 @@
     </div>
   </div>
   <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-heading" id="panel-heading">
       <h3 class="panel-title" href="#change_password" data-toggle="collapse">Byt Lösenord</h3>
     </div>
     <div class="panel-body collapse" id="change_password">

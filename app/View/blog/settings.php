@@ -1,8 +1,65 @@
+<br/>
+    <nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!-- <a class="navbar-brand" href="#"></a> -->
+    </div>
 
-<div class="col-md-12">Ge användare rättigheter till blogg: <?= $data->blogname ?> <a href="/<?= $data->blogname ?>">Tillbaka till <?= $data->blogname ?></a> 
+    <!-- Collect the nav links, forms, and other content for toggling -->
+   
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/dashboard">Hem</a></li>
+        <!-- <li><a href="#"></a></li> -->
+      </ul>
+ 
+        
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hantera blogg <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="/<?php echo $data->blogname; ?>/compose">Skriv inlägg</a></li>
+        <li><a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a></li>
+        <li><a href="/<?= $data->blogname ?>">Tillbaka till  flödet</a></li>
+              <li></li>
+              
+              <li class="divider"></li>
+            </ul>
+          </li>
+ 
+        
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <?php  foreach ($data->bloglist as $value) {if ($value->authority >= 6) { ?>
+              <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
+              <?php }} ?>
+              <li class="divider"></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annat <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/account/settings">Kontoinställningar</a></li>
+              <li><a href="/blog/allFollowers">Visa alla följare</a></li>
+              <li><a href="/logout">Logga ut</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+<div class="col-md-12"> 
   <div class="panel panel-primary">
     <div class="panel-heading" href="#giverights" data-toggle="collapse">
-      <h3 class="panel-title">Ge rättigheter</h3>
+      <h3 class="panel-title">Ge rättigheter till blogg: <?= $data->blogname ?></h3>
     </div>
     <div class="panel-body" class="panel-body collapse" id="giverights">
       <form class="form-horizontall" action="/<?= $data->blogname ?>/settings" method="post">
@@ -123,6 +180,7 @@
       </form>
     </div>
   </div>
+
      <!--  <form action="/<?= $data->blogname ?>/settings" method="post" style="font-size: 15px;"><label style="font-size: 26px;">Ta bort blogg</label>
         <input type="hidden" name="delete" value="<?= $data->blogid ?>">
         <input type="submit" name="<?= $data->blogid ?>" value="Ta bort"/>

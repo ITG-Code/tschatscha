@@ -1,3 +1,5 @@
+  <br/>
+
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -7,16 +9,25 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"></a>
+     <!--  <a class="navbar-brand" href="#"></a> -->
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/dashboard">Hem</a></li>
-        <li><a href="#"></a></li>
+        <!-- <li><a href="#"></a></li> -->
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <?php  foreach ($data->bloglist as $value) {if ($value->authority >= 6) { ?>
+              <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
+              <?php }} ?>
+              <li class="divider"></li>
+            </ul>
+          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annat <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -37,7 +48,7 @@
           <table class="myBlogs">
             <tr class="myFollowSpace">
                   <th><b>Namn</b></th>
-                  <th><b>blogg</b></th>
+                  <th><b>Följer din blogg:</b></th>
                </tr>
             <?php foreach ($data->list as $value) { ?>
               <tr>
@@ -59,7 +70,7 @@
               <?php } ?>
         </table>
         <?php if(empty($data->list)){?>
-        <p class="text-muted">Inga nya förfrågningar</p>
+        <p class="text-muted">Du kontrollerar ingen blogg</p>
         <?php } ?>
         </div>
       </div>
@@ -116,9 +127,9 @@
               </tr>
               <?php } ?>
         </table>
-        <?php if(empty($data->acceptlist)){?>
+        <!-- <?php if(empty($data->acceptlist)){?>
         <p class="text-muted">Inga nya förfrågningar</p>
-        <?php } ?>
+        <?php } ?> -->
         </div>
       </div>
 </div>
