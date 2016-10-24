@@ -32,6 +32,7 @@
                     <form method="post" action="/<?= $data->blogname ?>/createComment">
                     <textarea class="form-control" name="content" id="content" rows="3" pattern="^[A-Za-z]{1,}$"
                               value="content" required></textarea>
+                        <input type="hidden" name="id" value="<?= $post->id ?>"/>
                         <input type="submit" name="submit" value="Submit">
                     </form>
                 </header>

@@ -226,12 +226,12 @@ class Blog extends Controller
         $ip = $_SERVER['REMOTE_ADDR'];
         $created_at = date('Y-m-d h:m:s');
         $session_value = session_id();
-        $session_user = $this->userModel->getLoggedInUserId();
+        $user_id = $this->userModel->getLoggedInUserId();
         $content = (isset($_POST['content'])) ? $_POST['content'] : '';
-        $post_id = $this->userModel->getPostId($url_title);
-        $this->model('post')->getSession($session_value, $ip, $created_at);
-        $this->model('post')->createComment($post_id, $content, $session_user);
-        echo $content, $session_user, $post_id;
+        $post_id = (isset($_POST['id'])) ? $_POST['id'] : '';
+        $this->model('post')->getSession($session_value, $user_id, $ip, $created_at);
+        $this->model('post')->createComment($post_id, $content, $user_id, $created_at);
+        echo $post_id, $content, $user_id, $created_at;
     }
 
 

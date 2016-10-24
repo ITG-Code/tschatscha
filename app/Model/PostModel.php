@@ -19,27 +19,19 @@ class PostModel extends Model
         return $retval;
     }
 
-    public static function createComment($post_id, string $content, $session_user)
+    public static function createComment($post_id, $content, $session_user, $created_at)
     {
-
-        $query = self::prepare("SELECT * FROM comment LEFT JOIN post ON comment.post_id = post.id");
-        $query->execute();
-        $query->close();
-        $insert = self::prepare("INSERT INTO comment(post_id, content, session_user, created_at) VALUES (:post_id, :content, :session_user, :created_at)");
-        $insert->execute(array(
-            ':post_id' => $post_id,
-            ':content' => $content,
-            ':session_user' => $session_user,
-            ':created_at' => date('Y-m-d h:m:s')
-        ));
+        $insert = self::prepare("INSERT INTO comment(post_id, content, session_user, created_at) VALUES (?, ?, ?, ?)");
+        $insert->bind_param('isis', $post_id, $content, $session_user, $created_at);
+        $insert->execute();
         $insert->close();
         return $insert;
     }
 
-    public static function getSession($session_value, $ip, $created_at)
+    public static function getSession($session_value, $user_id, $ip, $created_at)
     {
-        $insert = self::prepare("INSERT INTO session(session_value, ip, created_at) VALUES (?, ?, ?)");
-        $insert->bind_param('sss', $session_value, $ip, $created_at);
+        $insert = self::prepare("INSERT INTO session(session_value, user_id, ip, created_at) VALUES (?, ?, ?, ?)");
+        $insert->bind_param('siss', $session_value, $user_id, $ip, $created_at);
         $insert->execute();
         $insert->close();
         return $insert;
