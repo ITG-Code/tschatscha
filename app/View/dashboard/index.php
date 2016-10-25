@@ -172,7 +172,7 @@
               ?>
             <tr>
               <td><a href="/<?= htmlentities($blog->url_name) ?>"><?= htmlentities($blog->name) ?></a></td>
-              <td><a href="/<?= htmlentities($blog->url_name) ?>">urbanblogg.se/<?= htmlentities($blog->url_name) ?></a></td>
+              <td><a href="/<?= htmlentities($blog->url_name) ?>">urbanblog.com/<?= htmlentities($blog->url_name) ?></a></td>
               <td><?= $blog->alias ?></td>
 
               </tr>

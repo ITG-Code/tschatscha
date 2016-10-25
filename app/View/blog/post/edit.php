@@ -10,27 +10,27 @@ Redigera ett inlägg!
 		<table class="form">
 			<tr>
 				<td>
-					<label for="Title">Title: </label>
+					<label for="Title">Titel: </label>
 				</td>
 				<td>
-					<input type="text" name="Title" placeholder="Title" id="Title" value="<?= isset($data->autoFillPost->title) ? htmlentities($data->autoFillPost->title) :'' ?>" required>
-				</td>
-			</tr>
-			<tr>
-			</tr>
-			<tr>
-				<td>
-					<label for="Content">Content: </label>
-				</td>
-				<td>
-					<textarea type="text" name="Content" placeholder="Content" id="Content" data-provide="markdown" rows="10" cols="40" required><?=isset($data->autoFillPost->content) ? htmlentities($data->autoFillPost->content) : ''?></textarea>
+					<input type="text" name="Title" placeholder="Titel" id="Title" value="<?= isset($data->autoFillPost->title) ? htmlentities($data->autoFillPost->title) :'' ?>" required>
 				</td>
 			</tr>
 			<tr>
 			</tr>
 			<tr>
 				<td>
-					<label for="Anon">Allow anonymous viewers: </label>
+					<label for="Content">Inlägg: </label>
+				</td>
+				<td>
+					<textarea type="text" name="Content" placeholder="Inläggets innehåll" id="Content" data-provide="markdown" rows="10" cols="40" required><?=isset($data->autoFillPost->content) ? htmlentities($data->autoFillPost->content) : ''?></textarea>
+				</td>
+			</tr>
+			<tr>
+			</tr>
+			<tr>
+				<td>
+					<label for="Anon">Tillåt anonyma tittare: </label>
 				</td>
 				<td>
                     <?php if(isset($data->autoFillPost->checked) && $data->autoFillPost->checked == 1) { ?>
@@ -44,13 +44,13 @@ Redigera ett inlägg!
 			</tr>
 			<tr>
 				<td>
-					<label for="auth">authority view: </label>
+					<label for="auth">Inlägget är: </label>
 				</td>
 				  <td>
 					         <select name="auth" id="auth">
-						               <option value="0" <?php echo (isset($data->autoFillPost->visibility )&& $data->autoFillPost->visibility) == 0 ? "selected": '';?>>Public</option>
-						                <option value="1" <?php echo (isset($data->autoFillPost->visibility )&& $data->autoFillPost->visibility) == 1 ? "selected": '';?>>Unlisted</option>
-						                <option value="3 "<?php echo (isset($data->autoFillPost->visibility )&& $data->autoFillPost->visibility) == 3 ? "selected": '';?>>Private</option>
+						               <option value="0" <?php echo (isset($data->autoFillPost->visibility )&& $data->autoFillPost->visibility) == 0 ? "selected": '';?>>Allmänt</option>
+						                <option value="1" <?php echo (isset($data->autoFillPost->visibility )&& $data->autoFillPost->visibility) == 1 ? "selected": '';?>>Olistat</option>
+						                <option value="3 "<?php echo (isset($data->autoFillPost->visibility )&& $data->autoFillPost->visibility) == 3 ? "selected": '';?>>Privat</option>
                             <input type="hidden" name="post_id" value="<?= $data->autoFillPost->id  ?>">
                             <input type="hidden" name="history_id" value="<?= $data->autoFillPost->history_id ?>">
                             <input type="hidden" name="url_title" value="<?= $data->autoFillPost->url_title ?>">
