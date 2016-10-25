@@ -75,22 +75,4 @@
     </footer>
     </article>
     </div>
-    <?php if ($data->auth >= Authority::BLOG_CO_WRITER) { ?>
-        <table>
-            <tr>
-                <td>
-                    <form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/delete"
-                          method="post">
-                        <input type="hidden" name="delete" value="<?= $post->id ?>"/>
-                        <input type="submit" name="<?= $post->id ?>" value="Ta bort"/>
-                    </form>
-                </td>
-                <td>
-                    <form name="edit" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/edit" method="post">
-                        <input type="submit" name="<?= $post->id ?>" value="redigera"/>
-                    </form>
-                </td>
-            </tr>
-        </table>
-    <?php }
-} ?>
+    <?php } ?>
