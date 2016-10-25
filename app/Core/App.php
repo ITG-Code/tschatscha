@@ -24,7 +24,7 @@ class App
             unset($url[0]);
             $url = $url ? array_values($url) : [];
         }
-        elseif (self::blogExists($url[0])) {
+        if (isset($url[0]) && self::blogExists($url[0])) {
             $this->controller = "blog";
             $this->blogName = $url[0];
             unset($url[0]);
