@@ -201,7 +201,7 @@ class Blog extends Controller
         if (!strlen($blogname) >= 4) {
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
-        if(!preg_match("/^^[a-öA-Ö0-9].[a-öA-Ö0-9-_\s]+$/")){
+        if(!preg_match("/^[a-öA-Ö0-9].[a-öA-Ö0-9-_s]+$/",$blogname)){
           UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
         }
         $urlname = strtolower($urlname);
@@ -312,6 +312,10 @@ class Blog extends Controller
         $blogname = $this->blogName;
         $current_post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
         $history_id = isset($_POST['history_id']) ? $_POST['history_id'] : '';
+        if(!is_int($current_post_id) || !is_int($history_id)){
+          UserError::add(Lang::ERROR_OCCURED);
+          Redirect::to('/'.$blogname);
+        }
 
         $blog_id = $this->model('blog')->getBlogId($blogname);
         $user_id = $this->model('user')->getLoggedInUserId();
@@ -337,10 +341,13 @@ class Blog extends Controller
         $visibility = isset($_POST['auth']) ? $_POST['auth'] : '0';
 
         //värden som tillsammans med history id inte ska ändras i redigering.
-        //TODO Kolla typning.
         $url_title = isset($_POST['url_title']) ? $_POST['url_title'] : '';
         $publishing_date = isset($_POST['publishing_date']) ? $_POST['publishing_date'] : '';
         $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : '';
+        if(!is_string($url_title) || !is_string($publishing_date) || !is_string($created_at)){
+          UserError::add(Lang::ERROR_OCCURED);
+          Redirect::to('/'.$blogname);
+        }
 
         //returns 1 if attributes match with current post.
         $postVerify = $this->model('post')->verifyPost($current_post_id,$history_id,$url_title,$publishing_date,$created_at);
@@ -349,6 +356,7 @@ class Blog extends Controller
           UserError::add(Lang::ERROR_OCCURED);
           Redirect::to('/'.$blogname);
         }
+
         $new_post_id = $this->model('post')->editPost($blog_id,$history_id,$title,$url_title,$content,$anon,$visibility,$publishing_date,$created_at,$user_id);
         $this->model('tag')->relocateTags($current_post_id,$new_post_id);
         Redirect::to('/'.$blogname.'/post/'.$url_title);
@@ -445,9 +453,8 @@ class Blog extends Controller
 
       if ($this->userModel ->isLoggedIn()) {
               $user_id = $this->userModel->getLoggedInUserId();
-              $getBlogs = $this->userModel->getYourBlogs($user_id);
+              $getBlogs = $this->userModel->getBlogsWithAuth($user_id);
               $list = $this->model('blog')->getFollowers($user_id);
-              $getBlogs = $this->userModel->getYourBlogs($user_id);
               //$acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
               $this->view('/dashboard/bigList', [
                         'list' => $list,
