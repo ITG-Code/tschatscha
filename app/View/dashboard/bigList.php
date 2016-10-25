@@ -85,6 +85,7 @@
           <table class="myBlogs">
             <tr class="myFollowSpace">
                   <th><b>Blogg</b></th>
+                  <th><b>Antal följare</b></th>
                   <th><b>Rank</b></th>
                </tr><?php foreach ($data->blogs as $value) { ?>
               <tr>
@@ -106,30 +107,14 @@
                      <a href="/<?= $value->url_name ?>"><?= htmlentities($value->name) ?></a>
                 </td>
                 <td>
-                     <?= $authorityName ?>
-                </td>
-                <!-- <td>
-                    <form action="/blog/acceptFollower" method="post">
-                        <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
-                        <input type="hidden" name="id" value="<?= $value->id ?>">
-                        <input type="hidden" name="redict" value="0">
-                        <input type="submit" class="btn btn-success" name="accept" value="Godkänd">
-                      </form>
+                  <?= $value->followers ?>
                 </td>
                 <td>
-                     <form action="/blog/deleteFollower" method="post">
-                        <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
-                        <input type="hidden" name="id" value="<?= $value->id ?>">
-                        <input type="hidden" name="redict" value="0">
-                        <input type="submit" class="btn btn-danger" name="deny" value="Ta bort">
-                     </form>
-                </td> -->
+                     <?= $authorityName ?>
+                </td>
               </tr>
               <?php } ?>
         </table>
-        <!-- <?php if(empty($data->acceptlist)){?>
-        <p class="text-muted">Inga nya förfrågningar</p>
-        <?php } ?> -->
         </div>
       </div>
 </div>
