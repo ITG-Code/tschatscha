@@ -57,6 +57,7 @@ class Blog extends Controller
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
+      $getBlogs = $this->userModel->getYourBlogs($user_id);
       if ($this->userModel ->isLoggedIn()) {
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
             }
@@ -106,7 +107,9 @@ class Blog extends Controller
                 'linked_title' => false,
                 'auth' => $auth,
                 'anon' => $anon,
+                'loggedin' => $user_id,
                 'comments' => $comments,
+                'bloglist' => $getBlogs,
                 // 'postTag' => $post_tag,
             ]);
         }

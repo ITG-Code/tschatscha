@@ -37,18 +37,20 @@
       </ul>
  <?php
         if($data->auth >=6){?>
+
     <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
+    <li><a href="/<?php echo $data->blogname; ?>/compose">Skriv nytt inlägg</a></li>
+        <li class="dropdown"><?php
+        if($data->auth ==7){?>
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hantera blogg <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="/<?php echo $data->blogname; ?>/compose">Skriv inlägg</a></li>
-              <?php
-        if($data->auth ==7){?>
+            
+              
         <li><a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a></li>
         <?php } ?>
-              <li></li>
+              
 
-              <li class="divider"></li>
+             
             </ul>
           </li>
  <?php } ?>
@@ -60,7 +62,7 @@
             <?php  foreach ($data->bloglist as $value) {if ($value->authority >= 6) { ?>
               <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
               <?php }} ?>
-              <li class="divider"></li>
+              
             </ul>
           </li>
           <li class="dropdown">

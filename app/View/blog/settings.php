@@ -21,15 +21,16 @@
  
         
     <ul class="nav navbar-nav navbar-right">
+    <li><a href="/<?= $data->blogname ?>">Tillbaka till  flödet</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hantera blogg <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="/<?php echo $data->blogname; ?>/compose">Skriv inlägg</a></li>
+            <li><a href="/<?php echo $data->blogname; ?>/compose">Skriv nytt inlägg</a></li>
         <li><a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a></li>
-        <li><a href="/<?= $data->blogname ?>">Tillbaka till  flödet</a></li>
+        
               <li></li>
               
-              <li class="divider"></li>
+              
             </ul>
           </li>
  
@@ -41,7 +42,7 @@
             <?php  foreach ($data->bloglist as $value) {if ($value->authority >= 6) { ?>
               <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
               <?php }} ?>
-              <li class="divider"></li>
+              
             </ul>
           </li>
           <li class="dropdown">
