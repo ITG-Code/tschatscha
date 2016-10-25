@@ -84,6 +84,9 @@ class Blog extends Controller
           //skickas till post/edit.php och sen därifrån till blog kontroller->editPost
            $this->view('/blog/post/edit', [
              'autoFillPost' => $post_id[0],
+             'loggedin' => $user_id,
+             'auth' => $auth,
+             'bloglist' => $getBlogs,
            ]);
            if($auth<6){
              Redirect::to('/'.$blogname.'/post/'.$post_url);
