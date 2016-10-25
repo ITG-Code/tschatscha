@@ -456,7 +456,7 @@ class Blog extends Controller
 
       if ($this->userModel ->isLoggedIn()) {
               $user_id = $this->userModel->getLoggedInUserId();
-              $getBlogs = $this->userModel->getBlogsWithAuth($user_id);
+              $getBlogs = $this->userModel->getYourBlogs($user_id);
               $list = $this->model('blog')->getFollowers($user_id);
               //$acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
               $this->view('/dashboard/bigList', [
