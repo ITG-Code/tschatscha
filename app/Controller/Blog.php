@@ -57,9 +57,10 @@ class Blog extends Controller
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
-      $getBlogs = $this->userModel->getYourBlogs($user_id);
+      $getBlogs = array();
       if ($this->userModel ->isLoggedIn()) {
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
+              $getBlogs = $this->userModel->getYourBlogs($user_id);
             }
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
