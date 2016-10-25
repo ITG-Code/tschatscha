@@ -46,6 +46,18 @@
 #panel-heading:hover{
 	cursor: pointer;
 	background-color: #EDEDED !important;
-}.form-group{
+}
+.form-group{
 	padding:10px;
+}
+#urlname{
+	display: inline-block !important;
+	width: 87% !important;
+	float: right;
+}
+#urllable{
+	width: 10% !important;
+	text-align: right;
+	padding-top: 6px !important;
+	font-weight: 100 !important;
 }

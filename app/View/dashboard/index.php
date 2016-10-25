@@ -97,9 +97,9 @@
                                required="">
                     </div>
                     <div class="form-group">
-                        <label for="urlname">Url-namn</label>
-                        <input type="text" name="urlname" class="form-control" id=""
-                               placeholder="urbanblog.com/dittnamnhär">
+                        <label for="urlname">Url-namn</label><br>
+                        <label id="urllable">urbanblog.com/</label> <input type="text" name="urlname" id="urlname" class="form-control" id=""
+                               placeholder="Din-url">
                         <p class="help-block">Namnet som syns i länkar</p>
                     </div>
                     <div class="form-group">
