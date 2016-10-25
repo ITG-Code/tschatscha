@@ -46,7 +46,15 @@ class Register extends Controller
 
     public function index()
     {
-        $this->view('register/index');
+        $currentUser = 0;
+        $getBlogs = 0;
+        $auth = 0;
+        $this->view('register/index', [
+            'loggedin' => $currentUser,
+            'auth' => $auth,
+            'bloglist' => $getBlogs,
+
+            ]);
     }
 
     public function activateAccount($args = [])
