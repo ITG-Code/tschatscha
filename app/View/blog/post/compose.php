@@ -1,4 +1,5 @@
-Skapa en post
+
+
 <div id="errors">
     <?php foreach ($data->errors as $value) {
         echo $value;
@@ -76,6 +77,6 @@ Skapa en post
 				</td>
 			</tr>
 		</table>
-		<input type="submit" name="submit" value="Submit">
+		<input type="submit" class="btn btn-success" name="submit" value="Posta inlägg">
 	</div>
 </form>

@@ -110,7 +110,6 @@ class Blog extends Controller
                 'loggedin' => $user_id,
                 'comments' => $comments,
                 'bloglist' => $getBlogs,
-                // 'postTag' => $post_tag,
             ]);
         }
         else{
@@ -162,7 +161,7 @@ class Blog extends Controller
         {
             (int) $setAuthority = $_POST['authority'];
             $userId = $_POST['user_id'];
-            $authority = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority);
+            $auth = $this->model('Blog')->setAuthority($userId, $this->blogName,(int) $setAuthority);
             Redirect::to('/'.$blogname.'/settings');
         }
         if(isset($_POST['removerights'])){
@@ -170,10 +169,6 @@ class Blog extends Controller
           $userAuth = $this->model('blog')->removeUserRight($user_id,$blog_id);
           Redirect::to('/'.$blogname.'/settings');
         }
-
-
-
-
 
         $this->view('blog/settings',[
             'usersearch' => $search,
@@ -183,6 +178,8 @@ class Blog extends Controller
             'tags' => $this->model("Tag")->changeTags($blog_id),
             'bloglist' => $getBlogs,
             'userID' => $user_id,
+            'auth' => $auth,
+            'loggedin' => $currentUser,
 
         ]);
 
@@ -252,6 +249,7 @@ class Blog extends Controller
 
     public function compose($args = [])
     {
+
       if(!$this->userModel->isLoggedIn())
       {
         Redirect::to('/login');
@@ -260,7 +258,7 @@ class Blog extends Controller
       $user_id = $this->userModel->getLoggedInUserId();
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
-
+      $getBlogs = $this->userModel->getYourBlogs($user_id);
       $auth = $this->model('post')->checkAuth($blog_id, $user_id);
       if ($auth < 6) {
           Redirect::to('/'.$blogname);
@@ -268,7 +266,10 @@ class Blog extends Controller
 
       $this->view('blog/post/compose', [
           'autoFillPost' => $autofillPost,
-          'blogname' => $this->blogName
+          'blogname' => $this->blogName,
+          'loggedin' => $user_id,
+          'auth' => $auth,
+          'bloglist' => $getBlogs,
       ]);
     }
     public function sendPost()
@@ -458,13 +459,15 @@ class Blog extends Controller
               $user_id = $this->userModel->getLoggedInUserId();
               $getBlogs = $this->userModel->getBlogsWithAuth($user_id);
               $list = $this->model('blog')->getFollowers($user_id);
+              $auth = 0;
               //$acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
               $this->view('/dashboard/bigList', [
                         'list' => $list,
                         // 'acceptlist' => $acceptlist,
-                        //'auth' => $authority,
+                        'auth' => $auth,
                         'blogs' => $getBlogs,
                         'bloglist' => $getBlogs,
+                        'loggedin' => $user_id,
 
                     ]);
             }
