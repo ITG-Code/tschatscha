@@ -45,7 +45,8 @@ class Controller
         require_once 'app/View/main.php';
         unset($data->parsedown);
         echo "<pre>";
-        htmlentities(print_r($data));
+        $json = json_encode($data, JSON_PRETTY_PRINT);
+        echo $json;
         echo "</pre>";
     }
 }
