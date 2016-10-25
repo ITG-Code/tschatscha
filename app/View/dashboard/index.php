@@ -26,7 +26,7 @@
                             <?php foreach ($data->bloglist as $value) {
                                 if ($value->authority >= 6) { ?>
                                     <li>
-                                        <a href="/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->name) ?></a>
+                                        <a href="/blog/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->name) ?></a>
                                     </li>
                                 <?php }
                             } ?>
