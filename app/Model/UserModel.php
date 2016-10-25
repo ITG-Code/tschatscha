@@ -434,7 +434,7 @@ WHERE user_blog.user_id = ? AND user_blog.authority >= 2");
     }
     public function getBlogFollowers(int $blog_id)
     {
-        $stmt = self::prepare("SELECT COUNT(allowed) AS followers FROM followship WHERE blog_id = ?");
+        $stmt = self::prepare("SELECT COUNT(CASE WHEN followship.allowed = 1 then 1 ELSE NULL END) AS followers FROM followship WHERE blog_id = ?");
       $stmt->bind_param('i', $blog_id);
       $stmt->execute();
       $result = $stmt->get_result();
