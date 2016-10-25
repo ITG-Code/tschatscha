@@ -365,7 +365,7 @@ WHERE id = ?
 
     public function getYourBlogs(int $currentUser)
     {
-        $stmt = self::prepare("SELECT blog.name, blog.url_name AS url_name, user_blog.authority AS authority, COUNT(followship.blog_id) AS followers FROM blog
+        $stmt = self::prepare("SELECT blog.id, blog.name, blog.url_name AS url_name, user_blog.authority AS authority, COUNT(followship.blog_id) AS followers FROM blog
 INNER JOIN user_blog ON blog.id = user_blog.blog_id
 INNER JOIN followship ON blog.id = followship.blog_id
 WHERE user_blog.user_id = ? AND user_blog.authority >= 2 AND followship.allowed = 1
