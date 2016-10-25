@@ -62,12 +62,15 @@
                     $authorityName = "Besökare";
                 }
                     ?>
-
                 <td>
                      <a href="/<?= $value->url_name ?>"><?= htmlentities($value->name) ?></a>
                 </td>
+              
+
                 <td>
-                  
+                  <?= $value->followers ?>
+                </td>
+            
                 </td>
                 <td>
                      <?= $authorityName ?>
