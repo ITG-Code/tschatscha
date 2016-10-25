@@ -62,7 +62,6 @@
                         <td>
                             <a href="/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->name) ?></a>
                         </td>
-
                         <td>
                             <form action="/blog/deleteFollower" method="post">
                                 <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
@@ -73,7 +72,6 @@
                         </td>
                     </tr>
                 <?php } ?>
-
             </table>
             <?php if (empty($data->followlist)) { ?>
                 <p class="text-muted">Du följer inga bloggar</p>
@@ -141,7 +139,7 @@
                                required="">
                     </div>
                     <div class="form-group">
-                        <label for="urlname">Url namn</label>
+                        <label for="urlname">Url-namn</label>
                         <input type="text" name="urlname" class="form-control" id=""
                                placeholder="urbanblog.com/dittnamnhär">
                         <p class="help-block">Namnet som syns i länkar</p>
@@ -165,6 +163,7 @@
         </div>
     </div>
     <div class="panel panel-primary">
+
         <div class="panel-heading">
             <h3 class="panel-title">Alla bloggar</h3>
         </div>
@@ -182,9 +181,10 @@
                     <tr>
                         <td><a href="/<?= htmlentities($blog->url_name) ?>"><?= htmlentities($blog->name) ?></a></td>
                         <td>
-                            <a href="/<?= htmlentities($blog->url_name) ?>">urbanblogg.se/<?= htmlentities($blog->url_name) ?></a>
+                            <a href="/<?= htmlentities($blog->url_name) ?>">urbanblog.com/<?= htmlentities($blog->url_name) ?></a>
                         </td>
                         <td><?= $blog->alias ?></td>
+
 
                     </tr>
                     <?php //}
