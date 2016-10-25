@@ -57,9 +57,10 @@ class Blog extends Controller
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
-      $getBlogs = $this->userModel->getYourBlogs($user_id);
+      $getBlogs = array();
       if ($this->userModel ->isLoggedIn()) {
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
+              $getBlogs = $this->userModel->getYourBlogs($user_id);
             }
         if (isset($args[0]) && $args[0] == "compose") {
             unset($args[0]);
@@ -207,7 +208,8 @@ class Blog extends Controller
         $urlname = strtolower($urlname);
         //blacklist array, enter in lowercase. Prevents user from having their blog url be something important.
         $blacklist = array('create','dashboard','sendpost','compose','home','fixdate','fixurl','blog','account','login','logout','register','change_alias','change_email','change_password','index'
-        ,'create','settings','post','updatetags','view','model', 'search','send','activateaccount','follow');
+        ,'create','settings','post','updatetags','view','model', 'search','send','activateaccount','follow','edit','editpost','single','biglist','allfollowers','createcomment','comment','reply'
+        ,'sendpost','addtag','gettags','updatetags','acceptfollower','acceptfollowerlist');
         if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) && strlen($urlname <= 3)) {
           UserError::add(Lang::FORM_BLOGURL_INVALID_CHARS);
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
@@ -316,7 +318,7 @@ class Blog extends Controller
         $blogname = $this->blogName;
         $current_post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
         $history_id = isset($_POST['history_id']) ? $_POST['history_id'] : '';
-        if(!is_int($current_post_id) || !is_int($history_id)){
+        if(!is_numeric($current_post_id) && $current_post_id % 1 != 0  || !is_numeric($history_id) && $history_id % 1 != 0){
           UserError::add(Lang::ERROR_OCCURED);
           Redirect::to('/'.$blogname);
         }
@@ -348,10 +350,6 @@ class Blog extends Controller
         $url_title = isset($_POST['url_title']) ? $_POST['url_title'] : '';
         $publishing_date = isset($_POST['publishing_date']) ? $_POST['publishing_date'] : '';
         $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : '';
-        if(!is_string($url_title) || !is_string($publishing_date) || !is_string($created_at)){
-          UserError::add(Lang::ERROR_OCCURED);
-          Redirect::to('/'.$blogname);
-        }
 
         //returns 1 if attributes match with current post.
         $postVerify = $this->model('post')->verifyPost($current_post_id,$history_id,$url_title,$publishing_date,$created_at);
@@ -457,7 +455,7 @@ class Blog extends Controller
 
       if ($this->userModel ->isLoggedIn()) {
               $user_id = $this->userModel->getLoggedInUserId();
-              $getBlogs = $this->userModel->getBlogsWithAuth($user_id);
+              $getBlogs = $this->userModel->getYourBlogs($user_id);
               $list = $this->model('blog')->getFollowers($user_id);
               $auth = 0;
               //$acceptlist = $this->model('blog')->getAcceptFollowers($user_id);

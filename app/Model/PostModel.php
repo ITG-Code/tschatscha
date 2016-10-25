@@ -33,7 +33,12 @@ class PostModel extends Model
         $stmt = self::prepare("SELECT * FROM `comment` WHERE post_id = ?");
         $stmt->bind_param('i', $post_id);
         $stmt->execute();
-        return $stmt;
+        $result = $stmt->get_result();
+        $returnValue= [];
+        while($row = $result->fetch_object()){
+            $returnValue[] = $row;
+        }
+        return $returnValue;
     }
 
     public static function getSession($session_value, $user_id, $ip, $created_at)

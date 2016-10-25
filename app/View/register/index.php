@@ -66,7 +66,7 @@
             </td>
         </tr>
     </table>
-        <div class="g-recaptcha" data-sitekey="6Lf6aQgUAAAAAMp-uBJa-Fg6m-tGx04qfUyTYdoN"></div>
+        <div class="g-recaptcha" id="g-recaptcha-register" data-sitekey="6Lf6aQgUAAAAAMp-uBJa-Fg6m-tGx04qfUyTYdoN"></div>
         <input type="submit" name="submit" value="Register">
     </div>
 </form>

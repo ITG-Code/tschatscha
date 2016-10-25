@@ -10,7 +10,7 @@
 		<p class="help-block">Help text here.</p>
 	</div>
 	<a href="#register" data-toggle="collapse">Inte registerad?</a>
-	<div class="g-recaptcha" data-sitekey="6Lf6aQgUAAAAAMp-uBJa-Fg6m-tGx04qfUyTYdoN"></div>
+	<div class="g-recaptcha" id="g-recaptcha-login" data-sitekey="6Lf6aQgUAAAAAMp-uBJa-Fg6m-tGx04qfUyTYdoN"></div>
 	<div class="form-group">
 		<input type="submit" name="login" value="Logga in" class="btn btn-primary">
 	</div>
