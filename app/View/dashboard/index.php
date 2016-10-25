@@ -56,11 +56,15 @@
             <table class="myBlogs">
                 <tr class="myFollowSpace">
                     <th><b>Bloggnamn</b></th>
+                    <th><b>Senast uppdaterad</b></th>
                 </tr>
                 <?php foreach ($data->followlist as $value) { ?>
                     <tr>
                         <td>
                             <a href="/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->name) ?></a>
+                        </td>
+                        <td>
+                            <?=$value->updated_time ?>
                         </td>
                         <td>
                             <form action="/blog/deleteFollower" method="post">
