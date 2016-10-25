@@ -26,6 +26,17 @@
 
         </article>
         <?php if (!$data->linked_title) { ?>
+
+            <?php foreach ($data->comments as $comment) { ?>
+                <article class="well well-sm">
+                    <header>
+                        Skriven av:  <?= htmlentities($comment->session_user) ?>
+                        </br>
+                        Kommentar: <?= htmlentities($comment->content)?>
+                    </header>
+                </article>
+            <?php } ?>
+
             <article class="well well-sm">
                 <header>
                     <label for="content">Kommentera:</label>
