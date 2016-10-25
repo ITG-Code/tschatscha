@@ -57,6 +57,7 @@ class Blog extends Controller
       $blogname = $this->blogName;
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
+      $getBlogs = $this->userModel->getYourBlogs($user_id);
       if ($this->userModel ->isLoggedIn()) {
               $auth = $this->model('Post')->checkAuth($blog_id, $user_id);
             }
@@ -72,15 +73,12 @@ class Blog extends Controller
            if($auth<6){
             Redirect::to('/'.$blogname);
            }
-
-
          } elseif(isset($args[1]) && $args[1] == "edit" && $auth >=6){
            $posturl = $args[0];
            $post_id = $this->model('Post')->get($blogname,$posturl);
-           echo "<pre>";
-          //  var_dump($post_id[0]->id);
-          //  $postContent = $this->model('Post')->currentPost($post_id[0]);
+          //  echo "<pre>";
           //  var_dump($postContent);
+          //skickas till post/edit.php och sen därifrån till blog kontroller->editPost
            $this->view('/blog/post/edit', [
              'autoFillPost' => $post_id[0],
            ]);
@@ -109,7 +107,9 @@ class Blog extends Controller
                 'linked_title' => false,
                 'auth' => $auth,
                 'anon' => $anon,
+                'loggedin' => $user_id,
                 'comments' => $comments,
+                'bloglist' => $getBlogs,
                 // 'postTag' => $post_tag,
             ]);
         }
@@ -204,7 +204,7 @@ class Blog extends Controller
         if (!strlen($blogname) >= 4) {
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
-        if(!preg_match("/^^[a-öA-Ö0-9].[a-öA-Ö0-9-_\s]+$/")){
+        if(!preg_match("/^[a-öA-Ö0-9].[a-öA-Ö0-9-_s]+$/",$blogname)){
           UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
         }
         $urlname = strtolower($urlname);
@@ -309,17 +309,22 @@ class Blog extends Controller
         $this->model('tag')->checkTag($tags, true, $id, $blogname);
         Redirect::to('/'.$blogname.'/') ;
     }
+    //redigera inlägg.
     public function editPost()
       {
         $blogname = $this->blogName;
         $current_post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
         $history_id = isset($_POST['history_id']) ? $_POST['history_id'] : '';
+        if(!is_int($current_post_id) || !is_int($history_id)){
+          UserError::add(Lang::ERROR_OCCURED);
+          Redirect::to('/'.$blogname);
+        }
 
         $blog_id = $this->model('blog')->getBlogId($blogname);
         $user_id = $this->model('user')->getLoggedInUserId();
         $auth = $this->model('post')->checkAuth($blog_id, $user_id);
         //returns 1 if blog and post link
-        $verified = $this->model('post')->verifyPost($blog_id,$current_post_id,$history_id,$blogname);
+        $verified = $this->model('post')->verifyPostBlogLink($blog_id,$current_post_id,$history_id,$blogname);
         if($verified == 0){
           UserError::add(Lang::BLOG_POST_CONNECTION_MISSING);
           Redirect::to('/'.$blogname);
@@ -332,14 +337,29 @@ class Blog extends Controller
         if ($auth < 6) {
             Redirect::to('/'.$blogname);
         }
+        //värden som får ändras i redigering.
         $title = isset($_POST['Title']) ? $_POST['Title'] : '';
         $content = isset($_POST['Content']) ? $_POST['Content'] : '';
         $anon = isset($_POST['anon']) ? $_POST['anon'] : '0';
         $visibility = isset($_POST['auth']) ? $_POST['auth'] : '0';
 
+        //värden som tillsammans med history id inte ska ändras i redigering.
         $url_title = isset($_POST['url_title']) ? $_POST['url_title'] : '';
         $publishing_date = isset($_POST['publishing_date']) ? $_POST['publishing_date'] : '';
         $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : '';
+        if(!is_string($url_title) || !is_string($publishing_date) || !is_string($created_at)){
+          UserError::add(Lang::ERROR_OCCURED);
+          Redirect::to('/'.$blogname);
+        }
+
+        //returns 1 if attributes match with current post.
+        $postVerify = $this->model('post')->verifyPost($current_post_id,$history_id,$url_title,$publishing_date,$created_at);
+        // echo $postVerify;
+        if($postVerify == 0 ){
+          UserError::add(Lang::ERROR_OCCURED);
+          Redirect::to('/'.$blogname);
+        }
+
         $new_post_id = $this->model('post')->editPost($blog_id,$history_id,$title,$url_title,$content,$anon,$visibility,$publishing_date,$created_at,$user_id);
         $this->model('tag')->relocateTags($current_post_id,$new_post_id);
         Redirect::to('/'.$blogname.'/post/'.$url_title);
@@ -438,7 +458,6 @@ class Blog extends Controller
               $user_id = $this->userModel->getLoggedInUserId();
               $getBlogs = $this->userModel->getYourBlogs($user_id);
               $list = $this->model('blog')->getFollowers($user_id);
-              $getBlogs = $this->userModel->getYourBlogs($user_id);
               //$acceptlist = $this->model('blog')->getAcceptFollowers($user_id);
               $this->view('/dashboard/bigList', [
                         'list' => $list,

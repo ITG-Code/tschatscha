@@ -37,4 +37,5 @@ class Sv extends Lang
   const TOKEN_INVALID = "Din pollet är inte giltig";
   const EMAIL_VERIFIED_NO = "Din e-postadress har inte blivit verifierad än, var god verifiera din e-postadress";
   const BLOG_POST_CONNECTION_MISSING = "Ingen koppling mellan inlägg och blogg hittades";
+  const ERROR_OCCURED = "Ett fel uppstod";
 }
