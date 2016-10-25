@@ -22,10 +22,28 @@
                 <div>
                     <p style="font-size:10px;">Taggar: <?= htmlentities($post->tags) ?></p>
                 </div>
+                <?php if (!$data->linked_title) { ?>
+                <?php if ($data->auth >= Authority::BLOG_CO_WRITER) { ?>
+    <table>
+        <tr>
+            <td>
+                <form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/delete" method="post">
+                    <input type="hidden" name="delete" value="<?= $post->id ?>"/>
+                    <input type="submit" name="<?= $post->id ?>" value="Ta bort"/>
+                </form>
+            </td>
+            <td>
+                <form name="edit" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/edit" method="post">
+                    <input type="submit" name="<?= $post->id ?>" value="Redigera"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+<?php } ?>
             </footer>
 
         </article>
-        <?php if (!$data->linked_title) { ?>
+        
             <article class="well well-sm">
                 <header>
                     <label for="content">Kommentera:</label>
@@ -42,20 +60,4 @@
     </div>
 <?php } ?>
 
-<?php if ($data->auth >= Authority::BLOG_CO_WRITER) { ?>
-    <table>
-        <tr>
-            <td>
-                <form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/delete" method="post">
-                    <input type="hidden" name="delete" value="<?= $post->id ?>"/>
-                    <input type="submit" name="<?= $post->id ?>" value="Ta bort"/>
-                </form>
-            </td>
-            <td>
-                <form name="edit" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/edit" method="post">
-                    <input type="submit" name="<?= $post->id ?>" value="redigera"/>
-                </form>
-            </td>
-        </tr>
-    </table>
-<?php } ?>
+
