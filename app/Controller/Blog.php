@@ -211,7 +211,8 @@ class Blog extends Controller
         $urlname = strtolower($urlname);
         //blacklist array, enter in lowercase. Prevents user from having their blog url be something important.
         $blacklist = array('create','dashboard','sendpost','compose','home','fixdate','fixurl','blog','account','login','logout','register','change_alias','change_email','change_password','index'
-        ,'create','settings','post','updatetags','view','model', 'search','send','activateaccount','follow');
+        ,'create','settings','post','updatetags','view','model', 'search','send','activateaccount','follow','edit','editpost','single','biglist','allfollowers','createcomment','comment','reply'
+        ,'sendpost','addtag','gettags','updatetags','acceptfollower','acceptfollowerlist');
         if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-_]+$/", $urlname) && strlen($urlname <= 3)) {
           UserError::add(Lang::FORM_BLOGURL_INVALID_CHARS);
           UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
