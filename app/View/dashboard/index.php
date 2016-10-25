@@ -20,7 +20,8 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b
+                                class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <?php foreach ($data->bloglist as $value) {
                                 if ($value->authority >= 6) { ?>
@@ -58,14 +59,16 @@
                 </tr>
                 <?php foreach ($data->followlist as $value) { ?>
                     <tr>
-                        <td><a href="/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->name) ?></a></td>
+                        <td>
+                            <a href="/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->name) ?></a>
+                        </td>
 
                         <td>
                             <form action="/blog/deleteFollower" method="post">
                                 <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
                                 <input type="hidden" name="id" value="<?= $value->id ?>">
                                 <input type="hidden" name="redict" value="1">
-                                <input type="submit" name="unfollow" value="Sluta följa">
+                                <input type="submit" name="unfollow" class="btn btn-danger" value="Sluta följa">
                             </form>
                         </td>
                     </tr>
