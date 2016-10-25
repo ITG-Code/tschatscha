@@ -58,7 +58,7 @@
                     <input type="hidden" name="blog_id" value="<?= $value->blog_id ?>">
                     <input type="hidden" name="id" value="<?= $value->id ?>">
                     <input type="hidden" name="redict" value="1">
-                    <input type="submit" name="unfollow" value="Sluta följa">
+                    <input type="submit" class="btn btn-danger" name="unfollow" value="Sluta följa">
                   </form>
                 </td>
               </tr>
