@@ -86,10 +86,16 @@ class Account extends Controller
 
     public function index($args = [])
     {
+        $currentUser = $this->userModel->getLoggedInUserId();
+        $getBlogs = $this->userModel->getYourBlogs($currentUser);
+        $auth = 0;
         if (!$this->userModel->isLoggedIn()) {
             Redirect::to('/login');
         }
         $this->view('account/index', [
+            'loggedin' => $currentUser,
+            'auth' => $auth,
+            'bloglist' => $getBlogs,
 
         ]);
     }

@@ -50,6 +50,7 @@ return false;
         <!-- <li><a href="#"></a></li> -->
       </ul>
       <ul class="nav navbar-nav navbar-right">
+       
  <?php
  if($data->auth ==7){?>
     
@@ -68,7 +69,7 @@ return false;
 
               
 <?php } ?>
-             
+           
            
 
 

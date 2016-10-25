@@ -18,6 +18,7 @@ class Blog extends Controller
       $blog_id = $this->model('blog')->getBlogId($blogname);
       $user_id = $this->userModel->getLoggedInUserId();
       $postlist = $this->model('Post')->get($this->blogName);
+      $followers = $this->userModel->getBlogFollowers($blog_id);
 
 
         if(isset($args[0]) && $args[0] ==  'post'){
@@ -44,6 +45,7 @@ class Blog extends Controller
                 'loggedin' => $currentUser,
                 'followstatus' => $followstatus,
                 'bloglist' => $getBlogs,
+                'followers' => $followers,
             ]);
         }
 
@@ -466,6 +468,7 @@ class Blog extends Controller
                         'blogs' => $getBlogs,
                         'bloglist' => $getBlogs,
                         'loggedin' => $user_id,
+
 
                     ]);
             }

@@ -1,7 +1,4 @@
-﻿<div class="col-md-12">
-</div>
-
-<div class="col-md-6 col-xs-12">
+﻿<div class="col-md-6 col-xs-12">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Följningar</h3>

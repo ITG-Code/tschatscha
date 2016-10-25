@@ -8,6 +8,7 @@ class Home extends Controller
      */
     public function index(array $args = [])
     {
+        $user_id = $this->userModel->getLoggedInUserId();
 
         $userModel = $this->model("User");
         if ($this->userModel->isLoggedIn()) {
@@ -16,6 +17,7 @@ class Home extends Controller
         $this->view(
             'home/index', [
             'bloglist' => $this->model("Blog")->list(),
+            'loggedin' => $user_id,
             ]
         );
     }
