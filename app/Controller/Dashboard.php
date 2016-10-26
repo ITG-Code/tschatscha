@@ -25,7 +25,8 @@ class Dashboard extends Controller
 
 
         $this->view(
-            'dashboard/index', [
+            'dashboard/index',
+            [
             'user' => $this->userModel->get(Session::get('session_user')),
             'bloglist' => $this->userModel->getYourBlogs($currentUser),
             'followlist' => $this->model('blog')->getFollows($currentUser),
@@ -35,7 +36,8 @@ class Dashboard extends Controller
             'bloglist' => $getBlogs,
             'auth' => $auth,
             // 'authority' => $getAuth,
-        ]);
+            ]
+        );
     }
 
     public function settings($args = [])

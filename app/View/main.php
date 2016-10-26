@@ -45,26 +45,26 @@ return false;
       <ul class="nav navbar-nav">
         <li class="active"><a href="/dashboard">Hem</a></li>
         <!-- <li><a href="#"></a></li> -->  <?php if (isset($data->blogname)) {
-        echo '<li><a href="" style="text-transform: capitalize; font-weight: 700; pointer-events: none;
+            echo '<li><a href="" style="text-transform: capitalize; font-weight: 700; pointer-events: none;
    cursor: default;">'.$data->blogname.'</a></li>';
-      } ?>
+} ?>
       </ul>
      
       <ul class="nav navbar-nav navbar-right">
       
- <?php
- if($data->loggedin){
-  if($data->auth ==7){?>
+    <?php
+    if ($data->loggedin) {
+        if ($data->auth ==7) {?>
     
     
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hantera blogg <b class="caret"></b></a>
-          <ul class="dropdown-menu">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hantera blogg <b class="caret"></b></a>
+                <ul class="dropdown-menu">
             
               
-        <li><a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a></li>  </ul>
-          </li><?php } ?>
-        <?php if($data->auth >=6){?>
+                 <li><a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a></li>  </ul>
+                   </li><?php                                                                                                                                                                                                              } ?>
+                <?php if ($data->auth >=6) {?>
 
     
         <li><a href="/<?php echo $data->blogname; ?>/compose">Skriv nytt inlägg</a></li>
@@ -75,33 +75,35 @@ return false;
            
 
 
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <?php  foreach ($data->bloglist as $value) {if ($value->authority >= 6) { ?>
-              <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
-              <?php }} ?>
+         <ul class="nav navbar-nav navbar-right">
+           <li class="dropdown">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b class="caret"></b></a>
+             <ul class="dropdown-menu">
+                    <?php  foreach ($data->bloglist as $value) {
+                        if ($value->authority >= 6) { ?>
+                                      <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
+                                        <?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 }
+} ?>
               
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annat <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="/account/settings">Kontoinställningar</a></li>
-              <li><a href="/blog/allFollowers">Visa alla följare</a></li>
-              <li><a href="/logout">Logga ut</a></li>
-            </ul>
-          </li>
-        </ul>
-  <?php
-} else {
-  ?>
+               </ul>
+             </li>
+             <li class="dropdown">
+               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annat <b class="caret"></b></a>
+               <ul class="dropdown-menu">
+                 <li><a href="/account/settings">Kontoinställningar</a></li>
+                 <li><a href="/blog/allFollowers">Visa alla följare</a></li>
+                 <li><a href="/logout">Logga ut</a></li>
+               </ul>
+             </li>
+           </ul>
+        <?php
+    } else {
+            ?>
         <li class="active">
           <a href="/login">Logga in</a>
         </li>
-  <?php
-}
+            <?php
+    }
 ?>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

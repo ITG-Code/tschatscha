@@ -25,10 +25,10 @@ class BlogModel extends Model
         // echo $currentUser_id;
         // $length = strlen($tags);
         if ($nsfw) {
-          $sqlnsfw = "INSERT INTO blog_tag(blog_id,tag_id) VALUES (?,1)";
-          $stmtnsfw = $this->prepare($sqlnsfw);
-          $stmtnsfw->bind_param("i", $id);
-          $stmtnsfw->execute();
+            $sqlnsfw = "INSERT INTO blog_tag(blog_id,tag_id) VALUES (?,1)";
+            $stmtnsfw = $this->prepare($sqlnsfw);
+            $stmtnsfw->bind_param("i", $id);
+            $stmtnsfw->execute();
         }
         return $id;
     }
@@ -101,7 +101,8 @@ ORDER BY name ASC
     }
 
 
-    public static function setAuthority(int $user_id, string $blogName, int $authority){
+    public static function setAuthority(int $user_id, string $blogName, int $authority)
+    {
         // var_dump($user_id);
         // var_dump($blogName);
         // var_dump($authority);
@@ -134,7 +135,7 @@ ORDER BY name ASC
         if ($result->num_rows == 0) {
             $val = 0;
             $stmt2 = self::prepare("INSERT INTO  followship (user_id,blog_id,allowed,created_at,changed_at) VALUES (?,?,?,?,?)");
-            $stmt2->bind_param('iiiss', $user_id, $blog_id,$val,$date,$date);
+            $stmt2->bind_param('iiiss', $user_id, $blog_id, $val, $date, $date);
             $stmt2->execute();
             $stmt2->close();
         }
@@ -151,7 +152,7 @@ ORDER BY name ASC
         }
 
         $retval = [];
-        while($row = $result->fetch_object()){
+        while ($row = $result->fetch_object()) {
             array_push($retval, $row);
         }
         return $retval;
@@ -170,12 +171,13 @@ ORDER BY name ASC
         }
 
         $retval = [];
-        while($row = $result->fetch_object()){
+        while ($row = $result->fetch_object()) {
             array_push($retval, $row);
         }
         return $retval;
     }
-    public function getFollowStatus(int $user_id, int $blog_id){
+    public function getFollowStatus(int $user_id, int $blog_id)
+    {
         $stmt = self::prepare("SELECT allowed FROM followship WHERE user_id = ? AND blog_id = ?");
         $stmt->bind_param('ii', $user_id, $blog_id);
         $stmt->execute();
@@ -185,7 +187,7 @@ ORDER BY name ASC
         }
 
         $retval = [];
-        while($row = $result->fetch_object()){
+        while ($row = $result->fetch_object()) {
             array_push($retval, $row);
         }
         return $retval;
@@ -203,7 +205,7 @@ ORDER BY name ASC
         }
 
         $retval = [];
-        while($row = $result->fetch_object()){
+        while ($row = $result->fetch_object()) {
             array_push($retval, $row);
         }
         return $retval;
@@ -227,23 +229,23 @@ ORDER BY name ASC
 
     public function uniqueURLBlog(string $urlname)
     {
-      $stmt = self::prepare("SELECT url_name FROM blog where url_name = ?");
-      $stmt ->bind_param('s',$urlname);
-      $stmt->execute();
-      $res = $stmt->get_result();
-      $stmt->close();
-      var_dump($res->num_rows);
-      $unique = false;
-      if($res->num_rows == 0){
-        $unique = true;
-      }
-      return $unique;
-
+        $stmt = self::prepare("SELECT url_name FROM blog where url_name = ?");
+        $stmt ->bind_param('s', $urlname);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
+        var_dump($res->num_rows);
+        $unique = false;
+        if ($res->num_rows == 0) {
+            $unique = true;
+        }
+        return $unique;
     }
 
-    public function deleteBlog(int $blog_id){
+    public function deleteBlog(int $blog_id)
+    {
         $stmt = self::prepare("DELETE FROM blog WHERE id = ?");
-        $stmt ->bind_param('i',$blog_id);
+        $stmt ->bind_param('i', $blog_id);
         $stmt->execute();
         $stmt->close();
     }
@@ -254,5 +256,4 @@ ORDER BY name ASC
         $stmt->execute();
         $stmt->close();
     }
-
 }

@@ -51,14 +51,16 @@ class Model extends DatabaseConfig
     {
         return self::getInstance()->getConnection()->query($query);
     }
-    protected function toStdClass(): stdClass{
+    protected function toStdClass(): stdClass
+    {
         return new stdClass();
     }
-    protected function makeValuesReferenced($arr){
+    protected function makeValuesReferenced($arr)
+    {
         $refs = array();
-        foreach($arr as $key => $value)
+        foreach ($arr as $key => $value) {
             $refs[$key] = &$arr[$key];
+        }
         return $refs;
-
     }
 }

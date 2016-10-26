@@ -13,7 +13,7 @@
             <?php foreach ($data->list as $value) { ?>
               <tr>
                 <td>
-                     <?= htmlentities($value->name) ?>
+                        <?= htmlentities($value->name) ?>
                 </td>
                 <td>
                      <a href="/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->blog_name) ?></a>
@@ -27,9 +27,9 @@
                      </form>
                 </td>
               </tr>
-              <?php } ?>
+                <?php } ?>
         </table>
-        <?php if(empty($data->list)){?>
+        <?php if (empty($data->list)) {?>
         <p class="text-muted">Du kontrollerar ingen blogg</p>
         <?php } ?>
         </div>
@@ -50,17 +50,15 @@
                </tr><?php foreach ($data->blogs as $value) { ?>
               <tr>
 
-               <?php if($value->authority == 7){
-                $authorityName = "Ägare";
-                }elseif($value->authority == 6){
-                    $authorityName = "Delägare";
-                }
-                elseif($value->authority == 2){
-                    $authorityName = "Moderator";
-                }
-                elseif($value->authority == 0){
-                    $authorityName = "Besökare";
-                }
+                <?php if ($value->authority == 7) {
+                    $authorityName = "Ägare";
+} elseif ($value->authority == 6) {
+    $authorityName = "Delägare";
+} elseif ($value->authority == 2) {
+    $authorityName = "Moderator";
+} elseif ($value->authority == 0) {
+    $authorityName = "Besökare";
+}
                     ?>
                 <td>
                      <a href="/<?= $value->url_name ?>"><?= htmlentities($value->name) ?></a>
@@ -68,16 +66,16 @@
               
 
                 <td>
-                  <?= $value->followers ?>
+                    <?= $value->followers ?>
 
                 </td>
 
                 </td>
                 <td>
-                     <?= $authorityName ?>
+                        <?= $authorityName ?>
                 </td>
               </tr>
-              <?php } ?>
+                <?php } ?>
         </table>
         </div>
       </div>

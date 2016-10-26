@@ -27,10 +27,10 @@
                   <input type="radio" name="user_id" value="<?=$value->id?>"> <?= $value->name ?>
                 </td>
                 <td align="left">
-                 <?= $value->email ?>
+                    <?= $value->email ?>
                 </td>
               </tr>
-          <?php } ?>
+            <?php } ?>
 
               </table>
             </div>
@@ -67,35 +67,35 @@
               <div class="form-group">
               <div class="left">
                 <label for="user">Användare</label><br/>
-                <?php 
-                    foreach($data->userID as $value){?>
+                <?php
+                foreach ($data->userID as $value) {?>
                       <input type="radio" name="removerights" value="<?= $value->user_id ?>"/>
-                      <?= $value->alias ?><br/>
-                      <?php } 
-                      ?>
+                        <?= $value->alias ?><br/>
+                        <?php                                                                                                                                                                                                                                                                                                                                                                                                                                     }
+                        ?>
                       </div>
                       <div class="right">
                         <label for="right">Rank</label><br/>
-                              <?php 
-                    foreach($data->userID as $value){?>
-               <?php
-                      switch ($value->authority) {
-                          case Authority::BLOG_OWNER:
-                              $authorityName = "Ägare";
-                              break;
-                          case Authority::BLOG_CO_WRITER:
-                              $authorityName = "Delägare";
-                              break;
-                          case Authority::BLOG_MODERATE:
-                              $authorityName = "Moderator";
-                              break;
-                          default:
-                              $authorityName = "Privata poster";
-                      }
-                      ?>
-                      <?= $authorityName ?><br/>
+                                <?php
+                                foreach ($data->userID as $value) {?>
+                                        <?php
+                                        switch ($value->authority) {
+                                            case Authority::BLOG_OWNER:
+                                                $authorityName = "Ägare";
+                                                break;
+                                            case Authority::BLOG_CO_WRITER:
+                                                $authorityName = "Delägare";
+                                                break;
+                                            case Authority::BLOG_MODERATE:
+                                                $authorityName = "Moderator";
+                                                break;
+                                            default:
+                                                $authorityName = "Privata poster";
+                                        }
+                                    ?>
+                                                <?= $authorityName ?><br/>
                       
-                   <?php } 
+                                <?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     }
                     ?>
                     </div>
 
@@ -117,7 +117,7 @@
 
             
               <label for="tag[]"></label>
-              <?php foreach ($data->tags as $value) { ?>
+                <?php foreach ($data->tags as $value) { ?>
                 <input type="checkbox" id="tag[]" class="" name="tag[]" value="<?=$value->tag_id?>">
                 <label for="tag[]" class="control-label"><?=$value->name?></label>
                 <br/>
@@ -198,7 +198,7 @@
             <td><b>Search result</b></td>
             <td><b>Email</b></td>
           </tr>
-          <?php foreach ($data->usersearch as $value) { ?>
+            <?php foreach ($data->usersearch as $value) { ?>
             <tr>
               <td align="left">
                 <input type="radio" name="user_id" value="<?=$value->id?>"> <?= $value->name ?>

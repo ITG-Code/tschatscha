@@ -15,15 +15,17 @@ class Home extends Controller
             Redirect::to('/dashboard');
         }
         $this->view(
-            'home/index', [
+            'home/index',
+            [
             'bloglist' => $this->model("Blog")->list(),
             'loggedin' => $user_id,
             ]
         );
     }
-    public function search(array $args = []){
+    public function search(array $args = [])
+    {
         $searchResult = (isset($args[0])) ? $this->model('Blog')->find(trim($args[0])) : [];
-        $this->view('home/search',[
+        $this->view('home/search', [
             'result' => $searchResult,
         ]);
     }

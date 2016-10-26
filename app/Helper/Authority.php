@@ -14,8 +14,8 @@ class Authority
     const BLOG_OWNER = 7;
 
 
-    public static function isValidAuthority($authorityLevel){
+    public static function isValidAuthority($authorityLevel)
+    {
         return in_array($authorityLevel, [0,1,3,6,7]);
     }
-
 }

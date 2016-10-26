@@ -81,7 +81,6 @@ class Account extends Controller
         $this->userModel->changePassword($this->userModel->getLoggedInUserId(), $newPassword);
 
         Redirect::to('/account/index');
-
     }
 
     public function index($args = [])

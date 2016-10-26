@@ -37,7 +37,7 @@ class Controller
     protected function view(string $view, array $data = [])
     {
         $data['errors'] = UserError::getArray();
-        $data['parsedown'] = New ParsedownExtra();
+        $data['parsedown'] = new ParsedownExtra();
         $data['parsedown']->setBreaksEnabled(true);
         $data['parsedown']->setUrlsLinked(true);
         $data = (object)$data;

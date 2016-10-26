@@ -157,6 +157,6 @@
         <h5>
             <?php foreach ($data->errors as $value) {
                 echo htmlentities($value);
-            } ?>
+} ?>
         </h5>
     </div>
