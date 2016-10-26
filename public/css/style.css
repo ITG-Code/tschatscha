@@ -1,69 +1,86 @@
-.wrapper{
-	width:80%;
-	margin:auto;
-	
+.wrapper {
+    width: 80%;
+    margin: auto;
+
 }
 
-.myBlogs
-{
-	text-align: left;
-	padding:5px;
-	width:100%;
+.myBlogs {
+    text-align: left;
+    padding: 5px;
+    width: 100%;
 }
-.myBlogsSpace{
-	padding-left:5px;
+
+.myBlogsSpace {
+    padding-left: 5px;
 }
-.removeblog{
-	font-size: 30px;
+
+.removeblog {
+    font-size: 30px;
 }
-.searchresult{
-	max-height: 500px;
-	overflow-y:auto;
-	
+
+.searchresult {
+    max-height: 500px;
+    overflow-y: auto;
+
 }
-.left{
-	padding-left: 20px;
-	float: left;
+
+.left {
+    padding-left: 20px;
+    float: left;
 }
-.right{
-	width:25%;
-	float: right;
-	
+
+.right {
+    width: 25%;
+    float: right;
+
 }
-.form-horizontall{
-	display: inline-block;
+
+.form-horizontall {
+    display: inline-block;
 }
-.searchname{
-	margin-right: 10px;
-	width: 340px;
+
+.searchname {
+    margin-right: 10px;
+    width: 340px;
 }
-.searchemail{
-	margin-left: 5px;
+
+.searchemail {
+    margin-left: 5px;
 }
-.spacer{
-	margin-top:3px;
+
+.spacer {
+    margin-top: 3px;
 }
-#panel-heading:hover{
-	cursor: pointer;
-	background-color: #EDEDED !important;
+
+#panel-heading:hover {
+    cursor: pointer;
+    background-color: #EDEDED !important;
 }
-.form-group{
-	padding:10px;
+
+.form-group {
+    padding: 10px;
 }
-#urlname{
-	display: inline-block !important;
-	width: 87% !important;
-	float: right;
+
+#urlname {
+    display: inline-block !important;
+    width: 87% !important;
+    float: right;
 }
-#urllable{
-	width: 10% !important;
-	text-align: right;
-	padding-top: 6px !important;
-	font-weight: 100 !important;
+
+#urllable {
+    width: 10% !important;
+    text-align: right;
+    padding-top: 6px !important;
+    font-weight: 100 !important;
 }
-.title{
-	display: inline-block;
-	position: relative;
-	left: 38%;
-	top: 50%;
+
+.title {
+    display: inline-block;
+    position: relative;
+    left: 38%;
+    top: 50%;
+}
+
+div.breaking {
+    hyphens: auto;
 }
