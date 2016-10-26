@@ -46,7 +46,9 @@ return false;
         <li class="active"><a href="/dashboard">Hem</a></li>
         <!-- <li><a href="#"></a></li> -->
       </ul>
-      <?= '<h3 class="title">'.$data->blogname.'</h3>' ?>
+      <?php if (isset($data->blogname)) {
+        echo '<h3 class="title">'.$data->blogname.'</h3>';
+      } ?>
       <ul class="nav navbar-nav navbar-right">
        
  <?php
