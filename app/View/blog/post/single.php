@@ -68,7 +68,7 @@
                                   <form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/deleteComment"
                                         method="post">
                                       <input type="hidden" name="delete" value="<?= $comment->id ?>"/>
-                                      <input type="submit" class="btn btn-danger" name="<?= $comment->id ?>" value="Ta bort"/>
+                                      <input type="submit" class="btn btn-danger" name="<?= $comment->id ?>" value="Ta bort innehåll"/>
                                   </form>
                                 </td>
                               </tr>
