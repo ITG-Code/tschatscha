@@ -34,7 +34,7 @@ class PostModel extends Model
         $stmt = self::prepare("SELECT comment.id as id, comment.parent_id,comment.post_id as postid,
            comment.content, session.id as sessionid, COALESCE(concat(user.first_name,' ' , '\"', user.username, '\"', ' ' ,
              user.sur_name),'anonym användare') as name, comment.created_at, comment.changed_at FROM comment
-             LEFT JOIN session on comment.session_user = session.user_id LEFT JOIN user on user_id = user.id WHERE post_id = ?");
+             LEFT JOIN session on comment.session_user = session.user_id LEFT JOIN user on user_id = user.id WHERE comment.post_id = ? GROUP BY comment.id");
         $stmt->bind_param('i', $post_id);
         $stmt->execute();
         $result = $stmt->get_result();
