@@ -18,11 +18,11 @@
         ?>
     </p>
     <footer>
-    <p style="font-size:10px;">Skriven
+    <p style="font-size:12px;">Skriven
         av: <?= htmlentities($post->first_name), " ", htmlentities($post->alias), " ", htmlentities($post->sur_name) ?>
         | Publicerad: <?= $post->publishing_date ?></p>
     <div>
-        <p style="font-size:10px;">Taggar: <?= htmlentities($post->tags) ?></p>
+        <p style="font-size:12px;">Taggar: <?= htmlentities($post->tags) ?></p>
     </div>
     <?php if (!$data->linked_title) { ?>
         <?php if ($data->auth >= Authority::BLOG_CO_WRITER) { ?>
@@ -49,14 +49,35 @@
         <?php if (!$data->linked_title) { ?>
 
             <?php foreach ($data->comments as $comment) { ?>
-                <article class="well well-sm">
+                <article style="background-color:RGB(235,235,235);" class="well well-sm">
                     <header>
+                      <p>
                         Skriven av: <?= htmlentities($comment->name) ?>
-                        </br>
+                      </p>
+                      <p>
                         Kommentar: <?= htmlentities($comment->content) ?>
+                      </p>
                     </header>
+                  <p style="font-size:12px;">
+                    Skriven: <?= htmlentities($comment->created_at) ?>
+                  </p>
+                    <?php if ($data->auth >= Authority::BLOG_MODERATE) { ?>
+                        <table>
+                            <tr>
+                                <td>
+                                  <form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/delete"
+                                        method="post">
+                                      <input type="hidden" name="delete" value="<?= $comment->id ?>"/>
+                                      <input type="submit" class="btn btn-success" name="<?= $comment->id ?>" value="Ta bort"/>
+                                  </form>
+                                </td>
+                              </tr>
+                        </table>
+
+                    <?php } ?>
                 </article>
             <?php } ?>
+
             <article class="well well-sm">
                 <header>
                     <label for="content">Kommentera:</label>
@@ -65,14 +86,14 @@
                               value="content" required></textarea>
                         <input type="hidden" name="id" value="<?= $post->id ?>"/>
                         <input type="hidden" name="url_title" value="<?= $post->url_title ?>"/>
-                        <input type="submit" name="submit" value="Submit">
+                        <input type="submit" class="btn btn-success" name="submit" value="Kommentera">
                     </form>
                 </header>
             </article>
         <?php } ?>
 
     <?php } ?>
+  </article>
     </footer>
-    </article>
     </div>
     <?php } ?>
