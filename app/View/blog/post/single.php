@@ -13,13 +13,13 @@
     <p>
         <?php
         $content = $data->parsedown->text($post->content);
-        $content = str_replace("<img", "<img class=\"img-responsive\"", $content);
+        $content = str_replace("<img", "<img class='img-responsive'", $content);
         echo $content;
         ?>
     </p>
     <footer>
     <p style="font-size:10px;">Skriven
-        av: <?= htmlentities($post->first_name), " \"", htmlentities($post->alias), "\" ", htmlentities($post->sur_name) ?>
+        av: <?= htmlentities($post->first_name), " ", htmlentities($post->alias), " ", htmlentities($post->sur_name) ?>
         | Publicerad: <?= $post->publishing_date ?></p>
     <div>
         <p style="font-size:10px;">Taggar: <?= htmlentities($post->tags) ?></p>
@@ -51,7 +51,7 @@
             <?php foreach ($data->comments as $comment) { ?>
                 <article class="well well-sm">
                     <header>
-                        Skriven av: <?= htmlentities($comment->session_user) ?>
+                        Skriven av: <?= htmlentities($comment->name) ?>
                         </br>
                         Kommentar: <?= htmlentities($comment->content) ?>
                     </header>

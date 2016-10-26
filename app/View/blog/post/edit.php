@@ -65,6 +65,6 @@ Redigera ett inlägg!
 			<tr>
 			</tr>
 
-		<input type="submit" name="submit" value="Submit">
+		<input type="submit" class="btn btn-success" name="submit" value="Redigera inlägget!">
 	</div>
 </form>
