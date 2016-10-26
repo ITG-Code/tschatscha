@@ -61,14 +61,14 @@
                   <p style="font-size:12px;">
                     Skriven: <?= htmlentities($comment->created_at) ?>
                   </p>
-                    <?php if ($data->auth >= Authority::BLOG_MODERATE) { ?>
+                      <?php if ($data->auth >= Authority::BLOG_MODERATE) { ?>
                         <table>
                             <tr>
                                 <td>
-                                  <form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/delete"
+                                  <form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/deleteComment"
                                         method="post">
                                       <input type="hidden" name="delete" value="<?= $comment->id ?>"/>
-                                      <input type="submit" class="btn btn-success" name="<?= $comment->id ?>" value="Ta bort"/>
+                                      <input type="submit" class="btn btn-danger" name="<?= $comment->id ?>" value="Ta bort innehåll"/>
                                   </form>
                                 </td>
                               </tr>

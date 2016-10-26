@@ -106,7 +106,7 @@
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
-                            <label for="nsfw"><input type="checkbox" class="" name="nsfw" id="" value="1">Känsligt
+                            <label style="cursor: default;" for="nsfw"><input style="cursor: pointer;"type="checkbox" class="" name="nsfw" id="" value="1">Känsligt
                                 innehåll</label>
                         </div>
                     </div>
