@@ -47,4 +47,7 @@
     		require 'app/View/blog/post/single.php';
     		}
     		?>
+    <?php if(empty($data->postlist)){ ?>
+        Det finns inga poster på denna blog
+    <?php } ?>
 </main>
