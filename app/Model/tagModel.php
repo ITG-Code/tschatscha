@@ -17,7 +17,7 @@ class TagModel extends Model
         }
         $tag = array_filter(explode(",", $tags), 'strlen');
         $stmt = self::prepare("SELECT id FROM tag WHERE name = ?");
-        for ($i = 0; $i < sizeof($tag); $i++) {
+        for ($i = 0; $i < sizeof($tag)-1; $i++) {
             $tag[$i] = trim($tag[$i]);
             $testtag = str_replace(' ', '', $tag[$i]);
             if(sizeof($testtag) >= 1){
