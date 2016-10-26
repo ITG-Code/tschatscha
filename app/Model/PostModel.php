@@ -32,7 +32,7 @@ class PostModel extends Model
     {
         //kanske funkar, kanske inte, vet inte vart kommentarer finns att testa med.
         $stmt = self::prepare("SELECT comment.id as id, comment.parent_id,comment.post_id as postid,
-           comment.content, session.id as sessionid, COALESCE(concat(user.first_name,' ' , '\"', user.username, '\"', ' ' ,
+           comment.content, session.id as sessionid, COALESCE(concat(user.first_name,' ' , '\"', user.alias, '\"', ' ' ,
              user.sur_name),?) as name, comment.created_at, comment.changed_at FROM comment
              LEFT JOIN session on comment.session_user = session.user_id LEFT JOIN user on user_id = user.id WHERE comment.post_id = ? GROUP BY comment.id");
         $stmt->bind_param('si', $anonymcommenter,$post_id);
