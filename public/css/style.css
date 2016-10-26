@@ -80,7 +80,11 @@
     left: 38%;
     top: 50%;
 }
-
-div.breaking {
-    hyphens: auto;
+div.col-md-12 article.panel.panel-primary div.panel-body p, div.col-md-12 section.panel div.panel-body p
+{
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
