@@ -1,4 +1,4 @@
-<html>
+<html class="main">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -21,7 +21,6 @@ return true;
 else
 return false;
 }
-
 </script>
     </head>
     <body>
@@ -44,9 +43,9 @@ return false;
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/dashboard">Hem</a></li>
-        <!-- <li><a href="#"></a></li> -->  <?php if (isset($data->blogname)) {
+        <!-- <li><a href="#"></a></li> -->  <?php if (isset($data->realBlogName->name)) {
             echo '<li><a href="" style="text-transform: capitalize; font-weight: 700; pointer-events: none;
-   cursor: default;">'.$data->blogname.'</a></li>';
+   cursor: default;">'.$data->realBlogName->name.'</a></li>';
 } ?>
       </ul>
      

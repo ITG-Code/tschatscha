@@ -15,7 +15,7 @@
             $authorityName = "besökare";
     }?>
         <?php if ($data->loggedin) {?>
-        <p style="float: left;">Du är <?= $authorityName ?> på bloggen. <?php
+        <p >Du är <?= $authorityName ?> på bloggen. <?php
         
             
         
@@ -35,7 +35,7 @@
 
         <?php }
 } ?>
-        <p style="float:right;">Antal följare på <?= $data->blogname ?>: <?= $data->followers->followers ?></p>
+        <p>Antal följare på <span style="text-transform: capitalize; font-style: bold;"><?= $data->realBlogName->name?>:</span> <?= $data->followers->followers ?></p>
         <?php if (!$data->loggedin) {?>
         <p>Du är <?= $authorityName ?> på bloggen.
         <?php

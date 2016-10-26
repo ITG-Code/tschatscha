@@ -256,4 +256,13 @@ ORDER BY name ASC
         $stmt->execute();
         $stmt->close();
     }
+    public function getBlogName($blog_id)
+    {
+        $stmt = self::prepare("SELECT name FROM blog WHERE id = ?");
+        $stmt->bind_param('i', $blog_id);
+        $stmt->execute();
+        $result= $stmt->get_result();
+        $row = $result->fetch_object();
+        return $row;
+    }
 }

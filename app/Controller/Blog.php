@@ -19,6 +19,7 @@ class Blog extends Controller
         $user_id = $this->userModel->getLoggedInUserId();
         $postlist = $this->model('Post')->get($this->blogName);
         $followers = $this->userModel->getBlogFollowers($blog_id);
+        $realBlogName = $this->model('blog')->getBlogName($blog_id);
 
 
         if (isset($args[0]) && $args[0] ==  'post') {
@@ -46,6 +47,7 @@ class Blog extends Controller
                 'followstatus' => $followstatus,
                 'bloglist' => $getBlogs,
                 'followers' => $followers,
+                'realBlogName' => $realBlogName,
             ]);
         }
     }
@@ -126,6 +128,7 @@ class Blog extends Controller
         $blogname = $this->blogName;
         $currentUser = $this->userModel->getLoggedInUserId();
         $blog_id = $this->model('blog')->getBlogId($blogname);
+        $realBlogName = $this->model('blog')->getBlogName($blog_id);
         $getBlogs = $this->userModel->getYourBlogs($currentUser);
         $user_id = $this->userModel->getUserId($blog_id);
 
@@ -180,6 +183,7 @@ class Blog extends Controller
           'userID' => $user_id,
           'auth' => $auth,
           'loggedin' => $currentUser,
+          'realBlogName' => $realBlogName,
 
         ]);
     }
@@ -256,6 +260,7 @@ class Blog extends Controller
         $user_id = $this->userModel->getLoggedInUserId();
         $blogname = $this->blogName;
         $blog_id = $this->model('blog')->getBlogId($blogname);
+        $realBlogName = $this->model('blog')->getBlogName($blog_id);
         $getBlogs = $this->userModel->getYourBlogs($user_id);
         $auth = $this->model('post')->checkAuth($blog_id, $user_id);
         if ($auth < 6) {
@@ -268,6 +273,7 @@ class Blog extends Controller
           'loggedin' => $user_id,
           'auth' => $auth,
           'bloglist' => $getBlogs,
+          'realBlogName' => $realBlogName,
         ]);
     }
     public function sendPost()
