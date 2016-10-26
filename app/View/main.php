@@ -45,7 +45,7 @@ return false;
       <ul class="nav navbar-nav">
         <li class="active"><a href="/dashboard">Hem</a></li>
         <!-- <li><a href="#"></a></li> -->  <?php if (isset($data->blogname)) {
-        echo '<li><a href="" style="font-weight: 700; pointer-events: none;
+        echo '<li><a href="" style="text-transform: capitalize; font-weight: 700; pointer-events: none;
    cursor: default;">'.$data->blogname.'</a></li>';
       } ?>
       </ul>
