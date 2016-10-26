@@ -44,13 +44,14 @@ return false;
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/dashboard">Hem</a></li>
-        <!-- <li><a href="#"></a></li> -->
-      </ul>
-      <?php if (isset($data->blogname)) {
-        echo '<h3 class="title">'.$data->blogname.'</h3>';
+        <!-- <li><a href="#"></a></li> -->  <?php if (isset($data->blogname)) {
+        echo '<li><a href="" style="font-weight: 700; pointer-events: none;
+   cursor: default;">'.$data->blogname.'</a></li>';
       } ?>
+      </ul>
+     
       <ul class="nav navbar-nav navbar-right">
-       
+      
  <?php
  if($data->loggedin){
   if($data->auth ==7){?>
