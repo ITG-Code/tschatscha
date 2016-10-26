@@ -27,9 +27,6 @@ return false;
     <body>
         <div class="container">
         <br/>
-<?php
-      
-        if($data->loggedin){?>
         <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -49,10 +46,12 @@ return false;
         <li class="active"><a href="/dashboard">Hem</a></li>
         <!-- <li><a href="#"></a></li> -->
       </ul>
+      <?= '<h3 class="title">'.$data->blogname.'</h3>' ?>
       <ul class="nav navbar-nav navbar-right">
        
  <?php
- if($data->auth ==7){?>
+ if($data->loggedin){
+  if($data->auth ==7){?>
     
     
         <li class="dropdown">
@@ -92,12 +91,19 @@ return false;
             </ul>
           </li>
         </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+  <?php
+} else {
+  ?>
+        <li class="active">
+          <a href="/login">Logga in</a>
+        </li>
   <?php
 }
 ?>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
             <?php require $view; ?>
         </div>
     </body>
