@@ -106,7 +106,11 @@ class Blog extends Controller
             $post = $this->model('Post')->get($this->blogName, $args[0]);
             $postid = $post[0]->id;
             $history_id = $this->model('post')->getHistoryPost($postid);
-            $comments = $this->model('Post')->getComments($history_id);
+
+            //$anonymcommenter är det som visas upp på kommentaren om den är skriven av en anonym användare.
+            $anonymcommenter = "anonym användare";
+            
+            $comments = $this->model('Post')->getComments($anonymcommenter, $history_id);
             $this->view('blog/post/index', [
 
                 'post' => $post,
