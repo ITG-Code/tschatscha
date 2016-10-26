@@ -30,7 +30,7 @@ Redigera ett inlägg!
 			</tr>
 			<tr>
 				<td>
-					<label for="Anon">Tillåt anonyma tittare: </label>
+					<label for="Anon">Tillåt anonyma kommentarer: </label>
 				</td>
 				<td>
                     <?php if(isset($data->autoFillPost->checked) && $data->autoFillPost->checked == 1) { ?>
