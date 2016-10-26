@@ -70,30 +70,42 @@ class Blog extends Controller
             unset($args[0]);
             $args = $args ? array_values($args) : [];
             $this->compose($args);
-        } elseif (isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete']) && $auth>=6) {
+        } elseif (isset($args[1]) && $args[1] == "delete" && !empty($_POST['delete']) && $auth>=Authority::BLOG_CO_WRITER) {
             $post_id = $_POST['delete'];
             $this->model('Post')->deletePost($post_id, $user_id);
             Redirect::to('/'.$blogname);
             if ($auth<6) {
                 Redirect::to('/'.$blogname);
             }
-        } elseif (isset($args[1]) && $args[1] == "edit" && $auth >=6) {
+        } elseif (isset($args[1]) && $args[1] == "edit" && $auth >=Authority::BLOG_CO_WRITER) {
             $posturl = $args[0];
             $post_id = $this->model('Post')->get($blogname, $posturl);
           //  echo "<pre>";
           //  var_dump($postContent);
           //skickas till post/edit.php och sen därifrån till blog kontroller->editPost
+            if ($auth<6) {
+              Redirect::to('/'.$blogname.'/post/'.$posturl);
+            }
             $this->view('/blog/post/edit', [
             'autoFillPost' => $post_id[0],
             'loggedin' => $user_id,
             'auth' => $auth,
             'bloglist' => $getBlogs,
             ]);
-            if ($auth<6) {
-                Redirect::to('/'.$blogname.'/post/'.$post_url);
-            }
+
+        } elseif (isset($args[1]) && $args[1] == "deleteComment" && $auth >= Authority::BLOG_MODERATE){
+            $comment_id = $_POST['delete'];
+            $posturl = $args[0];
+
+            //meddelande som ska visas istället för kommentarens innehåll.
+            $censorMessage = "Kommentaren har tagits bort av en moderator";
+
+            $this->model('Post')->censorComment($comment_id,$censorMessage,$auth);
+            Redirect::to('/'.$blogname.'/post/'.$posturl);
+
         } elseif (isset($args[0])) {
             $auth = 0;
+            
             $anon = 0;
             if ($this->userModel ->isLoggedIn()) {
                 $user_id = $this->userModel->getLoggedInUserId();
@@ -106,7 +118,7 @@ class Blog extends Controller
 
             //$anonymcommenter är det som visas upp på kommentaren om den är skriven av en anonym användare.
             $anonymcommenter = "anonym användare";
-            
+
             $comments = $this->model('Post')->getComments($anonymcommenter, $history_id);
             $this->view('blog/post/index', [
 

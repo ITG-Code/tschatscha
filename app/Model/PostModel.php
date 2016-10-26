@@ -26,6 +26,17 @@ class PostModel extends Model
         $insert->close();
         return $insert;
     }
+    public function censorComment(int $comment_id,string $censorComment, int $auth)
+    {
+      if($auth < Authority::BLOG_MODERATE){
+        return;
+      }
+      $stmt = self::prepare("UPDATE comment SET content=? where id=?");
+      $stmt->bind_param('si',$censorComment,$comment_id);
+      $stmt->execute();
+      $stmt->close();
+      return;
+    }
 
     public static function getComments(string $anonymcommenter, int $post_id)
     {
@@ -244,7 +255,7 @@ class PostModel extends Model
         string $created_at,
         int $user_id
     ) {
-    
+
         $stmt = self::prepare("INSERT INTO post(blog_id, history_id, title, url_title, content, anonymous_allowance, visibility, publishing_date, created_at, writer) VALUES (?,?,?,?,?,?,?,?,?,?)");
         $stmt->bind_param('iisssiissi', $blog_id, $history_id, $title, $url_title, $content, $anon, $visibility, $publishing_date, $created_at, $user_id);
         $stmt->execute();
