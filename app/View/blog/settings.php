@@ -1,62 +1,4 @@
-<br/>
-    <nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <!-- <a class="navbar-brand" href="#"></a> -->
-    </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-   
-    <div class="collapse navbar-collapse" id="navbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="/dashboard">Hem</a></li>
-        <!-- <li><a href="#"></a></li> -->
-      </ul>
- 
-        
-    <ul class="nav navbar-nav navbar-right">
-    <li><a href="/<?= $data->blogname ?>">Tillbaka till  flödet</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hantera blogg <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="/<?php echo $data->blogname; ?>/compose">Skriv nytt inlägg</a></li>
-        <li><a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a></li>
-        
-              <li></li>
-              
-              
-            </ul>
-          </li>
- 
-        
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <?php  foreach ($data->bloglist as $value) {if ($value->authority >= 6) { ?>
-              <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
-              <?php }} ?>
-              
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annat <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="/account/settings">Kontoinställningar</a></li>
-              <li><a href="/blog/allFollowers">Visa alla följare</a></li>
-              <li><a href="/logout">Logga ut</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
 <div class="col-md-12"> 
   <div class="panel panel-primary">
     <div class="panel-heading" href="#giverights" data-toggle="collapse">
@@ -85,10 +27,10 @@
                   <input type="radio" name="user_id" value="<?=$value->id?>"> <?= $value->name ?>
                 </td>
                 <td align="left">
-                 <?= $value->email ?>
+                    <?= $value->email ?>
                 </td>
               </tr>
-          <?php } ?>
+            <?php } ?>
 
               </table>
             </div>
@@ -125,35 +67,35 @@
               <div class="form-group">
               <div class="left">
                 <label for="user">Användare</label><br/>
-                <?php 
-                    foreach($data->userID as $value){?>
+                <?php
+                foreach ($data->userID as $value) {?>
                       <input type="radio" name="removerights" value="<?= $value->user_id ?>"/>
-                      <?= $value->alias ?><br/>
-                      <?php } 
-                      ?>
+                        <?= $value->alias ?><br/>
+                        <?php                                                                                                                                                                                                                                                                                                                                                                                                                                     }
+                        ?>
                       </div>
                       <div class="right">
                         <label for="right">Rank</label><br/>
-                              <?php 
-                    foreach($data->userID as $value){?>
-               <?php
-                      switch ($value->authority) {
-                          case Authority::BLOG_OWNER:
-                              $authorityName = "Ägare";
-                              break;
-                          case Authority::BLOG_CO_WRITER:
-                              $authorityName = "Delägare";
-                              break;
-                          case Authority::BLOG_MODERATE:
-                              $authorityName = "Moderator";
-                              break;
-                          default:
-                              $authorityName = "Privata poster";
-                      }
-                      ?>
-                      <?= $authorityName ?><br/>
+                                <?php
+                                foreach ($data->userID as $value) {?>
+                                        <?php
+                                        switch ($value->authority) {
+                                            case Authority::BLOG_OWNER:
+                                                $authorityName = "Ägare";
+                                                break;
+                                            case Authority::BLOG_CO_WRITER:
+                                                $authorityName = "Delägare";
+                                                break;
+                                            case Authority::BLOG_MODERATE:
+                                                $authorityName = "Moderator";
+                                                break;
+                                            default:
+                                                $authorityName = "Privata poster";
+                                        }
+                                    ?>
+                                                <?= $authorityName ?><br/>
                       
-                   <?php } 
+                                <?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     }
                     ?>
                     </div>
 
@@ -175,7 +117,7 @@
 
             
               <label for="tag[]"></label>
-              <?php foreach ($data->tags as $value) { ?>
+                <?php foreach ($data->tags as $value) { ?>
                 <input type="checkbox" id="tag[]" class="" name="tag[]" value="<?=$value->tag_id?>">
                 <label for="tag[]" class="control-label"><?=$value->name?></label>
                 <br/>
@@ -256,7 +198,7 @@
             <td><b>Search result</b></td>
             <td><b>Email</b></td>
           </tr>
-          <?php foreach ($data->usersearch as $value) { ?>
+            <?php foreach ($data->usersearch as $value) { ?>
             <tr>
               <td align="left">
                 <input type="radio" name="user_id" value="<?=$value->id?>"> <?= $value->name ?>

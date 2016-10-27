@@ -81,15 +81,20 @@ class Account extends Controller
         $this->userModel->changePassword($this->userModel->getLoggedInUserId(), $newPassword);
 
         Redirect::to('/account/index');
-
     }
 
     public function index($args = [])
     {
+        $currentUser = $this->userModel->getLoggedInUserId();
+        $getBlogs = $this->userModel->getYourBlogs($currentUser);
+        $auth = 0;
         if (!$this->userModel->isLoggedIn()) {
             Redirect::to('/login');
         }
         $this->view('account/index', [
+            'loggedin' => $currentUser,
+            'auth' => $auth,
+            'bloglist' => $getBlogs,
 
         ]);
     }

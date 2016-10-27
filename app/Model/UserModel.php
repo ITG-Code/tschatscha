@@ -90,7 +90,8 @@ class UserModel extends Model
      *
      * @return int | false
      */
-    public static function getLoggedInUserId(){
+    public static function getLoggedInUserId()
+    {
         return Session::get('session_user');
     }
 
@@ -129,8 +130,8 @@ class UserModel extends Model
         string $firstname,
         string $surname,
         string $birthday
-    ): bool
-    {
+    ): bool {
+    
         //Removes whitespaces at the end of the strings
         $username = trim($username);
         $email = trim($email);
@@ -297,7 +298,7 @@ WHERE id = ?
         }
     }
 
-    public function checkInput(int $id,string $password): bool
+    public function checkInput(int $id, string $password): bool
     {
         $stmt = self::prepare("SELECT password FROM user WHERE id = ?");
         $stmt->bind_param('i', $id);
@@ -309,7 +310,6 @@ WHERE id = ?
         } else {
             return false;
         }
-
     }
 
     public function changeAlias(int $id, string $alias)
@@ -331,7 +331,7 @@ WHERE id = ?
     public function changeEmail(int $id, string $email)
     {
         $stmt = self::prepare("UPDATE user SET email = ? WHERE user.id = ?");
-        $stmt->bind_param('si', $email,$id);
+        $stmt->bind_param('si', $email, $id);
         $stmt->execute();
     }
 
@@ -345,8 +345,7 @@ WHERE id = ?
         $stmt->execute();
         $result = $stmt->get_result();
         $returnValue = [];
-        while($row = $result->fetch_object())
-        {
+        while ($row = $result->fetch_object()) {
             $returnValue[] = $row;
         }
             return $returnValue;
@@ -354,13 +353,14 @@ WHERE id = ?
 
 
 
-    public function checkBlogOwnership(int $currentUser){
+    public function checkBlogOwnership(int $currentUser)
+    {
 
         $stmt = self::prepare("SELECT user_id FROM user_blog WHERE authority = 7 AND user_id = ?");
         $stmt->bind_param('i', $currentUser);
         $stmt->execute();
         var_dump($currentUser);
-        }
+    }
 
 
     public function getYourBlogs(int $currentUser)
@@ -375,8 +375,7 @@ GROUP BY blog.id");
         $result = $stmt->get_result();
         $returnValue = [];
 
-        while($row = $result->fetch_object())
-        {
+        while ($row = $result->fetch_object()) {
             $returnValue[] = $row;
         }
 
@@ -384,19 +383,18 @@ GROUP BY blog.id");
     }
     public function getBlogsWithAuth(int $currentUser)
     {
-      $stmt = self::prepare("SELECT blog.name, blog.url_name AS url_name, user_blog.authority AS authority FROM blog
+        $stmt = self::prepare("SELECT blog.name, blog.url_name AS url_name, user_blog.authority AS authority FROM blog
 INNER JOIN user_blog ON blog.id = user_blog.blog_id
 WHERE user_blog.user_id = ? AND user_blog.authority >= 2");
-      $stmt->bind_param('i', $currentUser);
-      $stmt->execute();
-      $result = $stmt->get_result();
-      $returnValue = [];
+        $stmt->bind_param('i', $currentUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $returnValue = [];
 
-      while($row = $result->fetch_object())
-      {
-          $returnValue[] = $row;
-      }
-      return $returnValue;
+        while ($row = $result->fetch_object()) {
+            $returnValue[] = $row;
+        }
+        return $returnValue;
     }
 
     public function toStdClass(): stdClass
@@ -425,12 +423,20 @@ WHERE user_blog.user_id = ? AND user_blog.authority >= 2");
         $result = $stmt->get_result();
         $returnValue = [];
 
-        while($row = $result->fetch_object())
-        {
+        while ($row = $result->fetch_object()) {
             $returnValue[] = $row;
         }
 
         return $returnValue;
     }
-
+    public function getBlogFollowers(int $blog_id)
+    {
+        $stmt = self::prepare("SELECT COUNT(CASE WHEN followship.allowed = 1 then 1 ELSE NULL END) AS followers FROM followship WHERE blog_id = ?");
+        $stmt->bind_param('i', $blog_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_object();
+        $returnValue = $row;
+        return $returnValue;
+    }
 }

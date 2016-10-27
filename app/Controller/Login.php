@@ -12,16 +12,16 @@ class Login extends Controller
         $password = (isset($_POST['password'])) ? trim($_POST['password']) : '';
         $captcha = (isset($_POST['g-recaptcha-response'])) ? $_POST['g-recaptcha-response'] : '';
 
-        if(empty($username)){
+        if (empty($username)) {
             //UserError::add(Lang::)
         }
-        if(empty($password)){
+        if (empty($password)) {
             UserError::add(Lang::FORM_PASSWORD_SENT_NO);
         }
-        if(empty($captcha)){
+        if (empty($captcha)) {
             UserError::add('Captcha token'/* Add error for invalid capcha */);
         }
-        if(UserError::exists()){
+        if (UserError::exists()) {
             Redirect::to('/');
         }
 

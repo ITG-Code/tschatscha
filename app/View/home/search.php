@@ -15,6 +15,6 @@
     <input type="submit">
 </form>
 
-<?php foreach($data->result as $item) { ?>
+<?php foreach ($data->result as $item) { ?>
     <li><a href="/<?=$item->url_name?>"><?=$item->name?></a></li>
 <?php } ?>

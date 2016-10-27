@@ -1,53 +1,4 @@
-﻿<div class="col-md-12">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!-- <a class="navbar-brand" href="#"></a> -->
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-
-            <div class="collapse navbar-collapse" id="navbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/dashboard">Hem</a></li>
-                    <!-- <li><a href="#"></a></li> -->
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dina bloggar <b
-                                class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <?php foreach ($data->bloglist as $value) {
-                                if ($value->authority >= 6) { ?>
-                                    <li>
-                                        <a href="/blog/<?= htmlentities($value->url_name) ?>"><?= htmlentities($value->name) ?></a>
-                                    </li>
-                                <?php }
-                            } ?>
-                            <li class="divider"></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annat <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/account/settings">Kontoinställningar</a></li>
-                            <li><a href="/blog/allFollowers">Visa alla följare</a></li>
-                            <li><a href="/logout">Logga ut</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-</div>
-
-<div class="col-md-6 col-xs-12">
+﻿<div class="col-md-6 col-xs-12">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Följningar</h3>
@@ -143,9 +94,9 @@
                                required="">
                     </div>
                     <div class="form-group">
-                        <label for="urlname">Url-namn</label>
-                        <input type="text" name="urlname" class="form-control" id=""
-                               placeholder="urbanblog.com/dittnamnhär">
+                        <label for="urlname">Url-namn</label><br>
+                        <label id="urllable">urbanblog.com/</label> <input type="text" name="urlname" id="urlname" class="form-control" id=""
+                               placeholder="Din-url">
                         <p class="help-block">Namnet som syns i länkar</p>
                     </div>
                     <div class="form-group">
@@ -155,7 +106,7 @@
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
-                            <label for="nsfw"><input type="checkbox" class="" name="nsfw" id="" value="1">Känsligt
+                            <label style="cursor: default;" for="nsfw"><input style="cursor: pointer;"type="checkbox" class="" name="nsfw" id="" value="1">Känsligt
                                 innehåll</label>
                         </div>
                     </div>
@@ -206,6 +157,6 @@
         <h5>
             <?php foreach ($data->errors as $value) {
                 echo htmlentities($value);
-            } ?>
+} ?>
         </h5>
     </div>
