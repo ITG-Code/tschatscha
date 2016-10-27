@@ -55,7 +55,8 @@
       </article>
 
         <?php if (!$data->linked_title) { ?>
-            <?php foreach ($data->comments as $comment) { ?>
+            <?php foreach ($data->comments as $comment) {
+                if ($comment->parent_id == NULL){?>
                 <section class="panel panel-default">
                   <div class="panel-heading">
                     <h3 class="panel-title">Skriven av: <?= htmlentities($comment->name) ?></h3>
@@ -73,10 +74,41 @@
                               <input type="submit" class="btn btn-danger" name="<?= $comment->id ?>"
                                      value="Ta bort innehåll"/>
                           </form>
+                          <form name="edit"
+                                action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/editComment"
+                                method="post">
+                              <input type="hidden" name="edit" value="<?= $comment->id ?>"/>
+                              <input type="submit" class="btn btn-info" name="<? $comment->id?>"
+                                     value="Redigera"/>
+                          </form>
                         <?php } ?>
                   </div>
                 </section>
-            <?php } ?>
+            <?php }foreach ($data->replies as $reply) {
+                    if ($reply->parent_id == $comment->id){?>
+                        <section class="panel panel-default" >
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Skriven av: <?= htmlentities($comment->name) ?></h3>
+                            </div>
+                            <div class="panel-body">
+                                <p><?= $data->parsedown->text($reply->content) ?></p>
+                            </div>
+                            <div class="panel-footer">
+                                <p style="font-size:12px;">Skriven: <?= htmlentities($reply->created_at) ?></p>
+                                <?php if ($data->auth >= Authority::BLOG_MODERATE) { ?>
+                                    <form name="delete"
+                                          action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/deleteComment"
+                                          method="post">
+                                        <input type="hidden" name="delete" value="<?= $comment->id ?>"/>
+                                        <input type="submit" class="btn btn-danger" name="<?= $comment->id ?>"
+                                               value="Ta bort innehåll"/>
+                                    </form>
+                                <?php } ?>
+                            </div>
+                        </section>
+                    <?php }
+                } }?>
+
 
             <div class="well well-sm">
                 <header>

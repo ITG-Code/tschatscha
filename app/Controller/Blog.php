@@ -131,6 +131,7 @@ class Blog extends Controller
                 'anon' => $anon,
                 'loggedin' => $user_id,
                 'comments' => $comments,
+                'replies' => $replies,
                 'bloglist' => $getBlogs,
             ]);
         } else {
