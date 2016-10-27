@@ -1,9 +1,10 @@
 
 <div class="col-md-12"> 
   <div class="panel panel-primary">
-    <div class="panel-heading" href="#giverights" data-toggle="collapse">
-      <h3 class="panel-title">Ge rättigheter till blogg: <?= $data->blogname ?></h3>
-    </div>
+        <div class="panel-heading" href="#giverights" data-toggle="collapse" style="cursor: pointer;">
+          <h3 class="panel-title">Ge användare rättigheter till <span style="text-transform: capitalize; font-style: bold;"><?= $data->realBlogName->name?></span></h3>
+        </div>
+        <div class="panel-body collapse" id="giverights">
     <div class="panel-body" class="panel-body collapse" id="giverights">
       <form class="form-horizontall" action="/<?= $data->blogname ?>/settings" method="post">
         <div class="form-group">
@@ -36,7 +37,7 @@
             </div>
           </div>
         </div>
-        
+      </div>
         <div class="right">
          <label for="authority">Rättighetsnivå</label>
           <select class="form-control" name="authority" required="">
@@ -58,7 +59,7 @@
           
          
 <div class="panel panel-primary">
-        <div class="panel-heading" href="#removerights" data-toggle="collapse">
+        <div class="panel-heading" href="#removerights" data-toggle="collapse" style="cursor: pointer;">
           <h3 class="panel-title">Ta bort rättigheter från användare</h3>
         </div>
         <div class="panel-body collapse" id="removerights">
@@ -95,7 +96,7 @@
                                     ?>
                                                 <?= $authorityName ?><br/>
                       
-                                <?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     }
+                                <?php                                                   }
                     ?>
                     </div>
 
@@ -108,7 +109,7 @@
       </div>
 
     <div class="panel panel-primary">
-      <div class="panel-heading" href="#removetags" data-toggle="collapse">
+      <div class="panel-heading" href="#removetags" data-toggle="collapse" style="cursor: pointer;">
         <h3 class="panel-title">Ta bort taggar</h3>
       </div>
       <div class="panel-body collapse" id="removetags">
@@ -133,7 +134,7 @@
       </div>
 
       <div class="panel panel-primary">
-        <div class="panel-heading" href="#addtags" data-toggle="collapse">
+        <div class="panel-heading" href="#addtags" data-toggle="collapse" style="cursor: pointer;">
           <h3 class="panel-title">Lägg till taggar</h3>
         </div>
         <div class="panel-body collapse" id="addtags">
@@ -152,7 +153,7 @@
         </div>
       </div>
       <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-heading" style="cursor: pointer;">
       <h3 class="panel-title" href="#deleteblog" data-toggle="collapse">Ta bort bloggen</h3>
     </div>
     <div class="panel-body collapse" id="deleteblog">

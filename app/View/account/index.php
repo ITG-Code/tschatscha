@@ -1,7 +1,7 @@
-<div class="wrapper">
-  <div class="panel panel-default">
-    <div class="panel-heading" id="panel-heading">
-      <h3 class="panel-title" href="#changealias" data-toggle="collapse">Byt alias</h3>
+<div class="col-md-12">
+  <div class="panel panel-primary">
+    <div class="panel-heading"  href="#changealias" data-toggle="collapse" style="cursor: pointer;">
+      <h3 class="panel-title">Byt Alias</h3>
     </div>
     <div class="panel-body collapse" id="changealias">
       <form class="form-horizontal" action="/account/change_alias" method="post">
@@ -23,9 +23,9 @@
       </form>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" id="panel-heading">
-      <h3 class="panel-title" href="#change_email" data-toggle="collapse">Byt Email</h3>
+  <div class="panel panel-primary">
+    <div class="panel-heading"  href="#change_email" data-toggle="collapse" style="cursor: pointer;">
+      <h3 class="panel-title">Byt Email</h3>
     </div>
     <div class="panel-body collapse" id="change_email">
       <form class="form-horizontal" action="/account/change_email" method="post">
@@ -47,9 +47,9 @@
       </form>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" id="panel-heading">
-      <h3 class="panel-title" href="#change_password" data-toggle="collapse">Byt Lösenord</h3>
+  <div class="panel panel-primary">
+    <div class="panel-heading"  href="#change_password" data-toggle="collapse" style="cursor: pointer;">
+      <h3 class="panel-title">Byt Lösenord</h3>
     </div>
     <div class="panel-body collapse" id="change_password">
       <form class="form-horizontal" action="/account/change_password" method="post">

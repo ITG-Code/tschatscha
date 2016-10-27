@@ -1,10 +1,10 @@
 ﻿
 <div class="col-md-6 col-xs-12">
     <div class="panel panel-primary">
-        <div class="panel-heading">
+        <div class="panel-heading" href="#myfollows" data-toggle="collapse" style="cursor: pointer;">
             <h3 class="panel-title">Följningar</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body collapse" id="myfollows">
             <table class="myBlogs">
                 <tr class="myFollowSpace">
                     <th><b>Bloggnamn</b></th>
@@ -83,8 +83,8 @@
 
 
 <div class="col-xs-12">
-    <div class="panel panel-primary" style="display:inline-block; ">
-        <div class="panel-heading" href="#createblog" data-toggle="collapse">
+    <div class="panel panel-primary">
+        <div class="panel-heading" href="#createblog" data-toggle="collapse" style="cursor: pointer;">
             <h3 class="panel-title">Skapa blogg</h3>
         </div>
         <div class="panel-body collapse" id="createblog">
@@ -124,7 +124,7 @@
 <div class="col-xs-12">
     <div class="panel panel-primary">
 
-        <div class="panel-heading" href="#allbloglist" data-toggle="collapse">
+        <div class="panel-heading" href="#allbloglist" data-toggle="collapse" style="cursor: pointer;">
             <h3 class="panel-title">Alla bloggar</h3>
         </div>
         <div class="panel-body collapse" id="allbloglist">
