@@ -1,4 +1,5 @@
-﻿<div class="col-md-6 col-xs-12">
+﻿
+<div class="col-md-6 col-xs-12">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Följningar</h3>
@@ -80,12 +81,13 @@
     </div>
 </div>
 
-<div class="col-md-12">
-    <div class="panel panel-info">
-        <div class="panel-heading">
+
+<div class="col-xs-12">
+    <div class="panel panel-primary" style="display:inline-block; ">
+        <div class="panel-heading" href="#createblog" data-toggle="collapse">
             <h3 class="panel-title">Skapa blogg</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body collapse" id="createblog">
             <form class="form-horizontal" action="/blog/create" method="post">
                 <fieldset>
                     <div class="form-group">
@@ -117,11 +119,15 @@
             </form>
         </div>
     </div>
+</div>
+
+<div class="col-xs-12">
     <div class="panel panel-primary">
 
-        <div class="panel-heading">
+        <div class="panel-heading" href="#allbloglist" data-toggle="collapse">
             <h3 class="panel-title">Alla bloggar</h3>
         </div>
+        <div class="panel-body collapse" id="allbloglist">
         <div class="panel-body">
             <table class="myBlogs">
                 <tr class="myFollowSpace">
@@ -151,6 +157,7 @@
             <?php } ?>
         </div>
     </div>
+</div>
 
 
     <div id="errors">
