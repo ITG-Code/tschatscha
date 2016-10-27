@@ -264,11 +264,6 @@ class PostModel extends Model
         }
     }
 
-    public function editPost()
-    {
-        
-    }
-
     /*
     * In post_id ut history_id på den posten.
     * Till skillnad från getHistoryId() så hämtas history id in från en specifik post
