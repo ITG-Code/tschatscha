@@ -1,15 +1,15 @@
 <?php if ((($data->auth >= $post->visibility) || ($post->visibility == 1 && !$data->linked_title)) && ($data->anon + $post->anonymous_allowance >= 1)) { ?>
     <div class="col-md-12">
-      <article class="panel panel-primary">
-        <div class="panel-heading">
+      <div class="panel panel-primary">
+        <div class="panel-heading"  style="height:55px;">
           <?php if (htmlentities($data->linked_title)) { ?>
-              <h2 class="panel-title">
+              <h3 class="panel-title" style="font-size: 30px;">
                   <a href="/<?= htmlentities($data->blogname) ?>/post/<?= htmlentities($post->url_title) ?>"><?= htmlentities($post->title) ?></a>
-              </h2>
+              </h3>
           <?php } else { ?>
               <h2 class="panel-title"><?= $post->title ?></h2>
           <?php } ?>
-          <h3 class=""></h3>
+         
         </div>
         <div class="panel-body">
           <p>
@@ -21,7 +21,7 @@
           </p>
         </div>
         <div class="panel-footer">
-          <p>Skriven av: <?= htmlentities($post->first_name), " ", htmlentities($post->alias), " ", htmlentities($post->sur_name) ?> </p>
+          <p>Skriven av: <?= htmlentities($post->first_name), " ","\"" , htmlentities($post->alias), "\" ", htmlentities($post->sur_name) ?> </p>
           <p> Publicerad: <?= $post->publishing_date ?></p>
           <div>
               <p style="font-size:12px;">Taggar: <?= htmlentities($post->tags) ?></p>
@@ -52,7 +52,7 @@
               <?php } ?>
           <?php } ?>
         </div>
-      </article>
+      </div>
 
         <?php if (!$data->linked_title) { ?>
             <?php foreach ($data->comments as $comment) {
@@ -124,21 +124,5 @@
             </div>
         <?php } ?>
     </div>
-<?php if ($data->auth >= Authority::BLOG_CO_WRITER) { ?>
-    <table>
-        <tr>
-            <td>
-                <form name="delete" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/delete" method="post">
-                    <input type="hidden" name="delete" value="<?= $post->id ?>"/>
-                    <input type="submit" name="<?= $post->id ?>" value="Ta bort"/>
-                </form>
-            </td>
-            <td>
-                <form name="edit" action="/<?= $data->blogname ?>/post/<?= $post->url_title ?>/edit" method="post">
-                    <input type="submit" name="<?= $post->id ?>" value="redigera"/>
-                </form>
-            </td>
-        </tr>
-    </table>
-<?php } ?>
+
 <?php } ?>

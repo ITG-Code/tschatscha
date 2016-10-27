@@ -35,7 +35,7 @@
 
         <?php }
 } ?>
-        <p>Antal följare på <span style="text-transform: capitalize; font-style: bold;"><?= $data->realBlogName->name?>:</span> <?= $data->followers->followers ?></p>
+        <p>Följare på <span style="text-transform: capitalize; font-style: bold;"><?= $data->realBlogName->name?> | </span> <?= $data->followers->followers ?> st</p>
         <?php if (!$data->loggedin) {?>
         <p>Du är <?= $authorityName ?> på bloggen.
         <?php
