@@ -55,55 +55,6 @@
       </article>
 
         <?php if (!$data->linked_title) { ?>
-
-<<<<<<< HEAD
-            <?php foreach ($data->comments as $comment) {
-                if ($comment->parent_id == NULL) {?>
-                <article class="well well-sm">
-                    <header>
-                        Skriven av:
-                        </br>
-                        Kommentar: <?= htmlentities($comment->content)?>
-                    </header>
-                    <footer>
-                        <label for="reply"><a href="#replyform" data-toggle="accordion">Svara:</a></label>
-                        <form method="post" action="/<?= $data->blogname?>/createCommentReply" id="replyform">
-                            <textarea class="form-control" name="reply" id="reply" rows="1" pattern="^[A-Za-z]{1,}$"
-                                      value="reply" required></textarea>
-                            <input type="hidden" name="post_id" value="<?= $post->id ?>"/>
-                            <input type="hidden" name="id" value="<?= $comment->id ?>"/>
-                            <input type="hidden" name="url_title" value="<?= $post->url_title ?>"/>
-                            <input type="submit" name="submit" value="Submit">
-                        </form>
-                    </footer>
-                </article>
-                <?php } foreach ($data->replies as $reply) {
-                    if ($reply->parent_id == $comment->id){?>
-                    <ul class="comments-list">
-                        <li class="comment">
-                            <div class="comment-body">
-                                <div class="comment-heading">
-                                    <h4 class="user"><?= htmlentities($reply->session_user) ?></h4>
-                                    <h5 class="time"><?= htmlentities($reply->created_at) ?></h5>
-                                </div>
-                                <p><?= htmlentities($reply->content) ?></p>
-                            </div>
-                        </li>
-                    </ul>
-                <?php }}}?>
-
-            <?php }}?>
-
-            <div class="input-group">
-                <input class="form-control" placeholder="Kommentera" type="text" pattern="^[A-Za-z]{1,}$"
-                       id="content" value="content" required>
-                <span class="input-group-addon">
-                        <a href="#commentform"><i class="fa fa-edit"></i></a>
-                </span>
-            </div>
-
-            <article class="well well-sm">
-=======
             <?php foreach ($data->comments as $comment) { ?>
                 <section class="panel panel-default">
                   <div class="panel-heading">
@@ -128,9 +79,11 @@
             <?php } ?>
 
             <div class="well well-sm">
->>>>>>> origin/master
                 <header>
-                    <form method="post" id="commentform" action="/<?= $data->blogname ?>/createComment">
+                    <label for="content">Kommentera:</label>
+                    <form method="post" action="/<?= $data->blogname ?>/createComment">
+                    <textarea class="form-control" name="content" id="content" rows="3" pattern="^[A-Za-z]{1,}$"
+                              value="content" required></textarea>
                         <input type="hidden" name="id" value="<?= $post->id ?>"/>
                         <input type="hidden" name="url_title" value="<?= $post->url_title ?>"/>
                         <input type="submit" class="btn btn-success" name="submit" value="Kommentera">
@@ -139,7 +92,6 @@
             </div>
         <?php } ?>
     </div>
-<<<<<<< HEAD
 <?php if ($data->auth >= Authority::BLOG_CO_WRITER) { ?>
     <table>
         <tr>
@@ -157,6 +109,4 @@
         </tr>
     </table>
 <?php } ?>
-=======
 <?php } ?>
->>>>>>> origin/master

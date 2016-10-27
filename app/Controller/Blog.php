@@ -115,7 +115,7 @@ class Blog extends Controller
             $post = $this->model('Post')->get($this->blogName, $args[0]);
             $postid = $post[0]->id;
             $history_id = $this->model('post')->getHistoryPost($postid);
-<<<<<<< HEAD
+
             $comments = $this->model('Post')->getComments($history_id);
             $replies = [];
             foreach ($comments as $comment){
@@ -123,13 +123,6 @@ class Blog extends Controller
                 $replies = array_merge($replies, $this->model('Post')->getCommentReplies($commentid));
             }
 
-=======
-
-            //$anonymcommenter är det som visas upp på kommentaren om den är skriven av en anonym användare.
-            $anonymcommenter = "anonym användare";
-
-            $comments = $this->model('Post')->getComments($anonymcommenter, $history_id);
->>>>>>> origin/master
             $this->view('blog/post/index', [
 
                 'post' => $post,
@@ -138,7 +131,6 @@ class Blog extends Controller
                 'anon' => $anon,
                 'loggedin' => $user_id,
                 'comments' => $comments,
-                'replies' => $replies,
                 'bloglist' => $getBlogs,
             ]);
         } else {
@@ -270,23 +262,6 @@ class Blog extends Controller
         $this->model('post')->getSession($session_value, $user_id, $ip, $created_at);
         $this->model('post')->createComment($history_id, $content, $user_id, $created_at);
         //echo $history_id, $content, $user_id, $created_at;
-        Redirect::to('/'.$blogname.'/post/'.$url_title);
-    }
-
-    public function createCommentReply()
-    {
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $created_at = date('Y-m-d h:m:s');
-        $session_value = session_id();
-        $blogname = $this->blogName;
-        $user_id = $this->userModel->getLoggedInUserId();
-        $content = (isset($_POST['reply'])) ? $_POST['reply'] : '';
-        $post_id = (isset($_POST['post_id'])) ? $_POST['post_id'] : '';
-        $parent_id = (isset($_POST['id'])) ? $_POST['id'] : '';
-        $url_title = (isset($_POST['url_title'])) ? $_POST['url_title'] : '';
-        $history_id = $this->model('post')->getHistoryPost($post_id);
-        $this->model('post')->getSession($session_value, $user_id, $ip, $created_at);
-        $this->model('post')->createComment($parent_id, $history_id, $content, $user_id, $created_at);
         Redirect::to('/'.$blogname.'/post/'.$url_title);
     }
 

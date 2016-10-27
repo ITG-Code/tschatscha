@@ -26,20 +26,33 @@ class PostModel extends Model
         $insert->close();
         return $insert;
     }
-    public function censorComment(int $comment_id,string $censorComment, int $auth)
+
+    public static function getCommentReplies($parent_id)
     {
-      if($auth < Authority::BLOG_MODERATE){
-        return;
-      }
-      $changed = date('Y-m-d h:m:s');
-      $stmt = self::prepare("UPDATE comment SET content=?, changed_at=? where id=?");
-      $stmt->bind_param('ssi',$censorComment,$changed, $comment_id);
-      $stmt->execute();
-      $stmt->close();
-      return;
+        $stmt = self::prepare("SELECT * FROM `comment` WHERE parent_id = ?");
+        $stmt->bind_param('i', $parent_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $returnValue = [];
+        while ($row = $result->fetch_object()) {
+            $returnValue[] = $row;
+        }
+        return $returnValue;
     }
 
-<<<<<<< HEAD
+    public function censorComment(int $comment_id, string $censorComment, int $auth)
+    {
+        if ($auth < Authority::BLOG_MODERATE) {
+            return;
+        }
+        $changed = date('Y-m-d h:m:s');
+        $stmt = self::prepare("UPDATE comment SET content=?, changed_at=? where id=?");
+        $stmt->bind_param('ssi', $censorComment, $changed, $comment_id);
+        $stmt->execute();
+        $stmt->close();
+        return;
+    }
+
     public static function createCommentReply($parent_id, $post_id, $content, $session_user, $created_at)
     {
         $insert = self::prepare("INSERT INTO comment(parent_id, post_id, content, session_user, created_at) VALUES (?, ?, ?, ?, ?)");
@@ -52,20 +65,18 @@ class PostModel extends Model
     public static function getParentId($parent_id)
     {
         $stmt = self::prepare("SELECT parent_id FROM comment WHERE id= ?");
-        $stmt->bind_param('i',$parent_id);
+        $stmt->bind_param('i', $parent_id);
         $stmt->execute();
         $result = $stmt->get_result();
-        $returnValue= [];
-        while($row = $result->fetch_object()){
+        $returnValue = [];
+        while ($row = $result->fetch_object()) {
             $returnValue[] = $row;
         }
         return $returnValue;
     }
 
     public static function getComments($post_id)
-=======
-    public static function getComments(string $anonymcommenter, int $post_id)
->>>>>>> origin/master
+
     {
         //kanske funkar, kanske inte, vet inte vart kommentarer finns att testa med.
         $stmt = self::prepare("SELECT comment.id as id, comment.parent_id,comment.post_id as postid,
@@ -75,21 +86,8 @@ class PostModel extends Model
         $stmt->bind_param('si', $anonymcommenter, $post_id);
         $stmt->execute();
         $result = $stmt->get_result();
-        $returnValue= [];
+        $returnValue = [];
         while ($row = $result->fetch_object()) {
-            $returnValue[] = $row;
-        }
-        return $returnValue;
-    }
-
-    public static function getCommentReplies($parent_id)
-    {
-        $stmt = self::prepare("SELECT * FROM `comment` WHERE parent_id = ?");
-        $stmt->bind_param('i', $parent_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $returnValue= [];
-        while($row = $result->fetch_object()){
             $returnValue[] = $row;
         }
         return $returnValue;
@@ -105,8 +103,8 @@ class PostModel extends Model
     }
 
     /**
-     * @param string | int  $blog | if it's an int in string or int form it'll search for blog_id, else url_name
-     * @param string | int  $post | if it's an int in string or int form it'll search for post_id, else url_title
+     * @param string | int $blog | if it's an int in string or int form it'll search for blog_id, else url_name
+     * @param string | int $post | if it's an int in string or int form it'll search for post_id, else url_title
      * @param int $limit | The max amount of posts wanted, multiple posts with same id counts as 1
      * @param int $offset |
      * @param string $search | if there's anything to search for in the title or content
@@ -119,10 +117,10 @@ class PostModel extends Model
     {
         $params = [''];
         if (is_numeric($blog) && $blog % 1 == 0) {
-            $params[0].= 'i';
+            $params[0] .= 'i';
             $blogColumn = 'blog.blog_id';
         } else {
-            $params[0].= 's';
+            $params[0] .= 's';
             $blogColumn = 'blog.url_name';
         }
         $params[] = $blog;
@@ -143,21 +141,21 @@ class PostModel extends Model
         if (!empty($search)) {
             $search = "%$search%";
             $searchQuery = "AND (title LIKE ? OR content LIKE ?) ";
-            $params[0].='ss';
+            $params[0] .= 'ss';
             $params[] = $search;
             $params[] = $search;
         }
         $postNameQuery = '';
         if (!empty($post) && is_string($post)) {
-            $postNameQuery =  'AND url_title = ? ';
-            $params[0].= 's';
+            $postNameQuery = 'AND url_title = ? ';
+            $params[0] .= 's';
             $params[] = $post;
         } elseif (!empty($post) && is_numeric($post)) {
-            $postNameQuery =  'AND post.id = ? ';
-            $params[0].= 'i';
+            $postNameQuery = 'AND post.id = ? ';
+            $params[0] .= 'i';
             $params[] = $post;
         }
-        $params[0].='ii';
+        $params[0] .= 'ii';
         $params[] = $limit;
         $params[] = $offset;
         $stmt = self::prepare("
@@ -168,18 +166,18 @@ class PostModel extends Model
             LEFT JOIN post_tag ON post.id = post_tag.post_id
             LEFT JOIN tag ON post_tag.tag_id = tag.id
             WHERE $blogColumn = ? "
-            . $history  .
+            . $history .
             $searchQuery .
             $postNameQuery .
-            "GROUP BY ".$groupByColumn." ORDER BY history_id DESC, publishing_date DESC, changed_at DESC
+            "GROUP BY " . $groupByColumn . " ORDER BY history_id DESC, publishing_date DESC, changed_at DESC
             LIMIT ?
             OFFSET ?");
-        $ref    = new ReflectionClass('mysqli_stmt');
+        $ref = new ReflectionClass('mysqli_stmt');
         $method = $ref->getMethod("bind_param");
         $method->invokeArgs($stmt, $this->makeValuesReferenced($params));
         $stmt->execute();
         $result = $stmt->get_result();
-        $returnValue= [];
+        $returnValue = [];
         while ($row = $result->fetch_object()) {
             $returnValue[] = $row;
         }
@@ -211,28 +209,29 @@ class PostModel extends Model
         }
         return $row;
     }
+
     //In = Title,url,blogname. out= titel,url/error replaced ' ' with '-'.
     public static function checkURL(string $url_title, string $blogname, int $blog_id)
     {
         $url_title = str_replace(' ', '-', $url_title);
         $stmt = self::prepare("SELECT url_title FROM post WHERE blog_id = ? AND url_title = ?");
         $stmt->bind_param('is', $blog_id, $url_title);
-      // var_dump($blog_id,$url_title);
+        // var_dump($blog_id,$url_title);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
         $unique = false;
-      // var_dump($result->num_rows);
+        // var_dump($result->num_rows);
         if ($result->num_rows == 0) {
             $unique = true;
         }
         if ($unique == false) {
             UserError::add(Lang::FORM_POST_URL_NOT_UNIQUE);
-            Redirect::to('/'.$blogname.'/compose');
+            Redirect::to('/' . $blogname . '/compose');
         }
         if (!preg_match("/^[a-zA-Z0-9].[a-zA-Z0-9-]+$/", $url_title)) {
             UserError::add(Lang::FORM_POST_URL_INVALID_CHARS);
-            Redirect::to('/'.$blogname.'/compose');
+            Redirect::to('/' . $blogname . '/compose');
         }
         return $url_title;
     }
@@ -264,6 +263,7 @@ class PostModel extends Model
             $stmt2->close();
         }
     }
+
     /*
     * In post_id ut history_id på den posten.
     * Till skillnad från getHistoryId() så hämtas history id in från en specifik post
@@ -279,6 +279,7 @@ class PostModel extends Model
         $retval = $result->fetch_object()->history_id;
         return $retval;
     }
+
     /*skapar en ny post med samma history_id som den posten man uppdaterar
     * Tar in, alla kolumner som tillhör post utom changed at
     * Retunerar id på det nya inlägget
@@ -294,7 +295,8 @@ class PostModel extends Model
         string $publishing_date,
         string $created_at,
         int $user_id
-    ) {
+    )
+    {
 
         $stmt = self::prepare("INSERT INTO post(blog_id, history_id, title, url_title, content, anonymous_allowance, visibility, publishing_date, created_at, writer) VALUES (?,?,?,?,?,?,?,?,?,?)");
         $stmt->bind_param('iisssiissi', $blog_id, $history_id, $title, $url_title, $content, $anon, $visibility, $publishing_date, $created_at, $user_id);
@@ -312,6 +314,7 @@ class PostModel extends Model
         $result = $stmt->get_result();
         $stmt->close();
     }
+
     public function verifyPostBlogLink(int $blog_id, int $current_post_id, int $history_id, string $blogname)
     {
         $stmt = self::prepare("SELECT id,history_id,blog_id FROM post WHERE id=? AND history_id=? AND blog_id=?");
@@ -325,6 +328,7 @@ class PostModel extends Model
         }
         return $retval;
     }
+
     public function verifyPost($current_post_id, $history_id, $url_title, $publishing_date, $created_at)
     {
         $retval = 1;
@@ -336,10 +340,10 @@ class PostModel extends Model
         if ($current_post_id != $row->id || $history_id != $row->history_id || $url_title != $row->url_title || $publishing_date != $row->publishing_date || $created_at != $row->created_at) {
             $retval = 0;
         }
-      // $dump = array($current_post_id, $row->id, $history_id, $row->history_id, $url_title, $row->url_title,$publishing_date,$row->publishing_date,$created_at,$row->created_at);
-      // echo "<pre>";
-      // var_dump($dump);
-      // echo "</pre>";
+        // $dump = array($current_post_id, $row->id, $history_id, $row->history_id, $url_title, $row->url_title,$publishing_date,$row->publishing_date,$created_at,$row->created_at);
+        // echo "<pre>";
+        // var_dump($dump);
+        // echo "</pre>";
         return $retval;
     }
 }
