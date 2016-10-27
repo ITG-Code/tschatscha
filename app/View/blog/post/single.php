@@ -9,7 +9,7 @@
           <?php } else { ?>
               <h3 class="panel-title"  style="font-size: 30px;"><?= $post->title ?></h3>
           <?php } ?>
-         
+
         </div>
         <div class="panel-body">
           <p>
@@ -43,7 +43,7 @@
                                     method="post">
                                   <input type="hidden" name="delete" value="<?= $post->id ?>"/>
                                   <input type="submit" class="btn btn-danger" name="<?= $post->id ?>"
-                                         value="Ta bort"/>
+                                         value="Ta bort" onClick='return executeOnSubmitPost();'/>
                               </form>
                           </td>
                       </tr>
@@ -115,7 +115,7 @@
                     <label for="content">Kommentera:</label>
                     <form method="post" action="/<?= $data->blogname ?>/createComment">
                     <textarea class="form-control" name="content" id="content" rows="3" pattern="^[A-Za-z]{1,}$"
-                              value="content" 
+                              value="content"
                              style="resize: none;" required></textarea>
                         <input type="hidden" name="id" value="<?= $post->id ?>"/>
                         <input type="hidden" name="url_title" value="<?= $post->url_title ?>"/>
