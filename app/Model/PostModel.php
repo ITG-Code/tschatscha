@@ -28,10 +28,45 @@ class PostModel extends Model
         return $insert;
     }
 
+    public static function createCommentReply($parent_id, $post_id, $content, $session_user, $created_at)
+    {
+        $insert = self::prepare("INSERT INTO comment(parent_id, post_id, content, session_user, created_at) VALUES (?, ?, ?, ?, ?)");
+        $insert->bind_param('iisis', $parent_id, $post_id, $content, $session_user, $created_at);
+        $insert->execute();
+        $insert->close();
+        return $insert;
+    }
+
+    public static function getParentId($parent_id)
+    {
+        $stmt = self::prepare("SELECT parent_id FROM comment WHERE id= ?");
+        $stmt->bind_param('i',$parent_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $returnValue= [];
+        while($row = $result->fetch_object()){
+            $returnValue[] = $row;
+        }
+        return $returnValue;
+    }
+
     public static function getComments($post_id)
     {
         $stmt = self::prepare("SELECT * FROM `comment` WHERE post_id = ?");
         $stmt->bind_param('i', $post_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $returnValue= [];
+        while($row = $result->fetch_object()){
+            $returnValue[] = $row;
+        }
+        return $returnValue;
+    }
+
+    public static function getCommentReplies($parent_id)
+    {
+        $stmt = self::prepare("SELECT * FROM `comment` WHERE parent_id = ?");
+        $stmt->bind_param('i', $parent_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $returnValue= [];
