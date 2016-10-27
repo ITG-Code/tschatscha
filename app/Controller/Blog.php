@@ -219,7 +219,7 @@ class Blog extends Controller
         if (!strlen($blogname) >= 4) {
             UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
-        if (!preg_match("/^[a-öA-Ö0-9].[a-öA-Ö0-9-_s]+$/", $blogname)) {
+        if (!preg_match("/^[a-öA-Ö0-9].[a-öA-Ö0-9-_\s]+$/", $blogname)) {
             UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
         }
         $urlname = strtolower($urlname);
