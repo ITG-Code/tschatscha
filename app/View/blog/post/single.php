@@ -7,7 +7,7 @@
                   <a href="/<?= htmlentities($data->blogname) ?>/post/<?= htmlentities($post->url_title) ?>"><?= htmlentities($post->title) ?></a>
               </h3>
           <?php } else { ?>
-              <h2 class="panel-title"><?= $post->title ?></h2>
+              <h3 class="panel-title"  style="font-size: 30px;"><?= $post->title ?></h3>
           <?php } ?>
          
         </div>
