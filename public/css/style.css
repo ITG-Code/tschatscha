@@ -144,7 +144,7 @@ div.col-md-12 article.panel.panel-primary div.panel-body p, div.col-md-12 sectio
 	top: 50%;
 }
 *{
-	font-family: "Kozuka Gothic Pr6N" !important;
+	font-family: "Kozuka Gothic Pr6N";
     /*white-space: pre-wrap; /* css-3 */
     /*white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
     /*white-space: -pre-wrap; /* Opera 4-6 */

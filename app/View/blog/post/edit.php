@@ -47,7 +47,7 @@ Redigera ett inlägg!
                     <label for="auth">Inlägget är: </label>
                 </td>
                   <td>
-                             <select name="auth" id="auth">
+                             <select name="auth" id="auth" style="height: 32px">
                                        <option value="0" <?php echo (isset($data->autoFillPost->visibility)&& $data->autoFillPost->visibility) == 0 ? "selected": '';?>>Allmänt</option>
                                         <option value="1" <?php echo (isset($data->autoFillPost->visibility)&& $data->autoFillPost->visibility) == 1 ? "selected": '';?>>Olistat</option>
                                         <option value="3 "<?php echo (isset($data->autoFillPost->visibility)&& $data->autoFillPost->visibility) == 3 ? "selected": '';?>>Privat</option>
