@@ -31,8 +31,9 @@ class PostModel extends Model
       if($auth < Authority::BLOG_MODERATE){
         return;
       }
-      $stmt = self::prepare("UPDATE comment SET content=? where id=?");
-      $stmt->bind_param('si',$censorComment,$comment_id);
+      $changed = date('Y-m-d h:m:s');
+      $stmt = self::prepare("UPDATE comment SET content=?, changed_at=? where id=?");
+      $stmt->bind_param('ssi',$censorComment,$changed, $comment_id);
       $stmt->execute();
       $stmt->close();
       return;
