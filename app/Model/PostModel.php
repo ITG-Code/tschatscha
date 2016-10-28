@@ -24,6 +24,9 @@ class PostModel extends Model
         $insert->bind_param('isis', $post_id, $content, $session_user, $created_at);
         $insert->execute();
         $insert->close();
+        $update = self::prepare("UPDATE comment SET original_id = id WHERE original_id IS NULL");
+        $update->execute();
+        $update->close();
         return $insert;
     }
 
@@ -53,10 +56,10 @@ class PostModel extends Model
         return;
     }
 
-    public static function createCommentReply($parent_id, $post_id, $content, $session_user, $created_at)
+    public static function createCommentReply($parent_id, $post_id, $content, $session_user, $created_at, $original_id)
     {
-        $insert = self::prepare("INSERT INTO comment(parent_id, post_id, content, session_user, created_at) VALUES (?, ?, ?, ?, ?)");
-        $insert->bind_param('iisis', $parent_id, $post_id, $content, $session_user, $created_at);
+        $insert = self::prepare("INSERT INTO comment(parent_id, post_id, content, session_user, created_at, original_id) VALUES (?, ?, ?, ?, ?, ?)");
+        $insert->bind_param('iisisi', $parent_id, $post_id, $content, $session_user, $created_at, $original_id);
         $insert->execute();
         $insert->close();
         return $insert;
@@ -81,8 +84,9 @@ class PostModel extends Model
         //kanske funkar, kanske inte, vet inte vart kommentarer finns att testa med.
         $stmt = self::prepare("SELECT comment.id as id, comment.parent_id,comment.post_id as postid,
            comment.content, session.id as sessionid, COALESCE(concat(user.first_name,' ' , '\"', user.alias, '\"', ' ' ,
-             user.sur_name),?) as name, comment.created_at, comment.changed_at FROM comment
-             LEFT JOIN session on comment.session_user = session.user_id LEFT JOIN user on user_id = user.id WHERE comment.post_id = ? GROUP BY comment.id");
+             user.sur_name),?) as name, comment.created_at, comment.changed_at, comment.original_id FROM comment
+             LEFT JOIN session on comment.session_user = session.user_id LEFT JOIN user on user_id = user.id WHERE comment.post_id = ? AND comment.id IN ( SELECT MAX(id) FROM comment GROUP BY original_id)
+             GROUP BY comment.id");
         $stmt->bind_param('si', $anonymcommenter, $post_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -91,6 +95,15 @@ class PostModel extends Model
             $returnValue[] = $row;
         }
         return $returnValue;
+    }
+
+    public static function editComment($post_id, $content, $session_user, $created_at, $original_id)
+    {
+        $insert = self::prepare("INSERT INTO comment(post_id, content, session_user, created_at, original_id) VALUES (?, ?, ?, ?, ?)");
+        $insert->bind_param('isisi', $post_id, $content, $session_user, $created_at, $original_id);
+        $insert->execute();
+        $insert->close();
+        return $insert;
     }
 
     public static function getSession($session_value, $user_id, $ip, $created_at)
@@ -264,10 +277,6 @@ class PostModel extends Model
         }
     }
 
-    public function editPost()
-    {
-        
-    }
 
     /*
     * In post_id ut history_id på den posten.

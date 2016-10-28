@@ -261,8 +261,26 @@ class Blog extends Controller
         $url_title = (isset($_POST['url_title'])) ? $_POST['url_title'] : '';
         $history_id = $this->model('post')->getHistoryPost($post_id);
         $this->model('post')->getSession($session_value, $user_id, $ip, $created_at);
+        echo $history_id, $content, $user_id, $created_at;
         $this->model('post')->createComment($history_id, $content, $user_id, $created_at);
-        //echo $history_id, $content, $user_id, $created_at;
+        echo $history_id, $content, $user_id, $created_at;
+
+    }
+
+    public function editComment()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $created_at = date('Y-m-d h:m:s');
+        $session_value = session_id();
+        $blogname = $this->blogName;
+        $user_id = $this->userModel->getLoggedInUserId();
+        $content = (isset($_POST['content'])) ? $_POST['content'] : '';
+        $original_id = (isset($_POST['original_id'])) ? $_POST['original_id'] : '';
+        $post_id = (isset($_POST['id'])) ? $_POST['id'] : '';
+        $url_title = (isset($_POST['url_title'])) ? $_POST['url_title'] : '';
+        $history_id = $this->model('post')->getHistoryPost($post_id);
+        $this->model('post')->getSession($session_value, $user_id, $ip, $created_at);
+        $this->model('post')->editComment($history_id, $content, $user_id, $created_at, $original_id);
         Redirect::to('/'.$blogname.'/post/'.$url_title);
     }
 
