@@ -105,7 +105,7 @@ class Blog extends Controller
 
         } elseif (isset($args[0])) {
             $auth = 0;
-            
+
             $anon = 0;
             if ($this->userModel ->isLoggedIn()) {
                 $user_id = $this->userModel->getLoggedInUserId();
@@ -116,6 +116,9 @@ class Blog extends Controller
             $postid = $post[0]->id;
             $history_id = $this->model('post')->getHistoryPost($postid);
 
+            //$anonymcommenter är det som visas upp på kommentaren om den är skriven av en anonym användare.
+            $anonymcommenter = "anonym användare";
+            
             $comments = $this->model('Post')->getComments($history_id);
             $replies = [];
             foreach ($comments as $comment){
@@ -219,7 +222,7 @@ class Blog extends Controller
         if (!strlen($blogname) >= 4) {
             UserError::add(Lang::FORM_BLOGNAME_NEEED_4_CHAR);
         }
-        if (!preg_match("/^[a-öA-Ö0-9].[a-öA-Ö0-9-_s]+$/", $blogname)) {
+        if (!preg_match("/^[a-öA-Ö0-9].[a-öA-Ö0-9-_\s]+$/", $blogname)) {
             UserError::add(Lang::FORM_BLOGNAME_INVALID_CHARS);
         }
         $urlname = strtolower($urlname);

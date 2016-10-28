@@ -21,6 +21,14 @@ return true;
 else
 return false;
 }
+function executeOnSubmitPost() {
+var res = confirm("Är du säker på att du vill radera inlägget? Du kan inte ändra dig efteråt.");
+
+if(res)
+return true;
+else
+return false;
+}
 </script>
     </head>
     <body>
@@ -48,30 +56,30 @@ return false;
    cursor: default;">'.$data->realBlogName->name.'</a></li>';
 } ?>
       </ul>
-     
+
       <ul class="nav navbar-nav navbar-right">
-      
+
     <?php
     if ($data->loggedin) {
         if ($data->auth ==7) {?>
-    
-    
+
+
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hantera blogg <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-            
-              
+
+
                  <li><a href="/<?php echo $data->blogname; ?>/settings">Blogginställningar</a></li>  </ul>
                    </li><?php                                                                                                                                                                                                              } ?>
                 <?php if ($data->auth >=6) {?>
 
-    
+
         <li><a href="/<?php echo $data->blogname; ?>/compose">Skriv nytt inlägg</a></li>
 
-              
+
 <?php } ?>
-           
-           
+
+
 
 
          <ul class="nav navbar-nav navbar-right">
@@ -83,7 +91,7 @@ return false;
                                       <li><a href="/<?= $value->url_name ?>"><?= $value->name ?></a></li>
                                         <?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 }
 } ?>
-              
+
                </ul>
              </li>
              <li class="dropdown">
