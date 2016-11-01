@@ -44,9 +44,9 @@ class Controller
         $view = 'app/View/' . $view . '.php';
         require_once 'app/View/main.php';
         unset($data->parsedown);
-        echo "<pre>";
+       /* echo "<pre>";
         $json = json_encode($data, JSON_PRETTY_PRINT);
         echo $json;
-        echo "</pre>";
+        echo "</pre>";*/
     }
 }
